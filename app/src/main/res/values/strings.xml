@@ -5,4 +5,9 @@
     <string name="enter_password">Enter Password</string>
     <string name="don_t_have_an_account_sign_up">Don\'t have an account? sign up</string>
     <string name="log_in">Log In</string>
+    <string name="add_image">add image</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="profession">Profession</string>
+    <string name="other">Other…</string>
 </resources>

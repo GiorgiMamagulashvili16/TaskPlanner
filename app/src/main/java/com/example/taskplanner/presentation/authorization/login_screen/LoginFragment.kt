@@ -1,6 +1,7 @@
 package com.example.taskplanner.presentation.authorization.login_screen
 
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.taskplanner.R
 import com.example.taskplanner.databinding.LoginFragmentBinding
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
@@ -15,6 +16,8 @@ class LoginFragment : BaseFragment<LoginFragmentBinding,LoginViewModel>() {
     }
 
     override fun onBindViewModel(viewModel: LoginViewModel) {
-
+        binding.signUpTextView.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+        }
     }
 }

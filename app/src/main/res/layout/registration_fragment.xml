@@ -1,13 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.authorization.registration_screen.RegistrationFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userPictureImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/ic_launcher"
+        app:civ_border_color="@color/bg_blue"
+        app:civ_border_width="2dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.4" />
 
-</FrameLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/addImageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/add_image"
+        android:textColor="@color/bg_blue"
+        app:layout_constraintEnd_toEndOf="@+id/userPictureImageView"
+        app:layout_constraintStart_toStartOf="@+id/userPictureImageView"
+        app:layout_constraintTop_toBottomOf="@+id/userPictureImageView" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/usernameInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="35dp"
+        android:hint="@string/enter_username"
+        android:textColorHint="@color/bg_blue"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:boxStrokeColor="@color/bg_blue"
+        app:hintTextColor="@color/bg_blue"
+        app:layout_constraintTop_toBottomOf="@id/addImageTextView">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/bg_blue"
+            android:textCursorDrawable="@drawable/cursor_color" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="35dp"
+        android:hint="@string/enter_email"
+        android:textColorHint="@color/bg_blue"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:boxStrokeColor="@color/bg_blue"
+        app:hintTextColor="@color/bg_blue"
+        app:layout_constraintTop_toBottomOf="@id/usernameInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/bg_blue"
+            android:textCursorDrawable="@drawable/cursor_color" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="35dp"
+        android:hint="@string/enter_password"
+        android:textColorHint="@color/bg_blue"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:boxStrokeColor="@color/bg_blue"
+        app:hintTextColor="@color/bg_blue"
+        app:layout_constraintTop_toBottomOf="@id/emailInputLayout"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/bg_blue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/bg_blue"
+            android:textCursorDrawable="@drawable/cursor_color" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/repeatPasswordInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="35dp"
+        android:hint="@string/repeat_password"
+        android:textColorHint="@color/bg_blue"
+        app:boxBackgroundColor="@android:color/transparent"
+        app:boxStrokeColor="@color/bg_blue"
+        app:hintTextColor="@color/bg_blue"
+        app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/bg_blue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/repeatPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/bg_blue"
+            android:textCursorDrawable="@drawable/cursor_color" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/professionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text=""
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="@+id/repeatPasswordInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/repeatPasswordInputLayout" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/appCompatImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_add"
+        android:tint="@color/bg_blue"
+        app:layout_constraintEnd_toEndOf="@+id/repeatPasswordInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/repeatPasswordInputLayout" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/profession"
+        android:textColor="@color/bg_blue"
+        app:layout_constraintBottom_toBottomOf="@+id/appCompatImageButton"
+        app:layout_constraintEnd_toStartOf="@+id/appCompatImageButton"
+        app:layout_constraintTop_toTopOf="@+id/appCompatImageButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>

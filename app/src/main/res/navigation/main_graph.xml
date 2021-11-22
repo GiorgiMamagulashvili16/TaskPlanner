@@ -20,5 +20,14 @@
         android:id="@+id/loginFragment"
         android:name="com.example.taskplanner.presentation.authorization.login_screen.LoginFragment"
         android:label="login_fragment"
-        tools:layout="@layout/login_fragment" />
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.taskplanner.presentation.authorization.registration_screen.RegistrationFragment"
+        android:label="registration_fragment"
+        tools:layout="@layout/registration_fragment" />
 </navigation>
