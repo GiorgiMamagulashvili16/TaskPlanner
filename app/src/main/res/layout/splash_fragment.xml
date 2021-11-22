@@ -11,7 +11,7 @@
         android:id="@+id/ViewBg"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/oval_view_bg"
+        android:background="@drawable/oval_view_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
