@@ -24,10 +24,18 @@
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.taskplanner.presentation.authorization.registration_screen.RegistrationFragment"
         android:label="registration_fragment"
         tools:layout="@layout/registration_fragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.taskplanner.presentation.home_screen.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment" />
 </navigation>

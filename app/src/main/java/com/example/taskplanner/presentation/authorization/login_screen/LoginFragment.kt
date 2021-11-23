@@ -19,5 +19,8 @@ class LoginFragment : BaseFragment<LoginFragmentBinding,LoginViewModel>() {
         binding.signUpTextView.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }
+        binding.logInButton.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        }
     }
 }
