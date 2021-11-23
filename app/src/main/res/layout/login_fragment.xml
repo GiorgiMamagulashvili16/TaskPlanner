@@ -15,6 +15,15 @@
         app:layout_constraintHeight_percent="0.35"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/view"
+        app:layout_constraintTop_toTopOf="@id/view"
+
+        app:srcCompat="@drawable/ic_logo" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textWelcomeTextView"
         android:layout_width="wrap_content"

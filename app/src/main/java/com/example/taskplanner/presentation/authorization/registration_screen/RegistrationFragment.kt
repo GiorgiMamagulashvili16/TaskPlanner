@@ -1,10 +1,16 @@
 package com.example.taskplanner.presentation.authorization.registration_screen
 
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
+import com.example.taskplanner.R
+import com.example.taskplanner.data.extension.setTextWithMultipleColor
 import com.example.taskplanner.databinding.RegistrationFragmentBinding
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
 
-class RegistrationFragment : BaseFragment<RegistrationFragmentBinding,RegistrationViewModel>() {
+typealias string = R.string
+
+class RegistrationFragment : BaseFragment<RegistrationFragmentBinding, RegistrationViewModel>() {
     override fun inflateFragment(): Inflate<RegistrationFragmentBinding> {
         return RegistrationFragmentBinding::inflate
     }
@@ -14,7 +20,19 @@ class RegistrationFragment : BaseFragment<RegistrationFragmentBinding,Registrati
     }
 
     override fun onBindViewModel(viewModel: RegistrationViewModel) {
+        binding.professionTextView.setTextWithMultipleColor(
+            mutableListOf(
+                getString(string.txt_add_my),
+                getString(string.profession)
+            ),
+            mutableListOf(
+                R.color.black,
+                R.color.bg_blue
+            )
+        )
 
+        binding.professionEditText.doOnTextChanged { text, _, _, _ ->
+            binding.submitImageButton.isVisible = text?.isNotBlank() == true
+        }
     }
-
 }
