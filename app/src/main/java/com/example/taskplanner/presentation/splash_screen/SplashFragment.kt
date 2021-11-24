@@ -1,14 +1,11 @@
 package com.example.taskplanner.presentation.splash_screen
 
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
-import com.example.taskplanner.data.extension.setAfterAnimOver
+import com.example.taskplanner.data.util.extension.setAfterAnimOver
 import com.example.taskplanner.databinding.SplashFragmentBinding
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class SplashFragment : BaseFragment<SplashFragmentBinding, SplashViewModel>() {
     override fun inflateFragment(): Inflate<SplashFragmentBinding> = SplashFragmentBinding::inflate

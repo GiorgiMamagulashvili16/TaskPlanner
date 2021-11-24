@@ -1,4 +1,4 @@
-package com.example.taskplanner.data.extension
+package com.example.taskplanner.data.util.extension
 
 import androidx.constraintlayout.motion.widget.MotionLayout
 

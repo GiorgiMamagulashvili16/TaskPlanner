@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/view"
         app:layout_constraintTop_toTopOf="@id/view"
-
         app:srcCompat="@drawable/ic_logo" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -36,30 +35,17 @@
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.example.taskplanner.presentation.custom_view.CustomTextInputLayout
         android:id="@+id/emailInputLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginStart="35dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="35dp"
-        android:hint="@string/enter_email"
-        android:textColorHint="@color/bg_blue"
-        app:boxBackgroundColor="@android:color/transparent"
-        app:boxStrokeColor="@color/bg_blue"
-        app:hintTextColor="@color/bg_blue"
-        app:layout_constraintTop_toBottomOf="@id/textWelcomeTextView">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="@color/bg_blue"
-            android:textCursorDrawable="@drawable/cursor_color" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:inputType="textEmailAddress"
+        app:hintText="@string/enter_email"
+        app:layout_constraintTop_toBottomOf="@id/textWelcomeTextView"
+        app:maxLines="1" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInputLayout"

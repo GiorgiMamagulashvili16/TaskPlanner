@@ -3,7 +3,7 @@ package com.example.taskplanner.presentation.authorization.registration_screen
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import com.example.taskplanner.R
-import com.example.taskplanner.data.extension.setTextWithMultipleColor
+import com.example.taskplanner.data.util.extension.setTextWithMultipleColor
 import com.example.taskplanner.databinding.RegistrationFragmentBinding
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
@@ -31,7 +31,7 @@ class RegistrationFragment : BaseFragment<RegistrationFragmentBinding, Registrat
             )
         )
 
-        binding.professionEditText.doOnTextChanged { text, _, _, _ ->
+        binding.professionInputLayout.editText.doOnTextChanged { text, _, _, _ ->
             binding.submitImageButton.isVisible = text?.isNotBlank() == true
         }
     }
