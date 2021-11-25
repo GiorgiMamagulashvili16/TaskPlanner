@@ -1,32 +1,19 @@
 package com.example.taskplanner.presentation.home_screen
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.example.taskplanner.R
+import com.example.taskplanner.databinding.HomeFragmentBinding
+import com.example.taskplanner.presentation.base.BaseFragment
+import com.example.taskplanner.presentation.base.Inflate
 
-class HomeFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = HomeFragment()
+class HomeFragment : BaseFragment<HomeFragmentBinding,HomeViewModel>() {
+    override fun inflateFragment(): Inflate<HomeFragmentBinding> {
+        return HomeFragmentBinding::inflate
     }
 
-    private lateinit var viewModel: HomeViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.home_fragment, container, false)
+    override fun getVmClass(): Class<HomeViewModel> {
+       return HomeViewModel::class.java
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+    override fun onBindViewModel(viewModel: HomeViewModel) {
 
+    }
 }

@@ -30,7 +30,6 @@ class RegistrationFragment : BaseFragment<RegistrationFragmentBinding, Registrat
                 R.color.bg_blue
             )
         )
-
         binding.professionInputLayout.editText.doOnTextChanged { text, _, _, _ ->
             binding.submitImageButton.isVisible = text?.isNotBlank() == true
         }

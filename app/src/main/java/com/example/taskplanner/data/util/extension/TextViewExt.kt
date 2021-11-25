@@ -5,7 +5,6 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import com.example.taskplanner.data.util.Constants.START_INDEX_FOR_SPANNABLE_TEXT
 
 fun AppCompatTextView.setTextWithMultipleColor(
     text: MutableList<String>,
@@ -22,5 +21,6 @@ fun AppCompatTextView.setTextWithMultipleColor(
         startInd += text[it].length
     }
     this.text = spannableText
-
 }
+
+private const val START_INDEX_FOR_SPANNABLE_TEXT = 0

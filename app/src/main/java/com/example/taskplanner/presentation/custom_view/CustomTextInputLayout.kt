@@ -2,11 +2,12 @@ package com.example.taskplanner.presentation.custom_view
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Color
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.taskplanner.R
+import com.example.taskplanner.databinding.CustomTextInputLayoutBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -21,7 +22,6 @@ class CustomTextInputLayout @JvmOverloads constructor(
     private var inputType: Int
     private var maxLines: Int
     private var hintText: String
-
     init {
         inflate(context, R.layout.custom_text_input_layout, this)
         attributes = context.theme.obtainStyledAttributes(
@@ -50,7 +50,7 @@ class CustomTextInputLayout @JvmOverloads constructor(
     }
 
     private fun setTextInputLayoutParams(hintText: String) {
-        with(textInputLayout){
+        with(textInputLayout) {
             hint = hintText
         }
     }

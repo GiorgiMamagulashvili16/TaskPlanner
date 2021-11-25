@@ -13,11 +13,6 @@ class SplashFragment : BaseFragment<SplashFragmentBinding, SplashViewModel>() {
     override fun getVmClass(): Class<SplashViewModel> = SplashViewModel::class.java
 
     override fun onBindViewModel(viewModel: SplashViewModel) {
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            delay(2000)
-//            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
-//        }
-
         binding.root.setAfterAnimOver {
             findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
         }
