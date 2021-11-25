@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.authorization.registration_screen.RegistrationFragment">
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/registration_fragment_scene">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userPictureImageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            android:src="@mipmap/ic_launcher"
+            app:civ_border_color="@color/bg_blue"
+            app:civ_border_width="2dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.4" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/addImageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/add_image"
+            android:textColor="@color/bg_blue"
+            app:layout_constraintEnd_toEndOf="@+id/userPictureImageView"
+            app:layout_constraintStart_toStartOf="@+id/userPictureImageView"
+            app:layout_constraintTop_toBottomOf="@+id/userPictureImageView" />
+
+        <com.example.taskplanner.presentation.custom_view.CustomTextInputLayout
+            android:id="@+id/usernameInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="35dp"
+            android:inputType="text"
+            app:hintText="@string/enter_username"
+            app:layout_constraintTop_toBottomOf="@id/addImageTextView" />
+
+        <com.example.taskplanner.presentation.custom_view.CustomTextInputLayout
+            android:id="@+id/emailInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="35dp"
+            android:inputType="textEmailAddress"
+            app:hintText="@string/enter_email"
+            app:layout_constraintTop_toBottomOf="@id/usernameInputLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="35dp"
+            android:hint="@string/enter_password"
+            android:textColorHint="@color/bg_blue"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:boxStrokeColor="@color/bg_blue"
+            app:hintTextColor="@color/bg_blue"
+            app:layout_constraintTop_toBottomOf="@id/emailInputLayout"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/bg_blue">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/bg_blue"
+                android:textCursorDrawable="@drawable/cursor_color" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/repeatPasswordInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="35dp"
+            android:hint="@string/repeat_password"
+            android:textColorHint="@color/bg_blue"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:boxStrokeColor="@color/bg_blue"
+            app:hintTextColor="@color/bg_blue"
+            app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/bg_blue">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/repeatPasswordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/bg_blue"
+                android:textCursorDrawable="@drawable/cursor_color" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/professionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text=""
+            android:textSize="19sp"
+            app:layout_constraintStart_toStartOf="@+id/repeatPasswordInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/repeatPasswordInputLayout" />
+
+        <com.example.taskplanner.presentation.custom_view.CustomTextInputLayout
+            android:id="@+id/professionInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="35dp"
+            android:inputType="text"
+            android:visibility="invisible"
+            app:hintText="@string/txt_i_am_a"
+            app:layout_constraintTop_toBottomOf="@id/professionTextView" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/submitImageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_check"
+            android:tint="@color/bg_blue"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/professionInputLayout"
+            app:layout_constraintStart_toEndOf="@id/professionInputLayout"
+            app:layout_constraintTop_toTopOf="@id/professionInputLayout" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signUpButton"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/login_button_background"
+            android:text="@string/sign_up"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/professionInputLayout"
+            app:layout_constraintWidth_percent="0.5" />
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</androidx.core.widget.NestedScrollView>

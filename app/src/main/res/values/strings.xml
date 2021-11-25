@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Task Planner</string>
+    <string name="welcome">Welcome</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? sign up</string>
+    <string name="log_in">Log In</string>
+    <string name="add_image">add image</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="profession">Profession</string>
+    <string name="other">Other…</string>
+    <string name="txt_i_am_a">I am a/an…\u0020</string>
+    <string name="add">add</string>
+    <string name="txt_add_my">Add My \u0020</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="current_tasks">Current Tasks</string>
+    <string name="my_projects">My Projects</string>
 </resources>
