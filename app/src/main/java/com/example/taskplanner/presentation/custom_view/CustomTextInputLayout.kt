@@ -22,16 +22,19 @@ class CustomTextInputLayout @JvmOverloads constructor(
     private var inputType: Int
     private var maxLines: Int
     private var hintText: String
+
+
     init {
-        inflate(context, R.layout.custom_text_input_layout, this)
+        val binding: CustomTextInputLayoutBinding =
+            CustomTextInputLayoutBinding.inflate(LayoutInflater.from(context), this, true)
         attributes = context.theme.obtainStyledAttributes(
             attrs,
             R.styleable.CustomTextInputLayout,
             defAttrs,
             0
         )
-        textInputLayout = findViewById(R.id.rootLayout)
-        editText = findViewById(R.id.rootEditText)
+        textInputLayout = binding.rootLayout
+        editText = binding.rootEditText
         with(attributes) {
             inputType =
                 getInt(R.styleable.CustomTextInputLayout_android_inputType, EditorInfo.TYPE_NULL)
