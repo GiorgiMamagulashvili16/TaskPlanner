@@ -9,7 +9,7 @@
         motion:duration="500">
        <KeyFrameSet>
        </KeyFrameSet>
-        <OnClick motion:targetId="@+id/professionTextView" />
+        <OnClick motion:targetId="@+id/jobTextView" />
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
@@ -17,12 +17,12 @@
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@+id/professionInputLayout"
+            android:id="@+id/jobInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
             android:layout_marginEnd="90dp"
-            motion:layout_constraintTop_toBottomOf="@id/professionTextView"
+            motion:layout_constraintTop_toBottomOf="@id/jobTextView"
             android:layout_marginStart="35dp"
             android:layout_marginTop="20dp" />
     </ConstraintSet>

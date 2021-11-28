@@ -32,7 +32,13 @@
         android:id="@+id/registrationFragment"
         android:name="com.example.taskplanner.presentation.authorization.registration_screen.RegistrationFragment"
         android:label="registration_fragment"
-        tools:layout="@layout/registration_fragment" />
+        tools:layout="@layout/registration_fragment" >
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/registrationFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.taskplanner.presentation.home_screen.HomeFragment"

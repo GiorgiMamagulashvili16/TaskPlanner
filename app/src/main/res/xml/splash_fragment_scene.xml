@@ -54,6 +54,18 @@
                 android:alpha="1"
                 motion:framePosition="100"
                 motion:motionTarget="@+id/appNameTextView" />
+            <KeyAttribute
+                motion:motionTarget="@+id/logoImageView"
+                motion:framePosition="0"
+                android:alpha="0" />
+            <KeyAttribute
+                motion:motionTarget="@+id/logoImageView"
+                motion:framePosition="55"
+                android:alpha="0.5" />
+            <KeyAttribute
+                motion:motionTarget="@+id/logoImageView"
+                motion:framePosition="100"
+                android:alpha="1" />
         </KeyFrameSet>
     </Transition>
 
