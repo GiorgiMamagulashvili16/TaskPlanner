@@ -19,6 +19,4 @@ interface AuthRepository {
         email: String,
         password: String
     ): Resource<AuthResult>
-
-    suspend fun getCurrentUser():Resource<User>
 }

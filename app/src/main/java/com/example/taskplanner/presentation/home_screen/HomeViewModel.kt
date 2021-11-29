@@ -16,20 +16,4 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val authRepository: AuthRepositoryImpl
 ) : ViewModel() {
-    private val _user = MutableLiveData<User>()
-    val user: LiveData<User> = _user
-
-    fun getCurrentUser() = viewModelScope.launch {
-        handleResponse(authRepository.getCurrentUser())
-    }
-
-    private fun handleResponse(response: Resource<User>) = viewModelScope.launch {
-        Log.d("TESDA", "${response.data}")
-        when (response) {
-            is Resource.Success -> {
-                _user.postValue(response.data!!)
-            }
-            is Resource.Error -> {}
-        }
-    }
 }

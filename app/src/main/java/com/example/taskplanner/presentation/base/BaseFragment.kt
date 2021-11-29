@@ -56,12 +56,12 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
         crossinline mediaPermissionCheckerAction: () -> Unit,
     ) {
         when {
-            hasCameraPermission() && hasReadExtStoragePermission() && hasWriteExtStoragePermission() -> {
+            hasReadExtStoragePermission() && hasWriteExtStoragePermission() -> {
                 positiveAction.invoke()
             }
             ActivityCompat.shouldShowRequestPermissionRationale(
                 requireActivity(),
-                Manifest.permission.CAMERA
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) -> {
                 createSnackBar(
                     getString(string.app_need_this_permission),
@@ -95,17 +95,11 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
     protected fun requestMediaPermissions(request: ActivityResultLauncher<Array<String>>) {
         request.launch(
             arrayOf(
-                Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
         )
     }
-
-    protected fun hasCameraPermission() = ContextCompat.checkSelfPermission(
-        requireContext(),
-        Manifest.permission.CAMERA
-    ) == PackageManager.PERMISSION_GRANTED
 
     protected fun hasWriteExtStoragePermission() = ContextCompat.checkSelfPermission(
         requireContext(),

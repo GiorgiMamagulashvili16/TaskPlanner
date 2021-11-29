@@ -5,10 +5,10 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
 import com.example.taskplanner.data.util.extension.createSnackBar
+import com.example.taskplanner.data.util.extension.flowObserver
 import com.example.taskplanner.data.util.extension.observeData
 import com.example.taskplanner.data.util.extension.snackAction
 import com.example.taskplanner.databinding.LoginFragmentBinding
-import com.example.taskplanner.presentation.authorization.registration_screen.AuthScreenState
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
@@ -30,23 +30,16 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginViewModel>() {
     }
 
     private fun observeLoginResponse(viewModel: LoginViewModel) {
-        observeData(viewModel.screenState) {
+        flowObserver(viewModel.screenState) { state ->
             with(binding) {
-                when (it) {
-                    is AuthScreenState.Success -> {
-                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                        loadingProgressBar.isVisible = it.isLoading
-                    }
-                    is AuthScreenState.Error -> {
-                        createSnackBar(it.errorText!!) {
-                            snackAction(Color.RED, action = getString(string.ok)) {
-                                dismiss()
-                            }
+                loadingProgressBar.isVisible = state.isLoading
+                if (state.isSuccess)
+                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                if (state.errorText != null) {
+                    createSnackBar(state.errorText) {
+                        snackAction(Color.RED, action = getString(string.ok)) {
+                            dismiss()
                         }
-                        loadingProgressBar.isVisible = it.isLoading
-                    }
-                    is AuthScreenState.Loading -> {
-                        loadingProgressBar.isVisible = it.isLoading
                     }
                 }
             }

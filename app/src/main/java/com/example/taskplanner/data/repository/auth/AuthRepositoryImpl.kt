@@ -51,20 +51,6 @@ class AuthRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getCurrentUser(): Resource<User> = withContext(Dispatchers.IO) {
-        return@withContext fetchData {
-            val currentUserId = auth.currentUser?.uid!!
-            val result = userCollection.document(currentUserId).get().await()
-            val user = User(
-                username = result.get("username") as String,
-                job = result.get("job") as String,
-                email = result.get("email") as String,
-                uid = result.get("uid") as String
-            )
-            Resource.Success(user)
-        }
-    }
-
     companion object {
         private const val USER_COLLECTION_NAME = "Users"
     }
