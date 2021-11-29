@@ -35,7 +35,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginViewModel>() {
                 loadingProgressBar.isVisible = state.isLoading
                 if (state.isSuccess)
                     findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                if (state.errorText != null) {
+                else if (state.errorText != null) {
                     createSnackBar(state.errorText) {
                         snackAction(Color.RED, action = getString(string.ok)) {
                             dismiss()

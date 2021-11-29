@@ -43,7 +43,7 @@ class RegistrationFragment :
                 loadingProgressBar.isVisible = state.isLoading
                 if (state.isSuccess)
                     findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
-                if (state.errorText != null) {
+                else if (state.errorText != null) {
                     createSnackBar(state.errorText) {
                         snackAction(Color.RED, action = getString(string.ok)) {
                             dismiss()
