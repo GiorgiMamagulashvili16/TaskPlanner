@@ -20,7 +20,7 @@
         android:layout_width="107dp"
         android:layout_height="107dp"
         android:layout_marginStart="39dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/user_placeholder"
         app:civ_border_color="@color/white"
         app:civ_border_width="1dp"
         app:layout_constraintBottom_toBottomOf="@id/backgroundView"
