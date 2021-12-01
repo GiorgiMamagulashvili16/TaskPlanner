@@ -73,28 +73,12 @@
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             motion:layout_constraintStart_toStartOf="@id/view"
             motion:layout_constraintTop_toTopOf="@id/view"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:id="@+id/logoImageView"
-            motion:layout_constraintBottom_toBottomOf="@+id/view" />
-        <Constraint
-            android:id="@+id/logoImageView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            motion:layout_constraintTop_toTopOf="@id/view"
-            motion:layout_constraintStart_toStartOf="@id/view"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintBottom_toBottomOf="@+id/view" />
-        <Constraint
-            android:id="@+id/logoImageView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            motion:layout_constraintTop_toTopOf="@id/view"
-            motion:layout_constraintStart_toStartOf="@id/view"
-            motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintBottom_toBottomOf="@+id/view" />
     </ConstraintSet>
 </MotionScene>

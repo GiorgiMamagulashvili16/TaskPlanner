@@ -8,7 +8,7 @@
     <string name="add_image">add image</string>
     <string name="enter_username">Enter Username</string>
     <string name="repeat_password">Repeat Password</string>
-    <string name="profession">Profession</string>
+    <string name="profession">Job</string>
     <string name="other">Other…</string>
     <string name="txt_i_am_a">I am a/an…\u0020</string>
     <string name="add">add</string>
@@ -16,4 +16,10 @@
     <string name="sign_up">Sign Up</string>
     <string name="current_tasks">Current Tasks</string>
     <string name="my_projects">My Projects</string>
+    <string name="please_fill_all_fields">Please Fill All Fields</string>
+    <string name="please_enter_valid_email">Please Enter Valid Email</string>
+    <string name="ok">OK</string>
+    <string name="task_planner">Task Planner</string>
+    <string name="app_need_this_permission">App needs this permission</string>
+    <string name="txt_please_choose_image">Please Choose Image</string>
 </resources>

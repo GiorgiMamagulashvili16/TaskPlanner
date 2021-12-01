@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="30dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/user_placeholder"
             app:civ_border_color="@color/bg_blue"
             app:civ_border_width="2dp"
             app:layout_constraintDimensionRatio="1:1"
@@ -113,7 +113,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/professionTextView"
+            android:id="@+id/jobTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -123,7 +123,7 @@
             app:layout_constraintTop_toBottomOf="@+id/repeatPasswordInputLayout" />
 
         <com.example.taskplanner.presentation.custom_view.CustomTextInputLayout
-            android:id="@+id/professionInputLayout"
+            android:id="@+id/jobInputLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="35dp"
@@ -132,7 +132,7 @@
             android:inputType="text"
             android:visibility="invisible"
             app:hintText="@string/txt_i_am_a"
-            app:layout_constraintTop_toBottomOf="@id/professionTextView" />
+            app:layout_constraintTop_toBottomOf="@id/jobTextView" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/submitImageButton"
@@ -144,9 +144,9 @@
             android:src="@drawable/ic_check"
             android:tint="@color/bg_blue"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/professionInputLayout"
-            app:layout_constraintStart_toEndOf="@id/professionInputLayout"
-            app:layout_constraintTop_toTopOf="@id/professionInputLayout" />
+            app:layout_constraintBottom_toBottomOf="@id/jobInputLayout"
+            app:layout_constraintStart_toEndOf="@id/jobInputLayout"
+            app:layout_constraintTop_toTopOf="@id/jobInputLayout" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signUpButton"
@@ -161,7 +161,17 @@
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/professionInputLayout"
+            app:layout_constraintTop_toBottomOf="@id/jobInputLayout"
             app:layout_constraintWidth_percent="0.5" />
+
+        <ProgressBar
+            android:id="@+id/loadingProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </androidx.core.widget.NestedScrollView>
