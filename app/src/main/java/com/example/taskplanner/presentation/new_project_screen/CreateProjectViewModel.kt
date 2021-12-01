@@ -1,6 +1,8 @@
 package com.example.taskplanner.presentation.new_project_screen
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.repository.project.ProjectRepository
 import com.example.taskplanner.data.util.ResourcesProvider
@@ -18,15 +20,18 @@ class CreateProjectViewModel @Inject constructor(
     @ApplicationContext appCtx: Context
 ) : AuthBaseViewModel(ResourcesProvider(appCtx)) {
 
-    var startDate: String? = null
-    var endDate: String? = null
+    private val _startDate = MutableLiveData<String?>()
+    val startDate: LiveData<String?> = _startDate
+
+    private val _endDate = MutableLiveData<String?>()
+    val endDate: LiveData<String?> = _endDate
 
     fun setEstimateStartDate(date: String) = viewModelScope.launch {
-        this@CreateProjectViewModel.startDate = date
+        _startDate.postValue(date)
     }
 
     fun setEstimateEndDate(date: String) = viewModelScope.launch {
-        this@CreateProjectViewModel.endDate = date
+        _endDate.postValue(date)
     }
 
     fun setProject(

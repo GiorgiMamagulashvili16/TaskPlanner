@@ -52,5 +52,11 @@
         android:id="@+id/createProjectFragment"
         android:name="com.example.taskplanner.presentation.new_project_screen.CreateProjectFragment"
         android:label="create_project_fragment"
-        tools:layout="@layout/create_project_fragment" />
+        tools:layout="@layout/create_project_fragment" >
+        <action
+            android:id="@+id/action_createProjectFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/createProjectFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

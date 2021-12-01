@@ -105,7 +105,6 @@
         tools:text="estimate end time \n 28-12" />
 
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/endTimePickerFloatingButton"
         android:layout_width="wrap_content"
@@ -164,6 +163,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/startTimePickerFloatingButton"
         app:layout_constraintEnd_toStartOf="@+id/startTimePickerFloatingButton"
         app:layout_constraintTop_toTopOf="@+id/startTimePickerFloatingButton" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/timePickerFloatingButton"
         android:layout_width="wrap_content"
@@ -176,4 +176,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/submitFloatingButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/bg_blue"
+        app:icon="@drawable/ic_check"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.motion.widget.MotionLayout>
