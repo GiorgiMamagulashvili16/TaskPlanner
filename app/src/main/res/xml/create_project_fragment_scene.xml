@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        android:id="@+id/fabTransition"
+        motion:duration="800">
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnClick motion:targetId="@+id/timePickerFloatingButton" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/startTimeFabTextView"
+            motion:layout_constraintEnd_toStartOf="@+id/startTimePickerFloatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@+id/startTimePickerFloatingButton"
+            android:layout_marginEnd="10dp"
+            motion:layout_constraintTop_toTopOf="@+id/startTimePickerFloatingButton"
+            android:alpha="0"
+            android:scaleX="0"
+            android:scaleY="0" />
+        <Constraint
+            android:id="@+id/startTimePickerFloatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintCircleRadius="0dp"
+            motion:layout_constraintCircle="@id/timePickerFloatingButton"
+            motion:layout_constraintCircleAngle="270"
+            android:alpha="0"
+            android:scaleX="0"
+            android:scaleY="0" />
+        <Constraint
+            android:id="@+id/endTimePickerFloatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintCircleRadius="0dp"
+            motion:layout_constraintCircle="@id/timePickerFloatingButton"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/endTimeFabTextView"
+            motion:layout_constraintEnd_toStartOf="@+id/endTimePickerFloatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@+id/endTimePickerFloatingButton"
+            android:layout_marginEnd="10dp"
+            motion:layout_constraintTop_toTopOf="@+id/endTimePickerFloatingButton"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/timePickerFloatingButton"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp" />
+    </ConstraintSet>
+</MotionScene>

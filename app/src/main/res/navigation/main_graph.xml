@@ -43,5 +43,14 @@
         android:id="@+id/homeFragment"
         android:name="com.example.taskplanner.presentation.home_screen.HomeFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_createProjectFragment"
+            app:destination="@id/createProjectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createProjectFragment"
+        android:name="com.example.taskplanner.presentation.new_project_screen.CreateProjectFragment"
+        android:label="create_project_fragment"
+        tools:layout="@layout/create_project_fragment" />
 </navigation>

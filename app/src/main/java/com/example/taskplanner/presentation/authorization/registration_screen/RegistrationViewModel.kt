@@ -4,10 +4,8 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl
-import com.example.taskplanner.data.util.Resource
 import com.example.taskplanner.data.util.ResourcesProvider
 import com.example.taskplanner.presentation.base.AuthBaseViewModel
-import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +29,7 @@ class RegistrationViewModel @Inject constructor(
     fun signUp(username: String, password: String, email: String, job: String, imageUri: Uri) =
         viewModelScope.launch {
             _screenState.emit(AuthScreenState(isLoading = true))
-            if (validateStringInput(username) || validateStringInput(password) || validateStringInput(
+            if (validateIfIsEmpty(username) || validateIfIsEmpty(password) || validateIfIsEmpty(
                     email
                 )
             ) {

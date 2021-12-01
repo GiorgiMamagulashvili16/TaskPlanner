@@ -20,7 +20,7 @@ class LoginViewModel @Inject constructor(
 
     fun logIn(email: String, password: String) = viewModelScope.launch {
         _screenState.emit(AuthScreenState(isLoading = true))
-        if (validateStringInput(email) || validateStringInput(password)) {
+        if (validateIfIsEmpty(email) || validateIfIsEmpty(password)) {
             _screenState.emit(AuthScreenState(errorText = resourcesProvider.getString(string.please_fill_all_fields)))
         } else {
             if (validateEmail(email)) {

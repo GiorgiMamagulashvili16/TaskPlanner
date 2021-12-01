@@ -20,12 +20,12 @@ open class AuthBaseViewModel @Inject constructor(
     protected val _screenState = MutableStateFlow(AuthScreenState())
     val screenState: StateFlow<AuthScreenState> = _screenState
 
-    protected fun validateStringInput(input: String): Boolean {
+    protected fun validateIfIsEmpty(input: String): Boolean {
         return input.trim().isBlank()
     }
 
     protected fun validateEmail(email: String): Boolean {
-        return !validateStringInput(email) && email.isValidEmail()
+        return !validateIfIsEmpty(email) && email.isValidEmail()
     }
 
     protected fun handleResponse(response: Resource<AuthResult>) = viewModelScope.launch {
