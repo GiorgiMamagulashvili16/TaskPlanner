@@ -31,4 +31,5 @@
     <string name="start_time_fab_desc">start_time_fab_desc</string>
     <string name="end_time_fab_desc">end time fab desc</string>
     <string name="time_picker_fab_desc">time picker fab desc</string>
+    <string name="please_choose_estimate_time">Please choose estimate time</string>
 </resources>

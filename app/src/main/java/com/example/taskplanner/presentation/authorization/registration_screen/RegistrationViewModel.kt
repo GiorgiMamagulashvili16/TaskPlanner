@@ -28,12 +28,12 @@ class RegistrationViewModel @Inject constructor(
 
     fun signUp(username: String, password: String, email: String, job: String, imageUri: Uri) =
         viewModelScope.launch {
-            _screenState.emit(AuthScreenState(isLoading = true))
-            if (validateIfIsEmpty(username) || validateIfIsEmpty(password) || validateIfIsEmpty(
+            _screenState.emit(ScreenState(isLoading = true))
+            if (checkIfIsEmpty(username) || checkIfIsEmpty(password) || checkIfIsEmpty(
                     email
                 )
             ) {
-                _screenState.emit(AuthScreenState(errorText = resourcesProvider.getString(string.please_fill_all_fields)))
+                _screenState.emit(ScreenState(errorText = resourcesProvider.getString(string.please_fill_all_fields)))
             } else {
                 if (validateEmail(email)) {
                     handleResponse(
@@ -47,7 +47,7 @@ class RegistrationViewModel @Inject constructor(
                     )
                 } else {
                     _screenState.emit(
-                        AuthScreenState(
+                        ScreenState(
                             errorText = resourcesProvider.getString(
                                 string.please_enter_valid_email
                             )

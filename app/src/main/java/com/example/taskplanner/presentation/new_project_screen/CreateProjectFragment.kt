@@ -6,7 +6,9 @@ import com.example.taskplanner.data.util.extension.setActionOnSpecifiedProgress
 import com.example.taskplanner.databinding.CreateProjectFragmentBinding
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateProjectViewModel>() {
     override fun inflateFragment(): Inflate<CreateProjectFragmentBinding> {
         return CreateProjectFragmentBinding::inflate
@@ -17,6 +19,21 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
     }
 
     override fun onBindViewModel(viewModel: CreateProjectViewModel) {
+        setFabIconChangeListener()
+    }
+
+    private fun setInputsForProject(viewModel: CreateProjectViewModel) {
+        with(binding) {
+            viewModel.setProject(
+                titleEditText.text.toString(),
+                descriptionEditText.text.toString(),
+                viewModel.startDate,
+                viewModel.endDate
+            )
+        }
+    }
+
+    private fun setFabIconChangeListener() {
         with(binding) {
             root.setActionOnSpecifiedProgress(0.4f,
                 {
