@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl
 import com.example.taskplanner.data.util.ResourcesProvider
-import com.example.taskplanner.presentation.base.AuthBaseViewModel
+import com.example.taskplanner.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class RegistrationViewModel @Inject constructor(
     private val authRepository: AuthRepositoryImpl,
     @ApplicationContext appCtx: Context
-) : AuthBaseViewModel(ResourcesProvider(appCtx)) {
+) : BaseViewModel(ResourcesProvider(appCtx)) {
 
     private val _imageUri = MutableStateFlow<Uri?>(null)
     val imageUri: StateFlow<Uri?> = _imageUri

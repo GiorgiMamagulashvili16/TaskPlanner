@@ -8,7 +8,7 @@ import com.example.taskplanner.data.repository.project.ProjectRepository
 import com.example.taskplanner.data.util.ResourcesProvider
 import com.example.taskplanner.presentation.authorization.registration_screen.ScreenState
 import com.example.taskplanner.presentation.authorization.registration_screen.string
-import com.example.taskplanner.presentation.base.AuthBaseViewModel
+import com.example.taskplanner.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class CreateProjectViewModel @Inject constructor(
     private val projectRepository: ProjectRepository,
     @ApplicationContext appCtx: Context
-) : AuthBaseViewModel(ResourcesProvider(appCtx)) {
+) : BaseViewModel(ResourcesProvider(appCtx)) {
 
     private val _startDate = MutableLiveData<String?>()
     val startDate: LiveData<String?> = _startDate

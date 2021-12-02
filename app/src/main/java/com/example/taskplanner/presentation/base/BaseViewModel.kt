@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-open class AuthBaseViewModel @Inject constructor(
+open class BaseViewModel @Inject constructor(
     protected val resourcesProvider: ResourcesProvider
 ) : ViewModel() {
     protected val _screenState = MutableStateFlow(ScreenState())
