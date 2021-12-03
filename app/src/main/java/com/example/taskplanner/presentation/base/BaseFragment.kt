@@ -51,64 +51,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
     abstract fun getVmClass(): Class<VM>
     abstract fun onBindViewModel(viewModel: VM)
 
-    protected inline fun mediaPermissionRequest(
-        crossinline positiveAction: () -> Unit,
-        crossinline mediaPermissionCheckerAction: () -> Unit,
-    ) {
-        when {
-            hasReadExtStoragePermission() && hasWriteExtStoragePermission() -> {
-                positiveAction.invoke()
-            }
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) -> {
-                createSnackBar(
-                    getString(string.app_need_this_permission),
-                    length = Snackbar.LENGTH_INDEFINITE
-                ) {
-                    snackAction(action = getString(string.ok)) {
-                        mediaPermissionCheckerAction.invoke()
-                    }
-                }
-            }
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) -> {
-                createSnackBar(
-                    getString(string.app_need_this_permission),
-                    length = Snackbar.LENGTH_INDEFINITE
-                ) {
-                    snackAction(action = getString(string.ok)) {
-                        mediaPermissionCheckerAction.invoke()
-                    }
-                }
-            }
-            else -> {
-                mediaPermissionCheckerAction.invoke()
-            }
-        }
-    }
 
 
-    protected fun requestMediaPermissions(request: ActivityResultLauncher<Array<String>>) {
-        request.launch(
-            arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        )
-    }
-
-    protected fun hasWriteExtStoragePermission() = ContextCompat.checkSelfPermission(
-        requireContext(),
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    ) == PackageManager.PERMISSION_GRANTED
-
-    protected fun hasReadExtStoragePermission() = ContextCompat.checkSelfPermission(
-        requireContext(),
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    ) == PackageManager.PERMISSION_GRANTED
 
 }

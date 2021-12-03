@@ -22,4 +22,17 @@
     <string name="task_planner">Task Planner</string>
     <string name="app_need_this_permission">App needs this permission</string>
     <string name="txt_please_choose_image">Please Choose Image</string>
+    <string name="create_new_project">Create New Project</string>
+    <string name="project_title">Project Title</string>
+    <string name="project_description">Project Description</string>
+    <string name="end">End</string>
+    <string name="end_time">end time</string>
+    <string name="start_time">start time</string>
+    <string name="start_time_fab_desc">start_time_fab_desc</string>
+    <string name="end_time_fab_desc">end time fab desc</string>
+    <string name="time_picker_fab_desc">time picker fab desc</string>
+    <string name="please_choose_estimate_time">Please choose estimate time</string>
+    <string name="save">Save</string>
+    <string name="txt_estimate_start_date">estimate start date \n%1$s</string>
+    <string name="txt_estimate_end_date">estimate end date \n%1$s</string>
 </resources>
