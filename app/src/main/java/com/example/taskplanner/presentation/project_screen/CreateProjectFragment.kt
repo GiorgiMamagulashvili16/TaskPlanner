@@ -1,10 +1,11 @@
-package com.example.taskplanner.presentation.new_project_screen
+package com.example.taskplanner.presentation.project_screen
 
 import android.graphics.Color
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
+import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.util.Constants.BUNDLE_REQUEST_KEY
 import com.example.taskplanner.data.util.Constants.DATE_PICKER_FRAGMENT_TAG
 import com.example.taskplanner.data.util.Constants.SELECTED_DATE_STRING_KEY
@@ -53,9 +54,9 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
     }
 
     private fun observeScreenState(viewModel: CreateProjectViewModel) {
-        flowObserver(viewModel.screenState) { state ->
+        flowObserver(viewModel.createScreenState) { state ->
             binding.loadingProgressBar.isVisible = state.isLoading
-            if (state.isSuccess) {
+            if (state.success != null) {
                 findNavController().navigate(R.id.action_createProjectFragment_to_homeFragment)
             } else if (state.errorText != null) {
                 createSnackBar(state.errorText) {
@@ -96,10 +97,12 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
     private fun setInputsForProject(viewModel: CreateProjectViewModel) {
         with(binding) {
             viewModel.setProject(
-                titleEditText.text.toString(),
-                descriptionEditText.text.toString(),
-                viewModel.startDate.value,
-                viewModel.endDate.value
+                Project(
+                    projectTitle = titleEditText.text.toString(),
+                    projectDescription = descriptionEditText.text.toString(),
+                    startDate = viewModel.startDate.value,
+                    endDate = viewModel.endDate.value
+                )
             )
         }
     }

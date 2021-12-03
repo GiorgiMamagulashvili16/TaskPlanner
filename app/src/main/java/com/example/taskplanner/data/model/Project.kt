@@ -1,17 +1,17 @@
 package com.example.taskplanner.data.model
 
-import com.example.taskplanner.presentation.new_project_screen.ProjectProgress
+import com.example.taskplanner.presentation.project_screen.ProjectStatus
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 data class Project(
-    val projectId: String,
-    val ownerId: String,
-    val projectTitle: String,
-    val projectDescription: String,
-    val startDate: String,
-    val endDate: String,
-    val projectProgress: String = ProjectProgress.TODO.name,
+    val projectId: String? = null,
+    val ownerId: String? = null,
+    val projectTitle: String? = null,
+    val projectDescription: String? = null,
+    val startDate: String? = null,
+    val endDate: String? = null,
+    val projectStatus: String = ProjectStatus.TODO.title,
     @get:Exclude var subTasks: List<Task>? = null
 )

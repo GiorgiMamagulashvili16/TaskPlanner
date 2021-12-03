@@ -1,11 +1,13 @@
-package com.example.taskplanner.presentation.adapter
+package com.example.taskplanner.presentation.project_screen
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskplanner.data.model.Project
+import com.example.taskplanner.data.util.extension.getStatusColorByTitle
 import com.example.taskplanner.databinding.RowProjectItemBinding
 
 class ProjectsAdapter : ListAdapter<Project, ProjectsAdapter.VH>(COMPARATOR) {
@@ -21,9 +23,15 @@ class ProjectsAdapter : ListAdapter<Project, ProjectsAdapter.VH>(COMPARATOR) {
 
     class VH(private val binding: RowProjectItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(project: Project) {
-            with(binding){
+            with(binding) {
                 nameTextView.text = project.projectTitle
-                progressTextView.text = project.projectProgress
+                progressTextView.text = project.projectStatus
+                progressTextView.setTextColor(
+                    ContextCompat.getColor(
+                        root.context,
+                        project.projectStatus.getStatusColorByTitle()
+                    )
+                )
             }
         }
     }

@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/createProjectFragment"
-        android:name="com.example.taskplanner.presentation.new_project_screen.CreateProjectFragment"
+        android:name="com.example.taskplanner.presentation.project_screen.CreateProjectFragment"
         android:label="create_project_fragment"
         tools:layout="@layout/create_project_fragment" >
         <action

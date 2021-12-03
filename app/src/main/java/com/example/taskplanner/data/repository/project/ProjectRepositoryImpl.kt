@@ -2,11 +2,12 @@ package com.example.taskplanner.data.repository.project
 
 import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.model.User
-import com.example.taskplanner.data.util.FirestoreDataFetch
 import com.example.taskplanner.data.util.Resource
 import com.example.taskplanner.data.util.fetchData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -19,28 +20,34 @@ class ProjectRepositoryImpl @Inject constructor(
 ) : ProjectRepository {
     private val projectCollection = fireStore.collection(PROJECT_COLLECTION_NAME)
     private val userCollection = fireStore.collection(USER_COLLECTION_NAME)
-    override suspend fun setProject(
-        title: String,
-        description: String,
-        startDate: String,
-        endDate: String
-    ): Resource<Any> = withContext(Dispatchers.IO) {
-        return@withContext fetchData {
-            val userId = auth.currentUser?.uid!!
-            val projectId = UUID.randomUUID().toString()
-            val project = Project(projectId, userId, title, description, startDate, endDate)
-            projectCollection.document(projectId).set(project).await()
-            Resource.Success(Any())
+
+    override suspend fun setProject(project: Project): Resource<Unit> =
+        withContext(Dispatchers.IO) {
+            return@withContext fetchData {
+                with(project) {
+                    val userId = auth.currentUser?.uid!!
+                    val projectId = UUID.randomUUID().toString()
+                    val projectForFirestore = Project(
+                        projectId,
+                        userId,
+                        projectTitle,
+                        projectDescription,
+                        startDate,
+                        endDate
+                    )
+                    projectCollection.document(projectId).set(projectForFirestore).await()
+                    Resource.Success(Unit)
+                }
+            }
         }
-    }
 
     override suspend fun getCurrentUserData(): Resource<User> = withContext(Dispatchers.IO) {
         return@withContext fetchData {
             val userId = auth.currentUser?.uid!!
-            val userData = userCollection.document(userId).get().await()
-            val user =
-                FirestoreDataFetch().getUserFromSnapshot(userData, getProjectsByUserId().data!!)
-            Resource.Success(user)
+            val userData = userCollection.document(userId).get().await().toObject<User>().also {
+                it?.projects = getProjectsByUserId().data
+            }
+            Resource.Success(userData!!)
         }
     }
 
@@ -48,24 +55,16 @@ class ProjectRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             return@withContext fetchData {
                 val userId = auth.currentUser?.uid!!
-                val projectSnapshot =
-                    projectCollection.whereEqualTo("ownerId", userId).get().await().documents
-                val list = mutableListOf<Project>()
-                projectSnapshot.forEach { doc ->
-                    list.add(
-                        FirestoreDataFetch().getProjectFromSnapshot(
-                            doc,
-                            emptyList()
-                        )
-                    )
-                }
-
-                Resource.Success(list)
+                val project =
+                    projectCollection.whereEqualTo(OWNER_ID_KEY, userId).get().await()
+                        .toObjects<Project>()
+                Resource.Success(project)
             }
         }
 
     companion object {
         private const val PROJECT_COLLECTION_NAME = "Project"
         private const val USER_COLLECTION_NAME = "Users"
+        private const val OWNER_ID_KEY = "ownerId"
     }
 }

@@ -1,7 +1,6 @@
 package com.example.taskplanner.presentation.home_screen
 
 import android.graphics.Color
-import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +8,7 @@ import com.example.taskplanner.R
 import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.util.extension.*
 import com.example.taskplanner.databinding.HomeFragmentBinding
-import com.example.taskplanner.presentation.adapter.ProjectsAdapter
+import com.example.taskplanner.presentation.project_screen.ProjectsAdapter
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
@@ -36,13 +35,10 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
     }
 
     private fun observeScreenState(viewModel: HomeViewModel) {
-        flowObserver(viewModel.screenState) { state ->
-            d("CREENSTATE","$state")
+        flowObserver(viewModel.homeScreenState) { state ->
             binding.loadingProgressBar.isVisible = state.isLoading
-            if (state.successData != null) {
-                binding.root.setAfterAnimOver {
-                    setUserData(state.successData)
-                }
+            if (state.success != null) {
+                setUserData(state.success)
             } else if (state.errorText != null) {
                 createSnackBar(state.errorText) {
                     snackAction(Color.RED, getString(string.ok)) {
@@ -56,7 +52,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
 
     private fun setUserData(user: User) {
         with(binding) {
-            profileImageView.loadImage(user.profileImageUrl)
+            profileImageView.loadImage(user.profileImageUrl!!)
             jobTextView.text = user.job
             usernameTextView.text = user.username
         }

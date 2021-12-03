@@ -3,9 +3,12 @@ package com.example.taskplanner.presentation.authorization.registration_screen
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl
 import com.example.taskplanner.data.util.ResourcesProvider
 import com.example.taskplanner.presentation.base.BaseViewModel
+import com.example.taskplanner.presentation.screen_state.ScreenState
+import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +22,9 @@ class RegistrationViewModel @Inject constructor(
     @ApplicationContext appCtx: Context
 ) : BaseViewModel(ResourcesProvider(appCtx)) {
 
+    private val _registerScreenState = MutableStateFlow(ScreenState<AuthResult>())
+    val registerScreenState: StateFlow<ScreenState<AuthResult>> = _registerScreenState
+
     private val _imageUri = MutableStateFlow<Uri?>(null)
     val imageUri: StateFlow<Uri?> = _imageUri
 
@@ -26,27 +32,23 @@ class RegistrationViewModel @Inject constructor(
         _imageUri.emit(imageUri)
     }
 
-    fun signUp(username: String, password: String, email: String, job: String, imageUri: Uri) =
+    fun signUp(user: User, password: String) =
         viewModelScope.launch {
-            _screenState.emit(ScreenState(isLoading = true))
-            if (checkIfIsEmpty(username) || checkIfIsEmpty(password) || checkIfIsEmpty(
-                    email
-                )
+            _registerScreenState.emit(ScreenState(isLoading = true))
+            if (checkIfIsEmpty(user.username!!) || checkIfIsEmpty(password) || checkIfIsEmpty(user.email!!)
             ) {
-                _screenState.emit(ScreenState(errorText = resourcesProvider.getString(string.please_fill_all_fields)))
+                _registerScreenState.emit(ScreenState(errorText = resourcesProvider.getString(string.please_fill_all_fields)))
             } else {
-                if (validateEmail(email)) {
+                if (validateEmail(user.email)) {
                     handleResponse(
                         authRepository.signUp(
-                            username,
-                            password,
-                            email,
-                            job,
-                            imageUri
-                        )
+                            user,
+                            password
+                        ),
+                        _registerScreenState
                     )
                 } else {
-                    _screenState.emit(
+                    _registerScreenState.emit(
                         ScreenState(
                             errorText = resourcesProvider.getString(
                                 string.please_enter_valid_email

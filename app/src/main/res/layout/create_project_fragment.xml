@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_light_blue"
     app:layoutDescription="@xml/create_project_fragment_scene"
-    tools:context=".presentation.new_project_screen.CreateProjectFragment">
+    tools:context=".presentation.project_screen.CreateProjectFragment">
 
     <View
         android:id="@+id/backgroundView"

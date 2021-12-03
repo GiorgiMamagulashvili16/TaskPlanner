@@ -6,7 +6,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
 import com.example.taskplanner.data.util.extension.createSnackBar
 import com.example.taskplanner.data.util.extension.flowObserver
-import com.example.taskplanner.data.util.extension.observeData
 import com.example.taskplanner.data.util.extension.snackAction
 import com.example.taskplanner.databinding.LoginFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
@@ -30,10 +29,10 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginViewModel>() {
     }
 
     private fun observeLoginResponse(viewModel: LoginViewModel) {
-        flowObserver(viewModel.screenState) { state ->
+        flowObserver(viewModel.loginScreenState) { state ->
             with(binding) {
                 loadingProgressBar.isVisible = state.isLoading
-                if (state.isSuccess)
+                if (state.success != null)
                     findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 else if (state.errorText != null) {
                     createSnackBar(state.errorText) {
