@@ -40,4 +40,7 @@
     <string name="todo">ToDo</string>
     <string name="done">Done</string>
     <string name="in_progress">In Progress</string>
+    <string name="edit_project">Edit Project</string>
+    <string name="add_task">Add Task</string>
+    <string name="submit">Submit</string>
 </resources>
