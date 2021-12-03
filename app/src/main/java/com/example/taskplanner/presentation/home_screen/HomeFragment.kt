@@ -6,12 +6,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskplanner.R
 import com.example.taskplanner.data.model.User
-import com.example.taskplanner.data.util.extension.*
+import com.example.taskplanner.data.util.extension.createSnackBar
+import com.example.taskplanner.data.util.extension.flowObserver
+import com.example.taskplanner.data.util.extension.loadImage
+import com.example.taskplanner.data.util.extension.snackAction
 import com.example.taskplanner.databinding.HomeFragmentBinding
-import com.example.taskplanner.presentation.project_screen.ProjectsAdapter
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
+import com.example.taskplanner.presentation.project_screen.ProjectsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,6 +60,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
             usernameTextView.text = user.username
         }
         initProjectRecycleView()
+        binding.emptyProjectTextView.isVisible = user.projects?.isEmpty()!!
         projectAdapter.submitList(user.projects)
     }
 

@@ -35,4 +35,9 @@
     <string name="save">Save</string>
     <string name="txt_estimate_start_date">estimate start date \n%1$s</string>
     <string name="txt_estimate_end_date">estimate end date \n%1$s</string>
+    <string name="you_have_not_projects">You Have Not Projects</string>
+    <string name="_0">0</string>
+    <string name="todo">ToDo</string>
+    <string name="done">Done</string>
+    <string name="in_progress">In Progress</string>
 </resources>
