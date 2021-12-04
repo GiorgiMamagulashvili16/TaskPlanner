@@ -14,6 +14,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/edit_text_background"
         android:enabled="false"
+        android:gravity="center"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +28,8 @@
         android:layout_marginTop="25dp"
         android:background="@drawable/edit_text_background"
         android:enabled="false"
+        android:gravity="start"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.38"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,18 +93,6 @@
         app:layout_constraintHeight_percent="0.3"
         app:layout_constraintTop_toBottomOf="@id/startDateTextView" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/moreOptionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:backgroundTint="@color/bg_blue"
-        android:contentDescription="@string/time_picker_fab_desc"
-        android:src="@drawable/ic_more"
-        app:fabCustomSize="65dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/white" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/editProjectButton"
@@ -191,6 +182,19 @@
         app:layout_constraintBottom_toBottomOf="@+id/deleteProjectButton"
         app:layout_constraintEnd_toStartOf="@+id/deleteProjectButton"
         app:layout_constraintTop_toTopOf="@+id/deleteProjectButton" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/moreOptionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/bg_blue"
+        android:contentDescription="@string/time_picker_fab_desc"
+        android:src="@drawable/ic_more"
+        app:fabCustomSize="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/submitButton"

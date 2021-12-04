@@ -1,4 +1,4 @@
-package com.example.taskplanner.presentation.project_screen
+package com.example.taskplanner.presentation.home_screen
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,19 +10,24 @@ import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.util.extension.getStatusColorByTitle
 import com.example.taskplanner.databinding.RowProjectItemBinding
 
+typealias onProjectClick = (projectId: String) -> Unit
+
+
 class ProjectsAdapter : ListAdapter<Project, ProjectsAdapter.VH>(COMPARATOR) {
+
+    lateinit var onProjectClick: onProjectClick
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(RowProjectItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.onBind(getItem(position))
+        holder.onBind(getItem(position),onProjectClick)
     }
 
 
     class VH(private val binding: RowProjectItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(project: Project) {
+        fun onBind(project: Project,onProjectClick: onProjectClick) {
             with(binding) {
                 nameTextView.text = project.projectTitle
                 progressTextView.text = project.projectStatus
@@ -32,6 +37,9 @@ class ProjectsAdapter : ListAdapter<Project, ProjectsAdapter.VH>(COMPARATOR) {
                         project.projectStatus.getStatusColorByTitle()
                     )
                 )
+                openButton.setOnClickListener {
+                    project.projectId?.let { id -> onProjectClick.invoke(id) }
+                }
             }
         }
     }

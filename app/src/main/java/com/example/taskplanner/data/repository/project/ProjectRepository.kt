@@ -8,6 +8,7 @@ interface ProjectRepository {
     suspend fun setProject(project: Project): Resource<Unit>
 
     suspend fun getCurrentUserData(): Resource<User>
-
-    suspend fun getProjectsByUserId():Resource<List<Project>>
+    suspend fun getProjectById(projectId: String): Resource<Project>
+    suspend fun getProjectsByUserId(): Resource<List<Project>>
+    suspend fun deleteProjectById(projectId: String): Resource<Unit>
 }

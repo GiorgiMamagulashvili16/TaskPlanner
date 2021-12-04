@@ -32,8 +32,8 @@ class ProjectRepositoryImpl @Inject constructor(
                         userId,
                         projectTitle,
                         projectDescription,
-                        startDate,
-                        endDate
+                        startDate = startDate,
+                        endDate = endDate
                     )
                     projectCollection.document(projectId).set(projectForFirestore).await()
                     Resource.Success(Unit)
@@ -51,6 +51,15 @@ class ProjectRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getProjectById(projectId: String): Resource<Project> =
+        withContext(Dispatchers.IO) {
+            return@withContext fetchData {
+                val project =
+                    projectCollection.document(projectId).get().await().toObject<Project>()
+                Resource.Success(project!!)
+            }
+        }
+
     override suspend fun getProjectsByUserId(): Resource<List<Project>> =
         withContext(Dispatchers.IO) {
             return@withContext fetchData {
@@ -59,6 +68,14 @@ class ProjectRepositoryImpl @Inject constructor(
                     projectCollection.whereEqualTo(OWNER_ID_KEY, userId).get().await()
                         .toObjects<Project>()
                 Resource.Success(project)
+            }
+        }
+
+    override suspend fun deleteProjectById(projectId: String): Resource<Unit> =
+        withContext(Dispatchers.IO) {
+            return@withContext fetchData {
+                projectCollection.document(projectId).delete().await()
+                Resource.Success(Unit)
             }
         }
 

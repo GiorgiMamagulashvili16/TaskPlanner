@@ -14,7 +14,6 @@ import com.example.taskplanner.databinding.HomeFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
-import com.example.taskplanner.presentation.project_screen.ProjectsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,10 +30,21 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
 
     override fun onBindViewModel(viewModel: HomeViewModel) {
         viewModel.getCurrentUserData()
+        setListeners()
+        observeScreenState(viewModel)
+    }
+
+    private fun setListeners() {
+        projectAdapter.onProjectClick = { projectId ->
+            if (findNavController().currentDestination?.id == R.id.homeFragment) {
+                HomeFragmentDirections.actionHomeFragmentToProjectDetailFragment(projectId).also {
+                    findNavController().navigate(it)
+                }
+            }
+        }
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_createProjectFragment)
         }
-        observeScreenState(viewModel)
     }
 
     private fun observeScreenState(viewModel: HomeViewModel) {
