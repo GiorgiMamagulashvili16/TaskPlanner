@@ -69,29 +69,15 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
     }
 
     private fun observeEndDate(viewModel: CreateProjectViewModel) {
-        observeData(viewModel.endDate) {
+        liveDataObserver(viewModel.endDate) {
             binding.endTimeTextView.text = getString(string.txt_estimate_end_date, it)
         }
     }
 
     private fun observeStartDate(viewModel: CreateProjectViewModel) {
-        observeData(viewModel.startDate) {
+        liveDataObserver(viewModel.startDate) {
             binding.startTimeTextView.text = getString(string.txt_estimate_start_date, it)
         }
-    }
-
-    private fun setDatePicker(action: (date: String) -> Unit) {
-        val datePicker = DatePickerFragment()
-        requireActivity().supportFragmentManager.setFragmentResultListener(
-            BUNDLE_REQUEST_KEY,
-            viewLifecycleOwner
-        ) { requestKey, bundle ->
-            if (requestKey == BUNDLE_REQUEST_KEY) {
-                val date = bundle.getString(SELECTED_DATE_STRING_KEY).toString()
-                action.invoke(date)
-            }
-        }
-        datePicker.show(requireActivity().supportFragmentManager, DATE_PICKER_FRAGMENT_TAG)
     }
 
     private fun setInputsForProject(viewModel: CreateProjectViewModel) {

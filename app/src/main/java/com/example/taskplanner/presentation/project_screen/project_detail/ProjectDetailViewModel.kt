@@ -31,6 +31,35 @@ class ProjectDetailViewModel @Inject constructor(
     private val _deleteProjectState = MutableStateFlow(ScreenState<Unit>())
     val deleteProjectState: StateFlow<ScreenState<Unit>> = _deleteProjectState
 
+    private val _projectStatus = MutableLiveData<String>()
+    val projectStatus: LiveData<String> = _projectStatus
+
+    private val _startDate = MutableLiveData<String?>()
+    val startDate: LiveData<String?> = _startDate
+
+    private val _endDate = MutableLiveData<String?>()
+    val endDate: LiveData<String?> = _endDate
+
+    private val _editProjectDetailsState = MutableStateFlow(ScreenState<Unit>())
+    val editProjectDetailState: StateFlow<ScreenState<Unit>> = _editProjectDetailsState
+
+    fun setEstimateStartDate(date: String?) = viewModelScope.launch {
+        _startDate.postValue(date)
+    }
+
+    fun setEstimateEndDate(date: String?) = viewModelScope.launch {
+        _endDate.postValue(date)
+    }
+
+    fun editProjectDetailInfo(project: Project) = viewModelScope.launch {
+        _editProjectDetailsState.emit(ScreenState(isLoading = true))
+        handleResponse(projectRepository.editProjectInfo(project), _editProjectDetailsState)
+    }
+
+    fun setProjectStatus(newStatus: String) = viewModelScope.launch {
+        _projectStatus.postValue(newStatus)
+    }
+
     fun setProjectDetailData(projectId: String) = viewModelScope.launch {
         _projectDetailScreenState.emit(ScreenState(isLoading = true))
         handleResponse(projectRepository.getProjectById(projectId), _projectDetailScreenState)

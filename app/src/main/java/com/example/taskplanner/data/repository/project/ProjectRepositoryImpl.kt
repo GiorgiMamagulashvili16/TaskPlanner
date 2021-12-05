@@ -79,6 +79,21 @@ class ProjectRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun editProjectInfo(project: Project): Resource<Unit> =
+        withContext(Dispatchers.IO) {
+            return@withContext fetchData {
+                val projectInfoMap = mutableMapOf(
+                    "projectTitle" to project.projectTitle,
+                    "projectDescription" to project.projectDescription,
+                    "startDate" to project.startDate,
+                    "endDate" to project.endDate,
+                    "projectStatus" to project.projectStatus
+                )
+                projectCollection.document(project.projectId!!).update(projectInfoMap.toMap()).await()
+                Resource.Success(Unit)
+            }
+        }
+
     companion object {
         private const val PROJECT_COLLECTION_NAME = "Project"
         private const val USER_COLLECTION_NAME = "Users"

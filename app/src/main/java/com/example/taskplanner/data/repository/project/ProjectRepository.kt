@@ -11,4 +11,5 @@ interface ProjectRepository {
     suspend fun getProjectById(projectId: String): Resource<Project>
     suspend fun getProjectsByUserId(): Resource<List<Project>>
     suspend fun deleteProjectById(projectId: String): Resource<Unit>
+    suspend fun editProjectInfo(project: Project):Resource<Unit>
 }
