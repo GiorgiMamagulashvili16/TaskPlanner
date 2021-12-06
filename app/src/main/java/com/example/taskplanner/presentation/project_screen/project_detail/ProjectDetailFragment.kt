@@ -1,7 +1,6 @@
 package com.example.taskplanner.presentation.project_screen.project_detail
 
 import android.graphics.Color
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -41,14 +40,18 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
     private fun setListeners(viewModel: ProjectDetailViewModel) {
         with(binding) {
             editProjectButton.setOnClickListener {
-                listOf(titleEditText,descriptionEditText).forEach { view ->
+                listOf(titleEditText, descriptionEditText).forEach { view ->
                     view.enableOrDisableView()
                 }
-                listOf(submitButton,startDateChangeButton,endDateChangeButton).forEach { view ->
+                listOf(submitButton, startDateChangeButton, endDateChangeButton).forEach { view ->
                     view.changeVisibility()
                 }
-                listOf(titleEditText,descriptionEditText).forEach { view ->
-                    view.changeSameViewBackground(submitButton.isVisible,R.drawable.enabled_edit_text_background,R.drawable.edit_text_background)
+                listOf(titleEditText, descriptionEditText).forEach { view ->
+                    view.changeSameViewBackground(
+                        submitButton.isVisible,
+                        R.drawable.enabled_edit_text_background,
+                        R.drawable.edit_text_background
+                    )
                 }
                 statusChipGroup.setChipsEnabledOrDisabled(submitButton.isVisible)
             }
@@ -84,11 +87,7 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             if (state.success != null) {
                 setDetailData(state.success, viewModel)
             } else if (state.errorText != null) {
-                createSnackBar(state.errorText) {
-                    snackAction(Color.RED, getString(string.ok)) {
-                        dismiss()
-                    }
-                }
+                setSnackBar(state.errorText)
             }
         }
         setFabMotionAnimation()
@@ -99,11 +98,7 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             if (state.success != null) {
                 findNavController().navigate(R.id.action_projectDetailFragment_to_homeFragment)
             } else if (state.errorText != null) {
-                createSnackBar(state.errorText) {
-                    snackAction(Color.RED, getString(string.ok)) {
-                        dismiss()
-                    }
-                }
+                setSnackBar(state.errorText)
             }
         }
     }
@@ -123,18 +118,10 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
     private fun observeEditProjectDetailsResponseState(viewModel: ProjectDetailViewModel) {
         flowObserver(viewModel.editProjectDetailState) { state ->
             if (state.success != null) {
-                createSnackBar(SUCCESSFULLY_EDITED_PROJECT_MESSAGE) {
-                    snackAction(Color.GREEN, getString(string.ok)) {
-                        dismiss()
-                    }
-                }
+                setSnackBar(getString(string.successfully_edited_project))
                 findNavController().navigate(R.id.action_projectDetailFragment_to_homeFragment)
             } else if (state.errorText != null) {
-                createSnackBar(state.errorText) {
-                    snackAction(Color.GREEN, getString(string.ok)) {
-                        dismiss()
-                    }
-                }
+                setSnackBar(state.errorText)
             }
         }
     }
@@ -207,30 +194,27 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
         }
     }
 
+    private fun setSnackBar(message: String) {
+        createSnackBar(message) {
+            snackAction(Color.GREEN, getString(string.ok)) {
+                dismiss()
+            }
+        }
+    }
+
     private fun setFabMotionAnimation() {
         with(binding) {
             root.setActionOnSpecifiedProgress(TRANSITION_DEF_PROGRESS,
                 {
-                    moreOptionButton.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_more
-                        )
-                    )
+                    moreOptionButton.setDrawableImage(requireContext(), R.drawable.ic_more)
                 },
                 {
-                    moreOptionButton.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_close
-                        )
-                    )
+                    moreOptionButton.setDrawableImage(requireContext(), R.drawable.ic_close)
                 })
         }
     }
 
     companion object {
-        private const val SUCCESSFULLY_EDITED_PROJECT_MESSAGE = "successfully edited project info"
         private const val TRANSITION_DEF_PROGRESS = 0.4f
     }
 }

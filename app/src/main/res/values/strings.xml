@@ -44,4 +44,5 @@
     <string name="add_task">Add Task</string>
     <string name="submit">Submit</string>
     <string name="delete_project">Delete Project</string>
+    <string name="successfully_edited_project">successfully edited project info</string>
 </resources>

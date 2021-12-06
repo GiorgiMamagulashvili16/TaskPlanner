@@ -48,11 +48,7 @@ class RegistrationFragment :
                 if (state.success != null)
                     findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
                 else if (state.errorText != null) {
-                    createSnackBar(state.errorText) {
-                        snackAction(Color.RED, action = getString(string.ok)) {
-                            dismiss()
-                        }
-                    }
+                    setSnackBar(state.errorText)
                 }
             }
         }
@@ -128,8 +124,12 @@ class RegistrationFragment :
                     password = passwordEditText.text.toString()
                 )
             }
-        } ?: createSnackBar(getString(string.txt_please_choose_image)) {
-            snackAction(action = getString(string.ok)) {
+        } ?: setSnackBar(getString(string.txt_please_choose_image))
+    }
+
+    private fun setSnackBar(message: String) {
+        createSnackBar(message) {
+            snackAction(Color.GREEN, getString(string.ok)) {
                 dismiss()
             }
         }

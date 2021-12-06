@@ -83,13 +83,14 @@ class ProjectRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             return@withContext fetchData {
                 val projectInfoMap = mutableMapOf(
-                    "projectTitle" to project.projectTitle,
-                    "projectDescription" to project.projectDescription,
-                    "startDate" to project.startDate,
-                    "endDate" to project.endDate,
-                    "projectStatus" to project.projectStatus
+                    PROJECT_TITLE_KEY to project.projectTitle,
+                    PROJECT_DESCRIPTION_KEY to project.projectDescription,
+                    PROJECT_START_DATE_KEY to project.startDate,
+                    PROJECT_END_DATE_KEY to project.endDate,
+                    PROJECT_STATUS_KEY to project.projectStatus
                 )
-                projectCollection.document(project.projectId!!).update(projectInfoMap.toMap()).await()
+                projectCollection.document(project.projectId!!).update(projectInfoMap.toMap())
+                    .await()
                 Resource.Success(Unit)
             }
         }
@@ -98,5 +99,11 @@ class ProjectRepositoryImpl @Inject constructor(
         private const val PROJECT_COLLECTION_NAME = "Project"
         private const val USER_COLLECTION_NAME = "Users"
         private const val OWNER_ID_KEY = "ownerId"
+
+        private const val PROJECT_TITLE_KEY = "projectTitle"
+        private const val PROJECT_DESCRIPTION_KEY = "projectDescription"
+        private const val PROJECT_START_DATE_KEY = "startDate"
+        private const val PROJECT_END_DATE_KEY = "endDate"
+        private const val PROJECT_STATUS_KEY = "projectStatus"
     }
 }

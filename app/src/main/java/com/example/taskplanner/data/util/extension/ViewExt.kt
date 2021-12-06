@@ -1,6 +1,11 @@
 package com.example.taskplanner.data.util.extension
 
+import android.content.Context
 import android.view.View
+import android.widget.ImageButton
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 
 fun View.enableOrDisableView() {
@@ -22,4 +27,12 @@ fun View.changeSameViewBackground(
         else
             defaultBackground
     )
+}
+
+fun AppCompatTextView.setColorOnText(color: Int) {
+    this.setTextColor(ContextCompat.getColor(this.context, color))
+}
+
+fun ImageButton.setDrawableImage(context: Context, drawable: Int) {
+    this.setImageDrawable(AppCompatResources.getDrawable(context, drawable))
 }

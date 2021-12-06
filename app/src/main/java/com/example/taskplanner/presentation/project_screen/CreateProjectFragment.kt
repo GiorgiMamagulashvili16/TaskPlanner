@@ -95,24 +95,16 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
 
     private fun setFabIconChangeListener() {
         with(binding) {
-            root.setActionOnSpecifiedProgress(0.4f,
+            root.setActionOnSpecifiedProgress(TRANSITION_DEF_PROGRESS,
                 {
-                    timePickerFloatingButton.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_add_clock
-                        )
-                    )
+                    timePickerFloatingButton.setDrawableImage(requireContext(),R.drawable.ic_add_clock)
                 },
                 {
-                    timePickerFloatingButton.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_close
-                        )
-                    )
+                    timePickerFloatingButton.setDrawableImage(requireContext(),R.drawable.ic_close)
                 })
         }
     }
-
+    companion object{
+        private const val TRANSITION_DEF_PROGRESS = 0.4f
+    }
 }
