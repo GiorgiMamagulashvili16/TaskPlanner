@@ -34,6 +34,41 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
         observeProjectDeleteState(viewModel)
         setChipStatus(viewModel)
         observeEditProjectDetailsResponseState(viewModel)
+        observeStartDate(viewModel)
+        observeEndDate(viewModel)
+    }
+
+    private fun setListeners(viewModel: ProjectDetailViewModel) {
+        with(binding) {
+            editProjectButton.setOnClickListener {
+                enableOrDisableViews(titleEditText, descriptionEditText)
+                viewsVisibilityChanger(submitButton, startDateChangeButton, endDateChangeButton)
+                changeSameViewBackground(
+                    titleEditText,
+                    descriptionEditText,
+                    isEnabled = submitButton.isVisible,
+                    enabledBackground = R.drawable.enabled_edit_text_background,
+                    defaultBackground = R.drawable.edit_text_background
+                )
+                statusChipGroup.setChipsEnabledOrDisabled(submitButton.isVisible)
+            }
+            deleteProjectButton.setOnClickListener {
+                viewModel.projectId.value?.let { id -> viewModel.deleteProject(id) }
+            }
+            startDateChangeButton.setOnClickListener {
+                setDatePicker {
+                    viewModel.setEstimateStartDate(it)
+                }
+            }
+            endDateChangeButton.setOnClickListener {
+                setDatePicker {
+                    viewModel.setEstimateEndDate(it)
+                }
+            }
+            submitButton.setOnClickListener {
+                updateProjectData(viewModel)
+            }
+        }
     }
 
     private fun observeProjectId(viewModel: ProjectDetailViewModel) {
@@ -73,65 +108,22 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
         }
     }
 
-    private fun setFabMotionAnimation() {
-        with(binding) {
-            root.setActionOnSpecifiedProgress(0.4f,
-                {
-                    moreOptionButton.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_more
-                        )
-                    )
-                },
-                {
-                    moreOptionButton.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_close
-                        )
-                    )
-                })
+    private fun observeStartDate(viewModel: ProjectDetailViewModel) {
+        liveDataObserver(viewModel.startDate) {
+            binding.startDateTextView.text = getString(string.txt_estimate_start_date, it)
         }
     }
 
-    private fun setListeners(viewModel: ProjectDetailViewModel) {
-        with(binding) {
-            editProjectButton.setOnClickListener {
-                enableOrDisableViews(titleEditText, descriptionEditText)
-                viewsVisibilityChanger(submitButton, startDateChangeButton, endDateChangeButton)
-                changeSameViewBackground(
-                    titleEditText,
-                    descriptionEditText,
-                    isEnabled = submitButton.isVisible,
-                    enabledBackground = R.drawable.enabled_edit_text_background,
-                    defaultBackground = R.drawable.edit_text_background
-                )
-                statusChipGroup.setChipsEnabledOrDisabled(submitButton.isVisible)
-            }
-            deleteProjectButton.setOnClickListener {
-                viewModel.projectId.value?.let { id -> viewModel.deleteProject(id) }
-            }
-            startDateChangeButton.setOnClickListener {
-                setDatePicker {
-                    viewModel.setEstimateStartDate(it)
-                }
-            }
-            endDateChangeButton.setOnClickListener {
-                setDatePicker {
-                    viewModel.setEstimateEndDate(it)
-                }
-            }
-            submitButton.setOnClickListener {
-                updateProjectData(viewModel)
-            }
+    private fun observeEndDate(viewModel: ProjectDetailViewModel) {
+        liveDataObserver(viewModel.endDate) {
+            binding.endDateTextView.text = getString(string.txt_estimate_end_date, it)
         }
     }
 
     private fun observeEditProjectDetailsResponseState(viewModel: ProjectDetailViewModel) {
         flowObserver(viewModel.editProjectDetailState) { state ->
             if (state.success != null) {
-                createSnackBar("successfully edited project info") {
+                createSnackBar(SUCCESSFULLY_EDITED_PROJECT_MESSAGE) {
                     snackAction(Color.GREEN, getString(string.ok)) {
                         dismiss()
                     }
@@ -155,7 +147,8 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                     projectTitle = titleEditText.text.toString(),
                     projectDescription = descriptionEditText.text.toString(),
                     startDate = startDate.value,
-                    endDate = endDate.value
+                    endDate = endDate.value,
+                    projectStatus = projectStatus.value!!
                 )
                 editProjectDetailInfo(project)
             }
@@ -212,5 +205,32 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                 }
             }
         }
+    }
+
+    private fun setFabMotionAnimation() {
+        with(binding) {
+            root.setActionOnSpecifiedProgress(TRANSITION_DEF_PROGRESS,
+                {
+                    moreOptionButton.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_more
+                        )
+                    )
+                },
+                {
+                    moreOptionButton.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_close
+                        )
+                    )
+                })
+        }
+    }
+
+    companion object {
+        private const val SUCCESSFULLY_EDITED_PROJECT_MESSAGE = "successfully edited project info"
+        private const val TRANSITION_DEF_PROGRESS = 0.4f
     }
 }
