@@ -67,31 +67,3 @@ fun Fragment.setDatePicker(action: (date:String) -> Unit){
     }
     datePicker.show(requireActivity().supportFragmentManager, Constants.DATE_PICKER_FRAGMENT_TAG)
 }
-
-fun Fragment.enableOrDisableViews(vararg views: View) {
-    views.forEach { view ->
-        view.isEnabled = !view.isEnabled
-    }
-}
-
-fun Fragment.viewsVisibilityChanger(vararg views: View) {
-    views.forEach { view ->
-        view.isVisible = !view.isVisible
-    }
-}
-
-fun Fragment.changeSameViewBackground(
-    vararg views: View,
-    isEnabled: Boolean,
-    enabledBackground: Int,
-    defaultBackground: Int
-) {
-    views.forEach { view ->
-        view.setBackgroundResource(
-            if (isEnabled)
-                enabledBackground
-            else
-                defaultBackground
-        )
-    }
-}

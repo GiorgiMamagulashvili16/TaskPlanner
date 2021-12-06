@@ -41,15 +41,15 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
     private fun setListeners(viewModel: ProjectDetailViewModel) {
         with(binding) {
             editProjectButton.setOnClickListener {
-                enableOrDisableViews(titleEditText, descriptionEditText)
-                viewsVisibilityChanger(submitButton, startDateChangeButton, endDateChangeButton)
-                changeSameViewBackground(
-                    titleEditText,
-                    descriptionEditText,
-                    isEnabled = submitButton.isVisible,
-                    enabledBackground = R.drawable.enabled_edit_text_background,
-                    defaultBackground = R.drawable.edit_text_background
-                )
+                listOf(titleEditText,descriptionEditText).forEach { view ->
+                    view.enableOrDisableView()
+                }
+                listOf(submitButton,startDateChangeButton,endDateChangeButton).forEach { view ->
+                    view.changeVisibility()
+                }
+                listOf(titleEditText,descriptionEditText).forEach { view ->
+                    view.changeSameViewBackground(submitButton.isVisible,R.drawable.enabled_edit_text_background,R.drawable.edit_text_background)
+                }
                 statusChipGroup.setChipsEnabledOrDisabled(submitButton.isVisible)
             }
             deleteProjectButton.setOnClickListener {
