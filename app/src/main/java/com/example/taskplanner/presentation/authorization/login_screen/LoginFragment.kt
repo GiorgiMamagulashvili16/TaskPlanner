@@ -29,7 +29,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginViewModel>() {
     }
 
     private fun observeLoginResponse(viewModel: LoginViewModel) {
-        flowObserver(viewModel.loginScreenState) { state ->
+        flowObserver(viewModel.authScreenState) { state ->
             with(binding) {
                 loadingProgressBar.isVisible = state.isLoading
                 if (state.success != null)

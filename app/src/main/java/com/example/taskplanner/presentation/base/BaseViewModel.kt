@@ -13,18 +13,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class BaseViewModel @Inject constructor(
-    protected val resourcesProvider: ResourcesProvider
+    val resourcesProvider: ResourcesProvider
 ) : ViewModel() {
 
-    protected fun checkIfIsEmpty(input: String): Boolean {
+    fun checkIfIsEmpty(input: String): Boolean {
         return input.trim().isBlank()
     }
 
-    protected fun validateEmail(email: String): Boolean {
+    fun validateEmail(email: String): Boolean {
         return !checkIfIsEmpty(email) && email.isValidEmail()
     }
 
-    protected fun checkIfIsNull(input: String?): Boolean {
+     fun checkIfIsNull(input: String?): Boolean {
         return input == null
     }
 

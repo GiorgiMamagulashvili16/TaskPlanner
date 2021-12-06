@@ -6,8 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.repository.project.ProjectRepository
-import com.example.taskplanner.data.util.ResourcesProvider
-import com.example.taskplanner.presentation.base.BaseViewModel
+import com.example.taskplanner.presentation.base.ProjectBaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,7 +19,7 @@ import javax.inject.Inject
 class ProjectDetailViewModel @Inject constructor(
     @ApplicationContext appCtx: Context,
     private val projectRepository: ProjectRepository
-) : BaseViewModel(ResourcesProvider(appCtx)) {
+) : ProjectBaseViewModel(appCtx) {
 
     private val _projectId = MutableLiveData<String?>()
     val projectId: LiveData<String?> = _projectId
@@ -34,22 +33,8 @@ class ProjectDetailViewModel @Inject constructor(
     private val _projectStatus = MutableLiveData<String>()
     val projectStatus: LiveData<String> = _projectStatus
 
-    private val _startDate = MutableLiveData<String?>()
-    val startDate: LiveData<String?> = _startDate
-
-    private val _endDate = MutableLiveData<String?>()
-    val endDate: LiveData<String?> = _endDate
-
     private val _editProjectDetailsState = MutableStateFlow(ScreenState<Unit>())
     val editProjectDetailState: StateFlow<ScreenState<Unit>> = _editProjectDetailsState
-
-    fun setEstimateStartDate(date: String?) = viewModelScope.launch {
-        _startDate.postValue(date)
-    }
-
-    fun setEstimateEndDate(date: String?) = viewModelScope.launch {
-        _endDate.postValue(date)
-    }
 
     fun editProjectDetailInfo(project: Project) = viewModelScope.launch {
         _editProjectDetailsState.emit(ScreenState(isLoading = true))

@@ -3,10 +3,9 @@ package com.example.taskplanner.presentation.authorization.login_screen
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl
-import com.example.taskplanner.data.util.ResourcesProvider
-import com.example.taskplanner.presentation.screen_state.ScreenState
 import com.example.taskplanner.presentation.authorization.registration_screen.string
-import com.example.taskplanner.presentation.base.BaseViewModel
+import com.example.taskplanner.presentation.base.AuthBaseViewModel
+import com.example.taskplanner.presentation.screen_state.ScreenState
 import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,20 +18,17 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepositoryImpl,
     @ApplicationContext appCtx: Context
-) : BaseViewModel(ResourcesProvider(appCtx)) {
-
-    private val _loginScreenState = MutableStateFlow(ScreenState<AuthResult>())
-    val loginScreenState: StateFlow<ScreenState<AuthResult>> = _loginScreenState
+) : AuthBaseViewModel(appCtx) {
 
     fun logIn(email: String, password: String) = viewModelScope.launch {
-        _loginScreenState.emit(ScreenState(isLoading = true))
+        _authScreenState.emit(ScreenState(isLoading = true))
         if (checkIfIsEmpty(email) || checkIfIsEmpty(password)) {
-            _loginScreenState.emit(ScreenState(errorText = resourcesProvider.getString(string.please_fill_all_fields)))
+            _authScreenState.emit(ScreenState(errorText = resourcesProvider.getString(string.please_fill_all_fields)))
         } else {
             if (validateEmail(email)) {
-                handleResponse(authRepository.logIn(email, password), _loginScreenState)
+                handleResponse(authRepository.logIn(email, password), _authScreenState)
             } else {
-                _loginScreenState.emit(ScreenState(errorText = resourcesProvider.getString(string.please_enter_valid_email)))
+                _authScreenState.emit(ScreenState(errorText = resourcesProvider.getString(string.please_enter_valid_email)))
             }
         }
     }

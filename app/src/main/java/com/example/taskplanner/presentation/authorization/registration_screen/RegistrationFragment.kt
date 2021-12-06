@@ -42,7 +42,7 @@ class RegistrationFragment :
     }
 
     private fun observeSignUp(viewModel: RegistrationViewModel) {
-        flowObserver(viewModel.registerScreenState) { state ->
+        flowObserver(viewModel.authScreenState) { state ->
             with(binding) {
                 loadingProgressBar.isVisible = state.isLoading
                 if (state.success != null)

@@ -181,8 +181,8 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                 }
             }
             with(viewModel) {
-                setEstimateStartDate(project.startDate)
-                setEstimateEndDate(project.endDate)
+                setEstimateStartDate(project.startDate!!)
+                setEstimateEndDate(project.endDate!!)
                 setProjectStatus(project.projectStatus)
             }
             statusChipGroup.setChipsDisabled()
