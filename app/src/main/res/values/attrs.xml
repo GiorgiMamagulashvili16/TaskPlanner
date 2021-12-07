@@ -2,7 +2,7 @@
 <resources>
     <declare-styleable name="CustomTextInputLayout">
         <attr name="android:inputType" />
-        <attr name="hintText" format="string" />
-        <attr name="maxLines" format="integer" />
+        <attr name="android:hint" />
+        <attr name="android:maxLines" />
     </declare-styleable>
 </resources>
