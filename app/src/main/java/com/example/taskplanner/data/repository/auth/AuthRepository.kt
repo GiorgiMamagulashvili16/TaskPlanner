@@ -7,7 +7,7 @@ import com.google.firebase.auth.AuthResult
 interface AuthRepository {
 
     suspend fun signUp(
-        user: User, password: String
+        user: User
     ): Resource<AuthResult>
 
     suspend fun logIn(

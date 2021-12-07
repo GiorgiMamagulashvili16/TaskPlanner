@@ -119,9 +119,9 @@ class RegistrationFragment :
                         username = usernameInputLayout.editText.text.toString(),
                         email = emailInputLayout.editText.text.toString(),
                         job = jobInputLayout.editText.text.toString(),
-                        profileImageUrl = it.toString()
+                        profileImageUrl = it.toString(),
+                        password = passwordEditText.text.toString()
                     ),
-                    password = passwordEditText.text.toString()
                 )
             }
         } ?: setSnackBar(getString(string.txt_please_choose_image))

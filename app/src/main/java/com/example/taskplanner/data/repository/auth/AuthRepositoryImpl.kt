@@ -19,10 +19,10 @@ class AuthRepositoryImpl @Inject constructor(
     private val storage: FirebaseStorage
 ) : AuthRepository {
     private val userCollection = fireStore.collection(USER_COLLECTION_NAME)
-    override suspend fun signUp(user: User, password: String): Resource<AuthResult> =
+    override suspend fun signUp(user: User): Resource<AuthResult> =
         withContext(Dispatchers.IO) {
             return@withContext fetchData {
-                val result = auth.createUserWithEmailAndPassword(user.email!!, password).await()
+                val result = auth.createUserWithEmailAndPassword(user.email!!, user.password!!).await()
                 val userId = result.user?.uid!!
                 val uploadImage =
                     storage.getReference(userId).putFile(Uri.parse(user.profileImageUrl)).await()
