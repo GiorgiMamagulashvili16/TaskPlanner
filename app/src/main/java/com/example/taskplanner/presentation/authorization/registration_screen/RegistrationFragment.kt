@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
+import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.util.PermissionManager
 import com.example.taskplanner.data.util.extension.*
 import com.example.taskplanner.databinding.RegistrationFragmentBinding
@@ -41,17 +42,13 @@ class RegistrationFragment :
     }
 
     private fun observeSignUp(viewModel: RegistrationViewModel) {
-        flowObserver(viewModel.screenState) { state ->
+        flowObserver(viewModel.authScreenState) { state ->
             with(binding) {
                 loadingProgressBar.isVisible = state.isLoading
-                if (state.isSuccess)
+                if (state.success != null)
                     findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
                 else if (state.errorText != null) {
-                    createSnackBar(state.errorText) {
-                        snackAction(Color.RED, action = getString(string.ok)) {
-                            dismiss()
-                        }
-                    }
+                    setSnackBar(state.errorText)
                 }
             }
         }
@@ -118,15 +115,21 @@ class RegistrationFragment :
         viewModel.imageUri.value?.let {
             with(binding) {
                 viewModel.signUp(
-                    username = usernameInputLayout.editText.text.toString(),
-                    password = passwordEditText.text.toString(),
-                    email = emailInputLayout.editText.text.toString(),
-                    job = jobInputLayout.editText.text.toString(),
-                    it
+                    User(
+                        username = usernameInputLayout.editText.text.toString(),
+                        email = emailInputLayout.editText.text.toString(),
+                        job = jobInputLayout.editText.text.toString(),
+                        profileImageUrl = it.toString(),
+                        password = passwordEditText.text.toString()
+                    ),
                 )
             }
-        } ?: createSnackBar(getString(string.txt_please_choose_image)) {
-            snackAction(action = getString(string.ok)) {
+        } ?: setSnackBar(getString(string.txt_please_choose_image))
+    }
+
+    private fun setSnackBar(message: String) {
+        createSnackBar(message) {
+            snackAction(Color.GREEN, getString(string.ok)) {
                 dismiss()
             }
         }

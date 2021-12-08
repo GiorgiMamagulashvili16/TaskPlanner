@@ -38,13 +38,12 @@ class CustomTextInputLayout @JvmOverloads constructor(
         with(attributes) {
             inputType =
                 getInt(R.styleable.CustomTextInputLayout_android_inputType, EditorInfo.TYPE_NULL)
-            maxLines = getInt(R.styleable.CustomTextInputLayout_maxLines, 1)
-            hintText = getString(R.styleable.CustomTextInputLayout_hintText).toString()
+            maxLines = getInt(R.styleable.CustomTextInputLayout_android_maxLines, 1)
+            hintText = getString(R.styleable.CustomTextInputLayout_android_hint).toString()
         }
         setEditTextParams(maxLines, inputType)
         setTextInputLayoutParams(hintText)
     }
-
     private fun setEditTextParams(lines: Int = 1, editTextInputType: Int) {
         with(editText) {
             maxLines = lines

@@ -43,8 +43,8 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="35dp"
             android:layout_marginEnd="35dp"
+            android:hint="@string/enter_username"
             android:inputType="text"
-            app:hintText="@string/enter_username"
             app:layout_constraintTop_toBottomOf="@id/addImageTextView" />
 
         <com.example.taskplanner.presentation.custom_view.CustomTextInputLayout
@@ -54,8 +54,8 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="35dp"
+            android:hint="@string/enter_email"
             android:inputType="textEmailAddress"
-            app:hintText="@string/enter_email"
             app:layout_constraintTop_toBottomOf="@id/usernameInputLayout" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -129,9 +129,9 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="35dp"
+            android:hint="@string/txt_i_am_a"
             android:inputType="text"
             android:visibility="invisible"
-            app:hintText="@string/txt_i_am_a"
             app:layout_constraintTop_toBottomOf="@id/jobTextView" />
 
         <androidx.appcompat.widget.AppCompatImageButton

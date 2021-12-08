@@ -10,4 +10,6 @@
     <color name="bg_blue">#004481</color>
     <color name="bg_light_blue">#E5F0F6</color>
     <color name="button_bg_blue">#4CABCE</color>
+    <color name="todo_gray">#839BB1</color>
+    <color name="light_green">#90ee90</color>
 </resources>

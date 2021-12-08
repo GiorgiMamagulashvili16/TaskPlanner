@@ -43,9 +43,9 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="35dp"
         android:inputType="textEmailAddress"
-        app:hintText="@string/enter_email"
+        android:hint="@string/enter_email"
         app:layout_constraintTop_toBottomOf="@id/textWelcomeTextView"
-        app:maxLines="1" />
+        android:maxLines="1" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInputLayout"

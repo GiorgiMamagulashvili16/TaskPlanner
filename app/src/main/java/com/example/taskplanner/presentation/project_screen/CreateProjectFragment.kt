@@ -1,10 +1,11 @@
-package com.example.taskplanner.presentation.new_project_screen
+package com.example.taskplanner.presentation.project_screen
 
 import android.graphics.Color
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
+import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.util.Constants.BUNDLE_REQUEST_KEY
 import com.example.taskplanner.data.util.Constants.DATE_PICKER_FRAGMENT_TAG
 import com.example.taskplanner.data.util.Constants.SELECTED_DATE_STRING_KEY
@@ -53,9 +54,9 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
     }
 
     private fun observeScreenState(viewModel: CreateProjectViewModel) {
-        flowObserver(viewModel.screenState) { state ->
+        flowObserver(viewModel.createScreenState) { state ->
             binding.loadingProgressBar.isVisible = state.isLoading
-            if (state.isSuccess) {
+            if (state.success != null) {
                 findNavController().navigate(R.id.action_createProjectFragment_to_homeFragment)
             } else if (state.errorText != null) {
                 createSnackBar(state.errorText) {
@@ -68,62 +69,42 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
     }
 
     private fun observeEndDate(viewModel: CreateProjectViewModel) {
-        observeData(viewModel.endDate) {
+        liveDataObserver(viewModel.endDate) {
             binding.endTimeTextView.text = getString(string.txt_estimate_end_date, it)
         }
     }
 
     private fun observeStartDate(viewModel: CreateProjectViewModel) {
-        observeData(viewModel.startDate) {
+        liveDataObserver(viewModel.startDate) {
             binding.startTimeTextView.text = getString(string.txt_estimate_start_date, it)
         }
-    }
-
-    private fun setDatePicker(action: (date: String) -> Unit) {
-        val datePicker = DatePickerFragment()
-        requireActivity().supportFragmentManager.setFragmentResultListener(
-            BUNDLE_REQUEST_KEY,
-            viewLifecycleOwner
-        ) { requestKey, bundle ->
-            if (requestKey == BUNDLE_REQUEST_KEY) {
-                val date = bundle.getString(SELECTED_DATE_STRING_KEY).toString()
-                action.invoke(date)
-            }
-        }
-        datePicker.show(requireActivity().supportFragmentManager, DATE_PICKER_FRAGMENT_TAG)
     }
 
     private fun setInputsForProject(viewModel: CreateProjectViewModel) {
         with(binding) {
             viewModel.setProject(
-                titleEditText.text.toString(),
-                descriptionEditText.text.toString(),
-                viewModel.startDate.value,
-                viewModel.endDate.value
+                Project(
+                    projectTitle = titleEditText.text.toString(),
+                    projectDescription = descriptionEditText.text.toString(),
+                    startDate = viewModel.startDate.value,
+                    endDate = viewModel.endDate.value
+                )
             )
         }
     }
 
     private fun setFabIconChangeListener() {
         with(binding) {
-            root.setActionOnSpecifiedProgress(0.4f,
+            root.setActionOnSpecifiedProgress(TRANSITION_DEF_PROGRESS,
                 {
-                    timePickerFloatingButton.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_add_clock
-                        )
-                    )
+                    timePickerFloatingButton.setDrawableImage(requireContext(),R.drawable.ic_add_clock)
                 },
                 {
-                    timePickerFloatingButton.setImageDrawable(
-                        AppCompatResources.getDrawable(
-                            requireContext(),
-                            R.drawable.ic_close
-                        )
-                    )
+                    timePickerFloatingButton.setDrawableImage(requireContext(),R.drawable.ic_close)
                 })
         }
     }
-
+    companion object{
+        private const val TRANSITION_DEF_PROGRESS = 0.4f
+    }
 }

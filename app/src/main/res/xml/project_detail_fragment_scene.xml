@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="750">
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnClick motion:targetId="@+id/moreOptionButton" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/deleteProjectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintCircleRadius="0dp"
+            motion:layout_constraintCircle="@id/moreOptionButton"
+            motion:layout_constraintCircleAngle="270"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/deleteProjectTextView"
+            motion:layout_constraintEnd_toStartOf="@+id/deleteProjectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@+id/deleteProjectButton"
+            android:layout_marginEnd="8dp"
+            motion:layout_constraintTop_toTopOf="@+id/deleteProjectButton"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0"
+            android:layout_marginRight="8dp"
+            motion:layout_constraintVertical_bias="0.533" />
+        <Constraint
+            android:id="@+id/editProjectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintCircleRadius="0dp"
+            motion:layout_constraintCircle="@id/moreOptionButton"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/editProjectTextView"
+            motion:layout_constraintEnd_toStartOf="@+id/editProjectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@+id/editProjectButton"
+            android:layout_marginEnd="8dp"
+            motion:layout_constraintTop_toTopOf="@+id/editProjectButton"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/addTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintCircleRadius="0dp"
+            motion:layout_constraintCircle="@id/moreOptionButton"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/addTaskTextView"
+            motion:layout_constraintEnd_toStartOf="@+id/addTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@+id/addTaskButton"
+            android:layout_marginEnd="8dp"
+            motion:layout_constraintTop_toTopOf="@+id/addTaskButton"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/moreOptionButton"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp" />
+    </ConstraintSet>
+</MotionScene>

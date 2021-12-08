@@ -5,39 +5,39 @@ import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.util.Resource
 import com.example.taskplanner.data.util.ResourcesProvider
 import com.example.taskplanner.data.util.extension.isValidEmail
-import com.example.taskplanner.presentation.authorization.registration_screen.ScreenState
+import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 open class BaseViewModel @Inject constructor(
-    protected val resourcesProvider: ResourcesProvider
+    val resourcesProvider: ResourcesProvider
 ) : ViewModel() {
-    protected val _screenState = MutableStateFlow(ScreenState())
-    val screenState: StateFlow<ScreenState> = _screenState
 
-    protected fun checkIfIsEmpty(input: String): Boolean {
+    fun checkIfIsEmpty(input: String): Boolean {
         return input.trim().isBlank()
     }
 
-    protected fun validateEmail(email: String): Boolean {
+    fun validateEmail(email: String): Boolean {
         return !checkIfIsEmpty(email) && email.isValidEmail()
     }
 
-    protected fun checkIfIsNull(input: String?): Boolean {
+     fun checkIfIsNull(input: String?): Boolean {
         return input == null
     }
 
-    protected fun <T> handleResponse(response: Resource<T>) = viewModelScope.launch {
+    protected fun <T> handleResponse(
+        response: Resource<T>,
+        flow: MutableStateFlow<ScreenState<T>>
+    ) = viewModelScope.launch {
         when (response) {
             is Resource.Success -> {
-                _screenState.emit(ScreenState(isSuccess = true))
+                flow.emit(ScreenState(success = response.data))
             }
             is Resource.Error -> {
-                _screenState.emit(ScreenState(errorText = response.errorMessage))
+                flow.emit(ScreenState(errorText = response.errorMessage))
             }
         }
     }

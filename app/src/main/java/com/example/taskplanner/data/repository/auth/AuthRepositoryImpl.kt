@@ -19,29 +19,25 @@ class AuthRepositoryImpl @Inject constructor(
     private val storage: FirebaseStorage
 ) : AuthRepository {
     private val userCollection = fireStore.collection(USER_COLLECTION_NAME)
-    override suspend fun signUp(
-        username: String,
-        password: String,
-        email: String,
-        job: String,
-        imageUri: Uri
-    ): Resource<AuthResult> = withContext(Dispatchers.IO) {
-        return@withContext fetchData {
-            val result = auth.createUserWithEmailAndPassword(email, password).await()
-            val userId = result.user?.uid!!
-            val uploadImage = storage.getReference(userId).putFile(imageUri).await()
-            val imageUrl = uploadImage?.metadata?.reference?.downloadUrl?.await().toString()
-            val user = User(
-                uid = userId,
-                username = username,
-                job = job,
-                email = email,
-                profileImageUrl = imageUrl
-            )
-            userCollection.document(userId).set(user).await()
-            Resource.Success(result)
+    override suspend fun signUp(user: User): Resource<AuthResult> =
+        withContext(Dispatchers.IO) {
+            return@withContext fetchData {
+                val result = auth.createUserWithEmailAndPassword(user.email!!, user.password!!).await()
+                val userId = result.user?.uid!!
+                val uploadImage =
+                    storage.getReference(userId).putFile(Uri.parse(user.profileImageUrl)).await()
+                val imageUrl = uploadImage?.metadata?.reference?.downloadUrl?.await().toString()
+                val userForFirestore = User(
+                    uid = userId,
+                    username = user.username,
+                    job = user.job,
+                    email = user.email,
+                    profileImageUrl = imageUrl
+                )
+                userCollection.document(userId).set(userForFirestore).await()
+                Resource.Success(result)
+            }
         }
-    }
 
     override suspend fun logIn(email: String, password: String): Resource<AuthResult> =
         withContext(Dispatchers.IO) {

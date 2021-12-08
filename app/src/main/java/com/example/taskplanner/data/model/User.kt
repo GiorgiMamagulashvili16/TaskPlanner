@@ -5,10 +5,11 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 data class User(
-    val username: String,
-    val uid: String,
-    val email: String,
-    val profileImageUrl: String,
+    val uid: String? = null,
+    val username: String? = null,
+    val email: String? = null,
+    val password: String? = null,
+    val profileImageUrl: String? = null,
     val job: String? = null,
     @get:Exclude var projects: List<Project>? = null,
 )
