@@ -30,8 +30,12 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
 
     override fun onBindViewModel(viewModel: HomeViewModel) {
         viewModel.getCurrentUserData()
+        viewModel.setTaskNumbers()
         setListeners()
         observeScreenState(viewModel)
+        observeDoneTaskNumber(viewModel)
+        observeTodoTaskNumbers(viewModel)
+        observeInProgressTaskNumber(viewModel)
     }
 
     private fun setListeners() {
@@ -44,6 +48,24 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
         }
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_createProjectFragment)
+        }
+    }
+
+    private fun observeTodoTaskNumbers(viewModel: HomeViewModel) {
+        flowObserver(viewModel.todoTaskNumber) {
+            binding.todoTasksCounterTextView.text = it.toString()
+        }
+    }
+
+    private fun observeInProgressTaskNumber(viewModel: HomeViewModel) {
+        flowObserver(viewModel.inProgressTaskNumber) {
+            binding.inProgressTasksCounterTextView.text = it.toString()
+        }
+    }
+
+    private fun observeDoneTaskNumber(viewModel: HomeViewModel) {
+        flowObserver(viewModel.doneTaskNumber) {
+            binding.doneTasksCounterTextView.text = it.toString()
         }
     }
 

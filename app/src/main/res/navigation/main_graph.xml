@@ -74,6 +74,22 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="projectId"
+            app:argType="string"
+            app:nullable="true"
+            />
+        <action
+            android:id="@+id/action_projectDetailFragment_to_createTaskFragment"
+            app:destination="@id/createTaskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createTaskFragment"
+        android:name="com.example.taskplanner.presentation.task_screen.CreateTaskFragment"
+        android:label="CreateTaskFragment" >
+        <action
+            android:id="@+id/action_createTaskFragment_to_projectDetailFragment"
+            app:destination="@id/projectDetailFragment" />
+        <argument
+            android:name="projectId"
             app:argType="string" />
     </fragment>
 </navigation>

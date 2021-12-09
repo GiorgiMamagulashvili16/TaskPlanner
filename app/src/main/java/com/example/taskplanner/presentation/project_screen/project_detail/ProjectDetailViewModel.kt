@@ -21,17 +21,14 @@ class ProjectDetailViewModel @Inject constructor(
     private val projectRepository: ProjectRepository
 ) : ProjectBaseViewModel(appCtx) {
 
-    private val _projectId = MutableLiveData<String?>()
-    val projectId: LiveData<String?> = _projectId
-
     private val _projectDetailScreenState = MutableStateFlow(ScreenState<Project>())
     val projectDetailScreenState: StateFlow<ScreenState<Project>> = _projectDetailScreenState
 
     private val _deleteProjectState = MutableStateFlow(ScreenState<Unit>())
     val deleteProjectState: StateFlow<ScreenState<Unit>> = _deleteProjectState
 
-    private val _projectStatus = MutableLiveData<String>()
-    val projectStatus: LiveData<String> = _projectStatus
+    private val _projectStatus = MutableLiveData<Int>()
+    val projectStatus: LiveData<Int> = _projectStatus
 
     private val _editProjectDetailsState = MutableStateFlow(ScreenState<Unit>())
     val editProjectDetailState: StateFlow<ScreenState<Unit>> = _editProjectDetailsState
@@ -41,7 +38,7 @@ class ProjectDetailViewModel @Inject constructor(
         handleResponse(projectRepository.editProjectInfo(project), _editProjectDetailsState)
     }
 
-    fun setProjectStatus(newStatus: String) = viewModelScope.launch {
+    fun setProjectStatus(newStatus: Int) = viewModelScope.launch {
         _projectStatus.postValue(newStatus)
     }
 
@@ -55,7 +52,5 @@ class ProjectDetailViewModel @Inject constructor(
         handleResponse(projectRepository.deleteProjectById(projectId), _deleteProjectState)
     }
 
-    fun setProjectId(projectId: String) = viewModelScope.launch {
-        _projectId.postValue(projectId)
-    }
+
 }

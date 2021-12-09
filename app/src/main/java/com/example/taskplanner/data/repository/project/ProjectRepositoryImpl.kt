@@ -2,6 +2,7 @@ package com.example.taskplanner.data.repository.project
 
 import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.model.User
+import com.example.taskplanner.data.repository.task.TaskRepository
 import com.example.taskplanner.data.util.Resource
 import com.example.taskplanner.data.util.fetchData
 import com.google.firebase.auth.FirebaseAuth
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 class ProjectRepositoryImpl @Inject constructor(
     private val fireStore: FirebaseFirestore,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val taskRepository: TaskRepository
 ) : ProjectRepository {
     private val projectCollection = fireStore.collection(PROJECT_COLLECTION_NAME)
     private val userCollection = fireStore.collection(USER_COLLECTION_NAME)
@@ -55,7 +57,9 @@ class ProjectRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             return@withContext fetchData {
                 val project =
-                    projectCollection.document(projectId).get().await().toObject<Project>()
+                    projectCollection.document(projectId).get().await()
+                        .toObject<Project>()
+                project?.subTasks = taskRepository.getTaskByProjectId(projectId).data
                 Resource.Success(project!!)
             }
         }

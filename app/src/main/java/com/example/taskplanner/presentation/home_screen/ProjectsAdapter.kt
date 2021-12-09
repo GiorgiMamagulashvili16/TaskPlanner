@@ -30,7 +30,7 @@ class ProjectsAdapter : ListAdapter<Project, ProjectsAdapter.VH>(COMPARATOR) {
         fun onBind(project: Project, onProjectClick: onProjectClick) {
             with(binding) {
                 nameTextView.text = project.projectTitle
-                progressTextView.text = project.projectStatus
+                progressTextView.text = root.context.getString(project.projectStatus)
                 progressTextView.setColorOnText(project.projectStatus.getStatusColorByTitle())
                 openButton.setOnClickListener {
                     project.projectId?.let { id -> onProjectClick.invoke(id) }

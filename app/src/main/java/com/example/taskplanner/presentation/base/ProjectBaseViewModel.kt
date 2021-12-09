@@ -21,6 +21,21 @@ open class ProjectBaseViewModel @Inject constructor(@ApplicationContext appCtx: 
     private val _endDate = MutableLiveData<String?>()
     val endDate: LiveData<String?> = _endDate
 
+    private val _status = MutableLiveData<Int>()
+    val status: LiveData<Int> = _status
+
+
+    private val _projectId = MutableLiveData<String?>()
+    val projectId: LiveData<String?> = _projectId
+
+    fun setProjectId(projectId: String) = viewModelScope.launch {
+        _projectId.postValue(projectId)
+    }
+
+    fun setStatus(newStatus: Int) = viewModelScope.launch {
+        _status.postValue(newStatus)
+    }
+
     fun setEstimateStartDate(date: String) = viewModelScope.launch {
         _startDate.postValue(date)
     }
