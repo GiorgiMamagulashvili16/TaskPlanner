@@ -1,6 +1,5 @@
 package com.example.taskplanner.data.repository.task
 
-import android.util.Log.d
 import com.example.taskplanner.data.model.Task
 import com.example.taskplanner.data.util.Resource
 import com.example.taskplanner.data.util.fetchData
@@ -47,7 +46,6 @@ class TaskRepositoryImpl @Inject constructor(
                     .toObjects<Task>().filter {
                         it.status == string.todo
                     }
-            d("RPOJDST","$data")
             Resource.Success(data.size)
         }
     }
@@ -59,7 +57,6 @@ class TaskRepositoryImpl @Inject constructor(
                     .toObjects<Task>().filter {
                         it.status == string.in_progress
                     }
-            d("RPOJDST","$data")
             Resource.Success(data.size)
         }
     }

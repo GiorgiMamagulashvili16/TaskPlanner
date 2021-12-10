@@ -10,5 +10,5 @@ data class Task(
     val taskDescription: String? = null,
     val startTime: String? = null,
     val endTime: String? = null,
-    val status: Int = Status.TODO.title
+    val status: Int = Status.TODO.ordinal
 )

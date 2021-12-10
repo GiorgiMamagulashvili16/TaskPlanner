@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskplanner.data.model.Project
-import com.example.taskplanner.data.util.extension.getStatusColorByTitle
+import com.example.taskplanner.data.util.extension.getStatusByOrdinal
 import com.example.taskplanner.data.util.extension.setColorOnText
 import com.example.taskplanner.databinding.RowProjectItemBinding
 
@@ -29,9 +29,10 @@ class ProjectsAdapter : ListAdapter<Project, ProjectsAdapter.VH>(COMPARATOR) {
     class VH(private val binding: RowProjectItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(project: Project, onProjectClick: onProjectClick) {
             with(binding) {
+                val ctx = root.context
                 nameTextView.text = project.projectTitle
-                progressTextView.text = root.context.getString(project.projectStatus)
-                progressTextView.setColorOnText(project.projectStatus.getStatusColorByTitle())
+                progressTextView.text = ctx.getString(ctx.getStatusByOrdinal(project.projectStatus).title)
+                progressTextView.setColorOnText(ctx.getStatusByOrdinal(project.projectStatus).color)
                 openButton.setOnClickListener {
                     project.projectId?.let { id -> onProjectClick.invoke(id) }
                 }

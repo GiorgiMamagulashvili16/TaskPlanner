@@ -31,14 +31,15 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
     override fun onBindViewModel(viewModel: HomeViewModel) {
         viewModel.getCurrentUserData()
         viewModel.setTaskNumbers()
-        setListeners()
+        setListeners(viewModel)
         observeScreenState(viewModel)
         observeDoneTaskNumber(viewModel)
         observeTodoTaskNumbers(viewModel)
         observeInProgressTaskNumber(viewModel)
+        observeLogOutResponse(viewModel)
     }
 
-    private fun setListeners() {
+    private fun setListeners(viewModel: HomeViewModel) {
         projectAdapter.onProjectClick = { projectId ->
             if (findNavController().currentDestination?.id == R.id.homeFragment) {
                 HomeFragmentDirections.actionHomeFragmentToProjectDetailFragment(projectId).also {
@@ -48,6 +49,9 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
         }
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_createProjectFragment)
+        }
+        binding.logOutButton.setOnClickListener {
+            viewModel.logOut()
         }
     }
 
@@ -66,6 +70,14 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
     private fun observeDoneTaskNumber(viewModel: HomeViewModel) {
         flowObserver(viewModel.doneTaskNumber) {
             binding.doneTasksCounterTextView.text = it.toString()
+        }
+    }
+
+    private fun observeLogOutResponse(viewModel: HomeViewModel) {
+        flowObserver(viewModel.logOut) {
+            it?.let {
+                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+            }
         }
     }
 

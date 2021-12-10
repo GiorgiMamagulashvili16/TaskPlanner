@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskplanner.data.model.Task
-import com.example.taskplanner.data.util.extension.getStatusColorByTitle
+import com.example.taskplanner.data.util.extension.getStatusByOrdinal
 import com.example.taskplanner.data.util.extension.setColorOnText
 import com.example.taskplanner.databinding.RowTaskItemBinding
 
@@ -23,9 +23,10 @@ class TaskAdapter : ListAdapter<Task, TaskAdapter.VH>(COMPARATOR) {
     class VH(private val binding: RowTaskItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(task: Task) {
             with(binding) {
+                val ctx = root.context
                 taskTitleTextView.text = task.taskTitle
-                statusTextView.text = root.context.getString(task.status)
-                statusTextView.setColorOnText(task.status.getStatusColorByTitle())
+                statusTextView.text = ctx.getString(ctx.getStatusByOrdinal(task.status).title)
+                statusTextView.setColorOnText(ctx.getStatusByOrdinal(task.status).color)
             }
         }
     }

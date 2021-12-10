@@ -22,14 +22,11 @@ class CreateProjectViewModel @Inject constructor(
     @ApplicationContext appCtx: Context
 ) : ProjectBaseViewModel(appCtx) {
 
-    private val _createProjectScreenState = MutableStateFlow(ScreenState<Unit>())
-    val createScreenState: StateFlow<ScreenState<Unit>> = _createProjectScreenState
-
     fun setProject(project: Project) = viewModelScope.launch {
         with(project) {
             when {
                 checkIfIsNull(startDate) || checkIfIsNull(endDate) -> {
-                    _createProjectScreenState.emit(
+                    mUploadItemState.emit(
                         ScreenState(
                             errorText = resourcesProvider.getString(
                                 string.please_choose_estimate_time
@@ -38,7 +35,7 @@ class CreateProjectViewModel @Inject constructor(
                     )
                 }
                 checkIfIsEmpty(projectTitle!!) || checkIfIsEmpty(projectDescription!!) -> {
-                    _createProjectScreenState.emit(
+                    mUploadItemState.emit(
                         ScreenState(
                             errorText = resourcesProvider.getString(
                                 string.please_fill_all_fields
@@ -49,7 +46,7 @@ class CreateProjectViewModel @Inject constructor(
                 else -> {
                     handleResponse(
                         projectRepository.setProject(project),
-                        _createProjectScreenState
+                        mUploadItemState
                     )
                 }
             }

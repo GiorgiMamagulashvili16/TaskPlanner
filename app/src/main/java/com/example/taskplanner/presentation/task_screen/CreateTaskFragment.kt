@@ -52,11 +52,10 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
             }
         }
         setUpScreen()
-        setFabIconChangeListener()
     }
 
     private fun observeScreenState(viewModel: CreateTaskViewModel) {
-        flowObserver(viewModel.createTaskScreenState) { state ->
+        flowObserver(viewModel.uploadItemState) { state ->
             binding.loadingProgressBar.isVisible = state.isLoading
             if (state.success != null) {
                 CreateTaskFragmentDirections.actionCreateTaskFragmentToProjectDetailFragment(
@@ -118,6 +117,7 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
             descriptionInputLayout.hint = getString(string.task_description)
             createNewProjectTextView.text = getString(string.create_new_task)
         }
+        setFabIconChangeListener()
     }
 
     companion object {

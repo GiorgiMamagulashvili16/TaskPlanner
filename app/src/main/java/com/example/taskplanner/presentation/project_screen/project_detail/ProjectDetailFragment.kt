@@ -1,7 +1,6 @@
 package com.example.taskplanner.presentation.project_screen.project_detail
 
 import android.graphics.Color
-import android.util.Log.d
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -84,14 +83,15 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                         findNavController().navigate(action)
                     }
                 }
-
+            }
+            backButton.setOnClickListener {
+                findNavController().navigate(R.id.action_projectDetailFragment_to_homeFragment)
             }
         }
     }
 
     private fun observeProjectId(viewModel: ProjectDetailViewModel) {
         liveDataObserver(viewModel.projectId) { projectId ->
-            d("PROJSDJSD","$projectId")
             if (projectId != null) {
                 viewModel.setProjectDetailData(projectId)
             }
@@ -151,7 +151,7 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                     projectDescription = descriptionEditText.text.toString(),
                     startDate = startDate.value,
                     endDate = endDate.value,
-                    projectStatus = projectStatus.value!!
+                    projectStatus = status.value!!
                 )
                 editProjectDetailInfo(project)
             }
@@ -166,27 +166,22 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                 startDateTextView.text = getString(string.txt_estimate_start_date, startDate)
                 endDateTextView.text = getString(string.txt_estimate_end_date, endDate)
 
-                Status.values().forEach { status ->
-                    if (projectStatus == status.title) {
-                        when (status) {
-                            Status.TODO -> {
-                                todoStateChip.isChecked = true
-                            }
-                            Status.DONE -> {
-                                doneStateChip.isChecked = true
-                            }
-                            Status.IN_PROGRESS -> {
-                                inProgressStateChip.isChecked = true
-                            }
-                        }
-
+                when (requireContext().getStatusByOrdinal(projectStatus)) {
+                    Status.TODO -> {
+                        todoStateChip.isChecked = true
+                    }
+                    Status.DONE -> {
+                        doneStateChip.isChecked = true
+                    }
+                    Status.IN_PROGRESS -> {
+                        inProgressStateChip.isChecked = true
                     }
                 }
             }
             with(viewModel) {
                 setEstimateStartDate(project.startDate!!)
                 setEstimateEndDate(project.endDate!!)
-                setProjectStatus(project.projectStatus)
+                setStatus(project.projectStatus)
             }
             statusChipGroup.setChipsDisabled()
             initTaskRecycle()
@@ -199,13 +194,13 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             with(viewModel) {
                 when (checkedId) {
                     R.id.todoStateChip -> {
-                        setProjectStatus(Status.TODO.title)
+                        setStatus(Status.TODO.ordinal)
                     }
                     R.id.inProgressStateChip -> {
-                        setProjectStatus(Status.IN_PROGRESS.title)
+                        setStatus(Status.IN_PROGRESS.ordinal)
                     }
                     R.id.doneStateChip -> {
-                        setProjectStatus(Status.DONE.title)
+                        setStatus(Status.DONE.ordinal)
                     }
                 }
             }

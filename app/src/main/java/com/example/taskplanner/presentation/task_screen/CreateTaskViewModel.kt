@@ -22,15 +22,11 @@ class CreateTaskViewModel @Inject constructor(
     private val taskRepository: TaskRepository
 ) : ProjectBaseViewModel(appCtx) {
 
-    private val _createTaskScreenState = MutableStateFlow(ScreenState<Unit>())
-    val createTaskScreenState: StateFlow<ScreenState<Unit>> = _createTaskScreenState
-
-
     fun setTask(task: Task) = viewModelScope.launch {
         with(task) {
             when {
                 checkIfIsNull(startTime) || checkIfIsNull(startTime) -> {
-                    _createTaskScreenState.emit(
+                    mUploadItemState.emit(
                         ScreenState(
                             errorText = resourcesProvider.getString(
                                 string.please_choose_estimate_time
@@ -39,7 +35,7 @@ class CreateTaskViewModel @Inject constructor(
                     )
                 }
                 checkIfIsEmpty(taskTitle!!) || checkIfIsEmpty(taskDescription!!) -> {
-                    _createTaskScreenState.emit(
+                    mUploadItemState.emit(
                         ScreenState(
                             errorText = resourcesProvider.getString(
                                 string.please_fill_all_fields
@@ -50,7 +46,7 @@ class CreateTaskViewModel @Inject constructor(
                 else -> {
                     handleResponse(
                         taskRepository.setTask(task),
-                        _createTaskScreenState
+                        mUploadItemState
                     )
                 }
             }
