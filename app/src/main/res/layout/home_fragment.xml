@@ -78,6 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/backgroundView" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/taskNumberCard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="15dp"
@@ -210,8 +211,8 @@
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/bg_blue"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/taskNumberCard" />
 </androidx.constraintlayout.widget.ConstraintLayout>

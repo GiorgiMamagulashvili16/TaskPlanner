@@ -1,8 +1,6 @@
 package com.example.taskplanner.presentation.task_screen
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.model.Task
 import com.example.taskplanner.data.repository.task.TaskRepository
@@ -11,8 +9,6 @@ import com.example.taskplanner.presentation.base.ProjectBaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,7 +21,7 @@ class CreateTaskViewModel @Inject constructor(
     fun setTask(task: Task) = viewModelScope.launch {
         with(task) {
             when {
-                checkIfIsNull(startTime) || checkIfIsNull(startTime) -> {
+                checkIfIsNull(startTime) || checkIfIsNull(endTime) -> {
                     mUploadItemState.emit(
                         ScreenState(
                             errorText = resourcesProvider.getString(
