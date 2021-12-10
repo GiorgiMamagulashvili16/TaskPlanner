@@ -166,7 +166,7 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                 startDateTextView.text = getString(string.txt_estimate_start_date, startDate)
                 endDateTextView.text = getString(string.txt_estimate_end_date, endDate)
 
-                when (requireContext().getStatusByOrdinal(projectStatus)) {
+                when (projectStatus.getStatusByOrdinal()) {
                     Status.TODO -> {
                         todoStateChip.isChecked = true
                     }

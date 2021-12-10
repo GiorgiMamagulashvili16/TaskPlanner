@@ -31,8 +31,9 @@ class ProjectsAdapter : ListAdapter<Project, ProjectsAdapter.VH>(COMPARATOR) {
             with(binding) {
                 val ctx = root.context
                 nameTextView.text = project.projectTitle
-                progressTextView.text = ctx.getString(ctx.getStatusByOrdinal(project.projectStatus).title)
-                progressTextView.setColorOnText(ctx.getStatusByOrdinal(project.projectStatus).color)
+                progressTextView.text =
+                    ctx.getString(project.projectStatus.getStatusByOrdinal().title)
+                progressTextView.setColorOnText(project.projectStatus.getStatusByOrdinal().color)
                 openButton.setOnClickListener {
                     project.projectId?.let { id -> onProjectClick.invoke(id) }
                 }

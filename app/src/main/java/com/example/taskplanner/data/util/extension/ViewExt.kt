@@ -33,10 +33,6 @@ fun View.changeVisibilityByParam(visibilityParam: Boolean) {
     isVisible = visibilityParam
 }
 
-fun AppCompatTextView.setColorOnText(color: Int) {
-    this.setTextColor(ContextCompat.getColor(this.context, color))
-}
-
 fun ImageButton.setDrawableImage(context: Context, drawable: Int) {
     this.setImageDrawable(AppCompatResources.getDrawable(context, drawable))
 }
