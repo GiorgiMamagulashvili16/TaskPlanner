@@ -12,4 +12,7 @@
     <color name="button_bg_blue">#4CABCE</color>
     <color name="todo_gray">#839BB1</color>
     <color name="light_green">#90ee90</color>
+    <color name="bg_green">#49d17c</color>
+    <color name="bg_purple">#735fda</color>
+    <color name="bg_color_light_blue">#4cabce</color>
 </resources>

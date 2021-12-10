@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:cardBackgroundColor="@color/bg_blue"
+        android:id="@+id/backgroundView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:cardCornerRadius="99dp">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/numberTextView"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textSize="31sp"
+            app:layout_constraintBottom_toBottomOf="@+id/backgroundView"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundView"
+            app:layout_constraintStart_toStartOf="@+id/backgroundView"
+            app:layout_constraintTop_toTopOf="@+id/backgroundView"
+            tools:text="1" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundView"
+        android:layout_marginTop="7dp"
+        android:id="@+id/statusTextView"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="@+id/backgroundView"
+        app:layout_constraintTop_toBottomOf="@+id/backgroundView"
+        tools:text="ToDo" />
+</androidx.constraintlayout.widget.ConstraintLayout>
