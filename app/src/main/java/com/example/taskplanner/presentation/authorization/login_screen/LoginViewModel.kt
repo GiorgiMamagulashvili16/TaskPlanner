@@ -3,7 +3,6 @@ package com.example.taskplanner.presentation.authorization.login_screen
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl
-import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.AuthBaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import com.google.firebase.auth.AuthResult
@@ -20,16 +19,16 @@ class LoginViewModel @Inject constructor(
     @ApplicationContext appCtx: Context
 ) : AuthBaseViewModel(appCtx) {
 
+    private val _loginScreenState = MutableStateFlow(ScreenState<AuthResult>())
+    val loginScreenState: StateFlow<ScreenState<AuthResult>> = _loginScreenState
+
     fun logIn(email: String, password: String) = viewModelScope.launch {
-        _authScreenState.emit(ScreenState(isLoading = true))
-        if (checkIfIsEmpty(email) || checkIfIsEmpty(password)) {
-            _authScreenState.emit(ScreenState(errorText = resourcesProvider.getString(string.please_fill_all_fields)))
-        } else {
-            if (validateEmail(email)) {
-                handleResponse(authRepository.logIn(email, password), _authScreenState)
-            } else {
-                _authScreenState.emit(ScreenState(errorText = resourcesProvider.getString(string.please_enter_valid_email)))
-            }
-        }
+        _loginScreenState.emit(ScreenState(isLoading = true))
+        userAuth(
+            _loginScreenState,
+            authRepository.logIn(email, password),
+            email,
+            listOf(email, password)
+        )
     }
 }

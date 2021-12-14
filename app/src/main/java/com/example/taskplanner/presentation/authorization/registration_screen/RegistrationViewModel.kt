@@ -7,6 +7,7 @@ import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl
 import com.example.taskplanner.presentation.base.AuthBaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
+import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,29 +28,21 @@ class RegistrationViewModel @Inject constructor(
         _imageUri.emit(imageUri)
     }
 
+    private val _registerScreenState = MutableStateFlow(ScreenState<AuthResult>())
+    val registerScreenState: StateFlow<ScreenState<AuthResult>> = _registerScreenState
+
+
     fun signUp(user: User) =
         viewModelScope.launch {
-            _authScreenState.emit(ScreenState(isLoading = true))
-            if (checkIfIsEmpty(user.username!!) || checkIfIsEmpty(user.password!!) || checkIfIsEmpty(
-                    user.email!!
+            _registerScreenState.emit(ScreenState(isLoading = true))
+            with(user) {
+                userAuth(
+                    _registerScreenState,
+                    authRepository.signUp(user),
+                    email!!,
+                    listOf(password!!, username!!, email)
                 )
-            ) {
-                _authScreenState.emit(ScreenState(errorText = resourcesProvider.getString(string.please_fill_all_fields)))
-            } else {
-                if (validateEmail(user.email)) {
-                    handleResponse(
-                        authRepository.signUp(user),
-                        _authScreenState
-                    )
-                } else {
-                    _authScreenState.emit(
-                        ScreenState(
-                            errorText = resourcesProvider.getString(
-                                string.please_enter_valid_email
-                            )
-                        )
-                    )
-                }
             }
+
         }
 }

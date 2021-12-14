@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.taskplanner.data.util.Resource
 import com.example.taskplanner.data.util.ResourcesProvider
+import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -48,6 +50,31 @@ open class ProjectBaseViewModel @Inject constructor(@ApplicationContext appCtx: 
 
     fun setEstimateEndDate(date: String) = viewModelScope.launch {
         _endDate.postValue(date)
+    }
+
+    fun setNewItem(
+        flow: MutableStateFlow<ScreenState<Unit>>,
+        action: Resource<Unit>,
+        itemParams: List<String>
+    ) = viewModelScope.launch {
+        if (checkItemParams(itemParams, flow) && )
+    }
+
+    private fun checkItemParams(
+        itemParams: List<String>,
+        flow: MutableStateFlow<ScreenState<Unit>>
+    ): Boolean {
+        itemParams.forEach {
+            if (it.isBlank()) {
+                flow.value = ScreenState(
+                    errorText = resourcesProvider.getString(
+                        string.please_choose_estimate_time
+                    )
+                )
+                return false
+            }
+        }
+        return true
     }
 
 }
