@@ -4,6 +4,8 @@ import com.example.taskplanner.data.repository.auth.AuthRepository
 import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl
 import com.example.taskplanner.data.repository.project.ProjectRepository
 import com.example.taskplanner.data.repository.project.ProjectRepositoryImpl
+import com.example.taskplanner.data.repository.task.TaskRepository
+import com.example.taskplanner.data.repository.task.TaskRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -29,6 +31,13 @@ object RepositoryModule {
     @Singleton
     fun provideProjectRepository(
         firebaseFirestore: FirebaseFirestore,
-        firebaseAuth: FirebaseAuth
-    ): ProjectRepository = ProjectRepositoryImpl(firebaseFirestore, firebaseAuth)
+        firebaseAuth: FirebaseAuth,
+        taskRepository: TaskRepository
+    ): ProjectRepository = ProjectRepositoryImpl(firebaseFirestore, firebaseAuth,taskRepository)
+
+    @Provides
+    @Singleton
+    fun provideTaskRepository(
+        firebaseFirestore: FirebaseFirestore,
+    ): TaskRepository = TaskRepositoryImpl(firebaseFirestore)
 }

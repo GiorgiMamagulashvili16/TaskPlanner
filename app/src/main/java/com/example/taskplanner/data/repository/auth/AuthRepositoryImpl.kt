@@ -15,14 +15,15 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    private val fireStore: FirebaseFirestore,
+    fireStore: FirebaseFirestore,
     private val storage: FirebaseStorage
 ) : AuthRepository {
     private val userCollection = fireStore.collection(USER_COLLECTION_NAME)
     override suspend fun signUp(user: User): Resource<AuthResult> =
         withContext(Dispatchers.IO) {
             return@withContext fetchData {
-                val result = auth.createUserWithEmailAndPassword(user.email!!, user.password!!).await()
+                val result =
+                    auth.createUserWithEmailAndPassword(user.email!!, user.password!!).await()
                 val userId = result.user?.uid!!
                 val uploadImage =
                     storage.getReference(userId).putFile(Uri.parse(user.profileImageUrl)).await()
@@ -46,6 +47,17 @@ class AuthRepositoryImpl @Inject constructor(
                 Resource.Success(result)
             }
         }
+
+    override suspend fun isUserLogged(): Boolean {
+        return auth.currentUser != null
+    }
+
+    override suspend fun signOut(): Resource<Unit> = withContext(Dispatchers.IO){
+        return@withContext fetchData {
+            auth.signOut()
+            Resource.Success(Unit)
+        }
+    }
 
     companion object {
         private const val USER_COLLECTION_NAME = "Users"

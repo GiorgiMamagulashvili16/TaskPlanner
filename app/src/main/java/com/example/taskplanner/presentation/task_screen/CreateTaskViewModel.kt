@@ -1,11 +1,11 @@
-package com.example.taskplanner.presentation.project_screen
+package com.example.taskplanner.presentation.task_screen
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.taskplanner.data.model.Project
-import com.example.taskplanner.data.repository.project.ProjectRepository
+import com.example.taskplanner.data.model.Task
+import com.example.taskplanner.data.repository.task.TaskRepository
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.ProjectBaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
@@ -17,15 +17,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateProjectViewModel @Inject constructor(
-    private val projectRepository: ProjectRepository,
-    @ApplicationContext appCtx: Context
+class CreateTaskViewModel @Inject constructor(
+    @ApplicationContext appCtx: Context,
+    private val taskRepository: TaskRepository
 ) : ProjectBaseViewModel(appCtx) {
 
-    fun setProject(project: Project) = viewModelScope.launch {
-        with(project) {
+    fun setTask(task: Task) = viewModelScope.launch {
+        with(task) {
             when {
-                checkIfIsNull(startDate) || checkIfIsNull(endDate) -> {
+                checkIfIsNull(startTime) || checkIfIsNull(startTime) -> {
                     mUploadItemState.emit(
                         ScreenState(
                             errorText = resourcesProvider.getString(
@@ -34,7 +34,7 @@ class CreateProjectViewModel @Inject constructor(
                         )
                     )
                 }
-                checkIfIsEmpty(projectTitle!!) || checkIfIsEmpty(projectDescription!!) -> {
+                checkIfIsEmpty(taskTitle!!) || checkIfIsEmpty(taskDescription!!) -> {
                     mUploadItemState.emit(
                         ScreenState(
                             errorText = resourcesProvider.getString(
@@ -45,12 +45,11 @@ class CreateProjectViewModel @Inject constructor(
                 }
                 else -> {
                     handleResponse(
-                        projectRepository.setProject(project),
+                        taskRepository.setTask(task),
                         mUploadItemState
                     )
                 }
             }
         }
-
     }
 }

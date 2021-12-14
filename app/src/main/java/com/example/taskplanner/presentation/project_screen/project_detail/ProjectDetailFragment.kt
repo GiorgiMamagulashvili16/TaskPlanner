@@ -4,6 +4,7 @@ import android.graphics.Color
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskplanner.R
 import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.util.extension.*
@@ -11,7 +12,7 @@ import com.example.taskplanner.databinding.ProjectDetailFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
-import com.example.taskplanner.presentation.project_screen.ProjectStatus
+import com.example.taskplanner.presentation.project_screen.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,8 +26,10 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
     }
 
     private val args: ProjectDetailFragmentArgs by navArgs()
+    private val taskAdapter by lazy { TaskAdapter() }
+
     override fun onBindViewModel(viewModel: ProjectDetailViewModel) {
-        viewModel.setProjectId(args.projectId)
+        viewModel.setProjectId(args.projectId!!)
         observeProjectId(viewModel)
         observeScreenState(viewModel)
         setListeners(viewModel)
@@ -43,8 +46,9 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                 listOf(titleEditText, descriptionEditText).forEach { view ->
                     view.enableOrDisableView()
                 }
-                listOf(submitButton, startDateChangeButton, endDateChangeButton).forEach { view ->
-                    view.changeVisibility()
+                submitButton.changeVisibility()
+                listOf(startDateChangeButton, endDateChangeButton).forEach { view ->
+                    view.changeVisibilityByParam(submitButton.isVisible)
                 }
                 listOf(titleEditText, descriptionEditText).forEach { view ->
                     view.changeSameViewBackground(
@@ -70,6 +74,18 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             }
             submitButton.setOnClickListener {
                 updateProjectData(viewModel)
+            }
+            addTaskButton.setOnClickListener {
+                viewModel.projectId.value?.let { projectId ->
+                    ProjectDetailFragmentDirections.actionProjectDetailFragmentToCreateTaskFragment(
+                        projectId
+                    ).also { action ->
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+            backButton.setOnClickListener {
+                findNavController().navigate(R.id.action_projectDetailFragment_to_homeFragment)
             }
         }
     }
@@ -135,7 +151,7 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                     projectDescription = descriptionEditText.text.toString(),
                     startDate = startDate.value,
                     endDate = endDate.value,
-                    projectStatus = projectStatus.value!!
+                    projectStatus = status.value!!
                 )
                 editProjectDetailInfo(project)
             }
@@ -150,29 +166,26 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                 startDateTextView.text = getString(string.txt_estimate_start_date, startDate)
                 endDateTextView.text = getString(string.txt_estimate_end_date, endDate)
 
-                ProjectStatus.values().forEach { status ->
-                    if (projectStatus == status.title) {
-                        when (status) {
-                            ProjectStatus.TODO -> {
-                                todoStateChip.isChecked = true
-                            }
-                            ProjectStatus.DONE -> {
-                                doneStateChip.isChecked = true
-                            }
-                            ProjectStatus.IN_PROGRESS -> {
-                                inProgressStateChip.isChecked = true
-                            }
-                        }
-
+                when (requireContext().getStatusByOrdinal(projectStatus)) {
+                    Status.TODO -> {
+                        todoStateChip.isChecked = true
+                    }
+                    Status.DONE -> {
+                        doneStateChip.isChecked = true
+                    }
+                    Status.IN_PROGRESS -> {
+                        inProgressStateChip.isChecked = true
                     }
                 }
             }
             with(viewModel) {
                 setEstimateStartDate(project.startDate!!)
                 setEstimateEndDate(project.endDate!!)
-                setProjectStatus(project.projectStatus)
+                setStatus(project.projectStatus)
             }
             statusChipGroup.setChipsDisabled()
+            initTaskRecycle()
+            taskAdapter.submitList(project.subTasks)
         }
     }
 
@@ -181,16 +194,24 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             with(viewModel) {
                 when (checkedId) {
                     R.id.todoStateChip -> {
-                        setProjectStatus(ProjectStatus.TODO.title)
+                        setStatus(Status.TODO.ordinal)
                     }
                     R.id.inProgressStateChip -> {
-                        setProjectStatus(ProjectStatus.IN_PROGRESS.title)
+                        setStatus(Status.IN_PROGRESS.ordinal)
                     }
                     R.id.doneStateChip -> {
-                        setProjectStatus(ProjectStatus.DONE.title)
+                        setStatus(Status.DONE.ordinal)
                     }
                 }
             }
+        }
+    }
+
+    private fun initTaskRecycle() {
+        with(binding.tasksRecycleView) {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = taskAdapter
         }
     }
 
@@ -204,7 +225,7 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
 
     private fun setFabMotionAnimation() {
         with(binding) {
-            root.setActionOnSpecifiedProgress(TRANSITION_DEF_PROGRESS,
+            motionLayout.setActionOnSpecifiedProgress(TRANSITION_DEF_PROGRESS,
                 {
                     moreOptionButton.setDrawableImage(requireContext(), R.drawable.ic_more)
                 },

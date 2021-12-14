@@ -14,4 +14,6 @@ interface AuthRepository {
         email: String,
         password: String
     ): Resource<AuthResult>
+    suspend fun isUserLogged():Boolean
+    suspend fun signOut():Resource<Unit>
 }

@@ -45,4 +45,9 @@
     <string name="submit">Submit</string>
     <string name="delete_project">Delete Project</string>
     <string name="successfully_edited_project">successfully edited project info</string>
+    <string name="task_title">Task Title</string>
+    <string name="task_description">Task Description</string>
+    <string name="create_new_task">Create New Task</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
