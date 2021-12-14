@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.repository.project.ProjectRepository
+import com.example.taskplanner.data.repository.task.TaskRepository
 import com.example.taskplanner.presentation.base.ProjectBaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,8 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ProjectDetailViewModel @Inject constructor(
     @ApplicationContext appCtx: Context,
-    private val projectRepository: ProjectRepository
-) : ProjectBaseViewModel(appCtx) {
+    private val projectRepository: ProjectRepository,
+    taskRepository: TaskRepository
+) : ProjectBaseViewModel(appCtx,projectRepository,taskRepository) {
 
     private val _projectDetailScreenState = MutableStateFlow(ScreenState<Project>())
     val projectDetailScreenState: StateFlow<ScreenState<Project>> = _projectDetailScreenState

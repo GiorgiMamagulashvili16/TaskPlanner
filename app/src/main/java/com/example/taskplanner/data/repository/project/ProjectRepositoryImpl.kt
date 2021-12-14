@@ -1,5 +1,6 @@
 package com.example.taskplanner.data.repository.project
 
+import android.util.Log
 import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.repository.task.TaskRepository
@@ -26,6 +27,7 @@ class ProjectRepositoryImpl @Inject constructor(
     override suspend fun setProject(project: Project): Resource<Unit> =
         withContext(Dispatchers.IO) {
             return@withContext fetchData {
+                Log.d("NEWEW", "in")
                 with(project) {
                     val userId = auth.currentUser?.uid!!
                     val projectId = UUID.randomUUID().toString()

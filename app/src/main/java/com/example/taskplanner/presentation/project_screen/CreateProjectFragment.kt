@@ -54,7 +54,7 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
     }
 
     private fun observeScreenState(viewModel: CreateProjectViewModel) {
-        flowObserver(viewModel.uploadItemState) { state ->
+        flowObserver(viewModel.createProjectScreenState) { state ->
             binding.loadingProgressBar.isVisible = state.isLoading
             if (state.success != null) {
                 findNavController().navigate(R.id.action_createProjectFragment_to_homeFragment)

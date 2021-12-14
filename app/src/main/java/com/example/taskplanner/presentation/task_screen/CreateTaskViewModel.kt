@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.model.Task
+import com.example.taskplanner.data.repository.project.ProjectRepository
 import com.example.taskplanner.data.repository.task.TaskRepository
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.ProjectBaseViewModel
@@ -19,8 +20,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateTaskViewModel @Inject constructor(
     @ApplicationContext appCtx: Context,
-    private val taskRepository: TaskRepository
-) : ProjectBaseViewModel(appCtx) {
+    private val taskRepository: TaskRepository,
+    projectRepository: ProjectRepository
+) : ProjectBaseViewModel(appCtx,projectRepository, taskRepository)  {
 
     fun setTask(task: Task) = viewModelScope.launch {
         with(task) {
