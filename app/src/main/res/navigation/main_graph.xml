@@ -101,5 +101,11 @@
         <argument
             android:name="projectId"
             app:argType="string" />
+        <argument
+            android:name="projectStartDate"
+            app:argType="string" />
+        <argument
+            android:name="projectEndDate"
+            app:argType="string" />
     </fragment>
 </navigation>

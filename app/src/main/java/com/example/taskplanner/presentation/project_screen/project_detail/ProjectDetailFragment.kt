@@ -78,7 +78,7 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             addTaskButton.setOnClickListener {
                 viewModel.projectId.value?.let { projectId ->
                     ProjectDetailFragmentDirections.actionProjectDetailFragmentToCreateTaskFragment(
-                        projectId
+                        projectId, viewModel.startDate.value!!, viewModel.endDate.value!!
                     ).also { action ->
                         findNavController().navigate(action)
                     }

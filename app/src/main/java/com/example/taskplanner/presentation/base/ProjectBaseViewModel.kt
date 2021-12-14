@@ -8,8 +8,8 @@ import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.model.Task
 import com.example.taskplanner.data.repository.project.ProjectRepository
 import com.example.taskplanner.data.repository.task.TaskRepository
-import com.example.taskplanner.data.util.Constants.DATE_FORMATTER_PATTERN
 import com.example.taskplanner.data.util.ResourcesProvider
+import com.example.taskplanner.data.util.extension.getDateByTime
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,8 +17,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,8 +41,6 @@ open class ProjectBaseViewModel @Inject constructor(
     private val _projectId = MutableLiveData<String?>()
     val projectId: LiveData<String?> = _projectId
 
-    protected val mUploadItemState = MutableStateFlow(ScreenState<Unit>())
-    val uploadItemState: StateFlow<ScreenState<Unit>> = mUploadItemState
 
     fun setProjectId(projectId: String) = viewModelScope.launch {
         _projectId.postValue(projectId)
@@ -65,6 +61,8 @@ open class ProjectBaseViewModel @Inject constructor(
     fun <T> setNewItem(
         flow: MutableStateFlow<ScreenState<Unit>>,
         item: T,
+        projectStartDate: String? = null,
+        projectEndDate: String? = null
     ) = viewModelScope.launch {
         when (item) {
             is Project -> {
@@ -72,7 +70,7 @@ open class ProjectBaseViewModel @Inject constructor(
                     if (checkItemParams(
                             listOf(projectTitle!!, projectDescription!!),
                             flow
-                        ) && checkCurrentItemEstimateDates(flow)
+                        ) && checkCurrentItemEstimateDates(flow, item)
                     ) {
                         handleResponse(projectRepository.setProject(item), flow)
                     }
@@ -83,7 +81,12 @@ open class ProjectBaseViewModel @Inject constructor(
                     if (checkItemParams(
                             listOf(taskTitle!!, taskDescription!!),
                             flow
-                        ) && checkCurrentItemEstimateDates(flow)
+                        ) && checkCurrentItemEstimateDates(
+                            flow,
+                            item,
+                            projectStartDate,
+                            projectEndDate
+                        )
                     ) {
                         handleResponse(taskRepository.setTask(item), flow)
                     }
@@ -107,7 +110,12 @@ open class ProjectBaseViewModel @Inject constructor(
         return result.isEmpty()
     }
 
-    private fun checkCurrentItemEstimateDates(flow: MutableStateFlow<ScreenState<Unit>>): Boolean {
+    private fun <T> checkCurrentItemEstimateDates(
+        flow: MutableStateFlow<ScreenState<Unit>>,
+        item: T,
+        projectStartDate: String? = null,
+        projectEndDate: String? = null
+    ): Boolean {
         return if (startDate.value == null || endDate.value == null) {
             flow.value = ScreenState(
                 errorText = resourcesProvider.getString(
@@ -116,14 +124,16 @@ open class ProjectBaseViewModel @Inject constructor(
             )
             false
         } else {
-            compareCurrentDate(flow)
+            if (item is Project)
+                isCurrentItemDatesCorrect(flow)
+            else
+                checkTaskEstimateDate(flow, projectStartDate!!, projectEndDate!!)
         }
     }
 
-    private fun compareCurrentDate(flow: MutableStateFlow<ScreenState<Unit>>): Boolean {
-        val sdf = SimpleDateFormat(DATE_FORMATTER_PATTERN, Locale.getDefault())
-        val startDate = sdf.parse(startDate.value ?: sdf.format(Date()))!!
-        val endDate = sdf.parse(endDate.value ?: sdf.format(Date()))!!
+    private fun isCurrentItemDatesCorrect(flow: MutableStateFlow<ScreenState<Unit>>): Boolean {
+        val startDate = startDate.value.getDateByTime()
+        val endDate = endDate.value.getDateByTime()
         return if (startDate > endDate) {
             flow.value = ScreenState(
                 errorText = resourcesProvider.getString(string.please_choose_valid_start_and_end_dates)
@@ -131,6 +141,34 @@ open class ProjectBaseViewModel @Inject constructor(
             false
         } else {
             true
+        }
+    }
+
+    private fun checkTaskEstimateDate(
+        flow: MutableStateFlow<ScreenState<Unit>>,
+        projectStartDate: String,
+        projectEndDate: String
+    ): Boolean {
+        val taskStartDate = startDate.value.getDateByTime()
+        val taskEndDate = endDate.value.getDateByTime()
+        val currentProjectStartTime = projectStartDate.getDateByTime()
+        val currentProjectEndTime = projectEndDate.getDateByTime()
+        if (!isCurrentItemDatesCorrect(flow))
+            return false
+        return when {
+            taskStartDate < currentProjectStartTime -> {
+                flow.value =
+                    ScreenState(errorText = resourcesProvider.getString(string.start_time_of_task_is_less_than_the_start_time_of_the_project))
+                false
+            }
+            taskEndDate > currentProjectEndTime -> {
+                flow.value =
+                    ScreenState(errorText = resourcesProvider.getString(string.end_time_of_task_is_more_than_end_time_of_project))
+                false
+            }
+            else -> {
+                true
+            }
         }
     }
 }

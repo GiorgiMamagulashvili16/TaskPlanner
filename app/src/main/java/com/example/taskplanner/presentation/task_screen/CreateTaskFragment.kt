@@ -11,6 +11,7 @@ import com.example.taskplanner.databinding.CreateProjectFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,9 +26,13 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
 
     private val args: CreateTaskFragmentArgs by navArgs()
     override fun onBindViewModel(viewModel: CreateTaskViewModel) {
+        with(viewModel) {
+            setProjectId(args.projectId)
+            setProjectStartDate(args.projectStartDate)
+            setProjectEndDate(args.projectEndDate)
+        }
         observeScreenState(viewModel)
         setListeners(viewModel)
-        viewModel.setProjectId(args.projectId)
         observeStartDate(viewModel)
         observeEndDate(viewModel)
     }
@@ -55,14 +60,14 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
     }
 
     private fun observeScreenState(viewModel: CreateTaskViewModel) {
-        flowObserver(viewModel.uploadItemState) { state ->
+        flowObserver(viewModel.createTaskScreenState) { state ->
             binding.loadingProgressBar.isVisible = state.isLoading
             if (state.success != null) {
                 CreateTaskFragmentDirections.actionCreateTaskFragmentToProjectDetailFragment(
                     viewModel.projectId.value
                 ).also { findNavController().navigate(it) }
             } else if (state.errorText != null) {
-                createSnackBar(state.errorText) {
+                createSnackBar(state.errorText, Snackbar.LENGTH_INDEFINITE) {
                     snackAction(Color.RED, getString(string.ok)) {
                         dismiss()
                     }
