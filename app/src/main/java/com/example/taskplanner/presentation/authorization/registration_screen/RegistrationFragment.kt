@@ -120,7 +120,8 @@ class RegistrationFragment :
                         email = emailInputLayout.editText.text.toString(),
                         job = jobInputLayout.editText.text.toString(),
                         profileImageUrl = it.toString(),
-                        password = passwordEditText.text.toString()
+                        password = passwordEditText.text.toString(),
+                        repeatedPassword = repeatPasswordEditText.text.toString()
                     ),
                 )
             }

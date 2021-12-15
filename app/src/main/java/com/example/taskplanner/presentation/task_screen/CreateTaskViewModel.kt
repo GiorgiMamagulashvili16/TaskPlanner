@@ -19,13 +19,13 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateTaskViewModel @Inject constructor(
     @ApplicationContext appCtx: Context,
-    private val taskRepository: TaskRepository,
+    taskRepository: TaskRepository,
     projectRepository: ProjectRepository
 ) : ProjectBaseViewModel(appCtx, projectRepository, taskRepository) {
 
-    private val projectStartDate = MutableLiveData<String>()
+     val projectStartDate = MutableLiveData<String>()
 
-    private val projectEndDate = MutableLiveData<String>()
+     val projectEndDate = MutableLiveData<String>()
 
     private val _createTaskScreenState = MutableStateFlow(ScreenState<Unit>())
     val createTaskScreenState: StateFlow<ScreenState<Unit>> = _createTaskScreenState
@@ -39,6 +39,6 @@ class CreateTaskViewModel @Inject constructor(
     }
 
     fun setTask(task: Task) = viewModelScope.launch {
-        setNewItem(_createTaskScreenState, task, projectStartDate.value, projectEndDate.value)
+        addNewTask(_createTaskScreenState, task)
     }
 }

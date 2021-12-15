@@ -25,8 +25,8 @@ class TaskAdapter : ListAdapter<Task, TaskAdapter.VH>(COMPARATOR) {
             with(binding) {
                 val ctx = root.context
                 taskTitleTextView.text = task.taskTitle
-                statusTextView.text = ctx.getString(ctx.getStatusByOrdinal(task.status).title)
-                statusTextView.setColorOnText(ctx.getStatusByOrdinal(task.status).color)
+                statusTextView.text = ctx.getString(task.status.getStatusByOrdinal().title)
+                statusTextView.setColorOnText(task.status.getStatusByOrdinal().color)
             }
         }
     }

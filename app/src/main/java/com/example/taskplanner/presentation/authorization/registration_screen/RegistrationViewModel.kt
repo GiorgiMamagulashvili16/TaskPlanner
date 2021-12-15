@@ -35,7 +35,7 @@ class RegistrationViewModel @Inject constructor(
     fun signUp(user: User) =
         viewModelScope.launch {
             _registerScreenState.emit(ScreenState(isLoading = true))
-            userAuth(
+            signUp(
                 _registerScreenState,
                 user
             )

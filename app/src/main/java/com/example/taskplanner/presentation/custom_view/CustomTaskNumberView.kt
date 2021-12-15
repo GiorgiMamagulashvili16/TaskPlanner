@@ -11,17 +11,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.taskplanner.R
 import com.example.taskplanner.databinding.CustomItemForTaskNumberBinding
 
-class CustomTaskNumberItem @JvmOverloads constructor(
+class CustomTaskNumberView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet,
     defAttrs: Int = 0,
 ) : ConstraintLayout(context, attrs, defAttrs) {
     private var attributes: TypedArray
     private var roundBackgroundColor: Int
-    private var text: String
-    private var textColor: Int
-    private var numberColor: Int
-    private var numberText: String
     private var roundBackground: CardView
     private var textView: AppCompatTextView
     private var numberTextView: AppCompatTextView
@@ -45,14 +41,14 @@ class CustomTaskNumberItem @JvmOverloads constructor(
         with(attributes) {
             roundBackgroundColor =
                 getInt(R.styleable.CustomTaskNumberItem_roundBackgroundColor, Color.RED)
-            text = getString(R.styleable.CustomTaskNumberItem_text).toString()
-            textColor = getInt(R.styleable.CustomTaskNumberItem_textColor, Color.BLACK)
-            numberColor = getInt(R.styleable.CustomTaskNumberItem_numberColor, Color.WHITE)
-            numberText = getString(R.styleable.CustomTaskNumberItem_numberText).toString()
+            val text = getString(R.styleable.CustomTaskNumberItem_text).toString()
+            val textColor = getInt(R.styleable.CustomTaskNumberItem_textColor, Color.BLACK)
+            val numberColor = getInt(R.styleable.CustomTaskNumberItem_numberColor, Color.WHITE)
+            val numberText = getString(R.styleable.CustomTaskNumberItem_numberText).toString()
+            setTextParams(text, textColor)
+            setNumberTextParams(numberText, numberColor)
+            setBackgroundParams(roundBackgroundColor)
         }
-        setTextParams(text, textColor)
-        setNumberTextParams(numberText, numberColor)
-        setBackgroundParams(roundBackgroundColor)
     }
 
     private fun setTextParams(txt: String, textColor: Int) {
