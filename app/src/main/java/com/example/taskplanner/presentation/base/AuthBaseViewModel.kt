@@ -2,7 +2,8 @@ package com.example.taskplanner.presentation.base
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import com.example.taskplanner.data.util.Resource
+import com.example.taskplanner.data.model.User
+import com.example.taskplanner.data.repository.auth.AuthRepository
 import com.example.taskplanner.data.util.ResourcesProvider
 import com.example.taskplanner.data.util.extension.isValidEmail
 import com.example.taskplanner.presentation.authorization.registration_screen.string
@@ -15,20 +16,34 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-open class AuthBaseViewModel @Inject constructor(@ApplicationContext appCtx: Context) :
-    BaseViewModel(ResourcesProvider(appCtx)) {
+open class AuthBaseViewModel @Inject constructor(
+    @ApplicationContext appCtx: Context,
+    private val authRepository: AuthRepository
+) : BaseViewModel(ResourcesProvider(appCtx)) {
 
     fun userAuth(
         flow: MutableStateFlow<ScreenState<AuthResult>>,
-        action: Resource<AuthResult>,
-        email: String,
-        authParams: List<String>
-    ) =
-        viewModelScope.launch {
-            if (checkParams(authParams, flow) && checkEmail(email, flow)) {
-                handleResponse(action, flow)
+        user: User
+    ) = viewModelScope.launch {
+        if (user.profileImageUrl != null) {
+            if (checkParams(
+                    listOf(user.email!!, user.password!!, user.username!!),
+                    flow
+                ) && checkEmail(user.email, flow)
+            ) {
+                handleResponse(authRepository.signUp(user), flow)
+            }
+        } else {
+            if (checkEmail(user.email!!, flow) && checkParams(
+                    listOf(user.email, user.password!!),
+                    flow
+                )
+            ) {
+                handleResponse(
+                    authRepository.logIn(user.email, user.password), flow)
             }
         }
+    }
 
     private fun checkParams(
         authParams: List<String>,

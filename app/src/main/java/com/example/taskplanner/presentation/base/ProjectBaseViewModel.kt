@@ -1,6 +1,7 @@
 package com.example.taskplanner.presentation.base
 
 import android.content.Context
+import android.util.Log.d
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -15,7 +16,6 @@ import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -126,8 +126,9 @@ open class ProjectBaseViewModel @Inject constructor(
         } else {
             if (item is Project)
                 isCurrentItemDatesCorrect(flow)
-            else
+            else {
                 checkTaskEstimateDate(flow, projectStartDate!!, projectEndDate!!)
+            }
         }
     }
 
@@ -153,8 +154,7 @@ open class ProjectBaseViewModel @Inject constructor(
         val taskEndDate = endDate.value.getDateByTime()
         val currentProjectStartTime = projectStartDate.getDateByTime()
         val currentProjectEndTime = projectEndDate.getDateByTime()
-        if (!isCurrentItemDatesCorrect(flow))
-            return false
+        if (!isCurrentItemDatesCorrect(flow)) return false
         return when {
             taskStartDate < currentProjectStartTime -> {
                 flow.value =

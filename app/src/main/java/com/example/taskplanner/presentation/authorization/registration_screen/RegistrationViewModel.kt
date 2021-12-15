@@ -17,9 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    private val authRepository: AuthRepositoryImpl,
+    authRepository: AuthRepositoryImpl,
     @ApplicationContext appCtx: Context
-) : AuthBaseViewModel(appCtx) {
+) : AuthBaseViewModel(appCtx, authRepository) {
 
     private val _imageUri = MutableStateFlow<Uri?>(null)
     val imageUri: StateFlow<Uri?> = _imageUri
@@ -35,14 +35,9 @@ class RegistrationViewModel @Inject constructor(
     fun signUp(user: User) =
         viewModelScope.launch {
             _registerScreenState.emit(ScreenState(isLoading = true))
-            with(user) {
-                userAuth(
-                    _registerScreenState,
-                    authRepository.signUp(user),
-                    email!!,
-                    listOf(password!!, username!!, email)
-                )
-            }
-
+            userAuth(
+                _registerScreenState,
+                user
+            )
         }
 }

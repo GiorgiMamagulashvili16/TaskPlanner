@@ -74,6 +74,6 @@ class CustomTaskNumberItem @JvmOverloads constructor(
     }
 
     fun setText(newText: String) {
-        this.text = newText
+        numberTextView.text = newText
     }
 }

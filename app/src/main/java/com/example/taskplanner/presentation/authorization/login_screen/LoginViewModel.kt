@@ -2,6 +2,7 @@ package com.example.taskplanner.presentation.authorization.login_screen
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
+import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl
 import com.example.taskplanner.presentation.base.AuthBaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
@@ -15,9 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authRepository: AuthRepositoryImpl,
+    authRepository: AuthRepositoryImpl,
     @ApplicationContext appCtx: Context
-) : AuthBaseViewModel(appCtx) {
+) : AuthBaseViewModel(appCtx, authRepository) {
 
     private val _loginScreenState = MutableStateFlow(ScreenState<AuthResult>())
     val loginScreenState: StateFlow<ScreenState<AuthResult>> = _loginScreenState
@@ -26,9 +27,7 @@ class LoginViewModel @Inject constructor(
         _loginScreenState.emit(ScreenState(isLoading = true))
         userAuth(
             _loginScreenState,
-            authRepository.logIn(email, password),
-            email,
-            listOf(email, password)
+            User(email = email, password = password)
         )
     }
 }
