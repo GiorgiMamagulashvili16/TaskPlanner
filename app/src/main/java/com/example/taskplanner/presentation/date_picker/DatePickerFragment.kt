@@ -12,16 +12,27 @@ import com.example.taskplanner.data.util.Constants.SELECTED_DATE_STRING_KEY
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
+class DatePickerFragment(
+    private val minimumDate: Long? = null,
+    private val maximumDate: Long? = null
+) :
+    DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     private val calendar = Calendar.getInstance()
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        return DatePickerDialog(requireActivity(), this, year, month, day)
+        val datePickerDialog = DatePickerDialog(requireActivity(), this, year, month, day)
+        with(datePickerDialog.datePicker) {
+            minimumDate?.let{
+                minDate = it
+            }
+            maximumDate?.let {
+                maxDate = it
+            }
+        }
+        return datePickerDialog
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {

@@ -43,12 +43,18 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
                 setNewTask(viewModel)
             }
             startTimePickerFloatingButton.setOnClickListener {
-                setDatePicker {
+                setDatePicker(
+                    minDate = viewModel.projectStartDate.value.getDateByTime().time,
+                    maxDate = viewModel.projectEndDate.value.getDateByTime().time
+                ) {
                     viewModel.setEstimateStartDate(it)
                 }
             }
             endTimePickerFloatingButton.setOnClickListener {
-                setDatePicker {
+                setDatePicker(
+                    minDate = viewModel.startDate.value.getDateByTime().time,
+                    maxDate = viewModel.projectEndDate.value.getDateByTime().time
+                ) {
                     viewModel.setEstimateEndDate(it)
                 }
             }

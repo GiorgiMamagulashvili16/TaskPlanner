@@ -1,20 +1,15 @@
 package com.example.taskplanner.presentation.project_screen
 
 import android.graphics.Color
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
 import com.example.taskplanner.data.model.Project
-import com.example.taskplanner.data.util.Constants.BUNDLE_REQUEST_KEY
-import com.example.taskplanner.data.util.Constants.DATE_PICKER_FRAGMENT_TAG
-import com.example.taskplanner.data.util.Constants.SELECTED_DATE_STRING_KEY
 import com.example.taskplanner.data.util.extension.*
 import com.example.taskplanner.databinding.CreateProjectFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
-import com.example.taskplanner.presentation.date_picker.DatePickerFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,7 +38,7 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
                 }
             }
             endTimePickerFloatingButton.setOnClickListener {
-                setDatePicker {
+                setDatePicker(minDate = viewModel.startDate.value.getDateByTime().time) {
                     viewModel.setEstimateEndDate(it)
                 }
             }
@@ -97,14 +92,18 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
         with(binding) {
             root.setActionOnSpecifiedProgress(TRANSITION_DEF_PROGRESS,
                 {
-                    timePickerFloatingButton.setDrawableImage(requireContext(),R.drawable.ic_add_clock)
+                    timePickerFloatingButton.setDrawableImage(
+                        requireContext(),
+                        R.drawable.ic_add_clock
+                    )
                 },
                 {
-                    timePickerFloatingButton.setDrawableImage(requireContext(),R.drawable.ic_close)
+                    timePickerFloatingButton.setDrawableImage(requireContext(), R.drawable.ic_close)
                 })
         }
     }
-    companion object{
+
+    companion object {
         private const val TRANSITION_DEF_PROGRESS = 0.4f
     }
 }

@@ -1,14 +1,10 @@
 package com.example.taskplanner.data.util.extension
 
 import android.Manifest
-import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import com.example.taskplanner.data.util.Constants
@@ -54,8 +50,13 @@ fun Fragment.checkMediaPermissions(action: () -> Unit):
         }
     }
 }
-fun Fragment.setDatePicker(action: (date:String) -> Unit){
-    val datePicker = DatePickerFragment()
+
+fun Fragment.setDatePicker(
+    minDate: Long? = null,
+    maxDate: Long? = null,
+    action: (date: String) -> Unit
+) {
+    val datePicker = DatePickerFragment(minDate, maxDate)
     requireActivity().supportFragmentManager.setFragmentResultListener(
         Constants.BUNDLE_REQUEST_KEY,
         viewLifecycleOwner
