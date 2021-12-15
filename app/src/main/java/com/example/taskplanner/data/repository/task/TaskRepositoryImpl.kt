@@ -6,6 +6,7 @@ import com.example.taskplanner.data.util.fetchData
 import com.example.taskplanner.presentation.project_screen.Status
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -73,6 +74,14 @@ class TaskRepositoryImpl @Inject constructor(
             Resource.Success(data.size)
         }
     }
+
+    override suspend fun getTaskByTaskId(taskId: String): Resource<Task> =
+        withContext(Dispatchers.IO) {
+            return@withContext fetchData {
+                val response = taskCollection.document(taskId).get().await().toObject<Task>()
+                Resource.Success(response!!)
+            }
+        }
 
     companion object {
         private const val OWNER_ID_KEY = "ownerId"

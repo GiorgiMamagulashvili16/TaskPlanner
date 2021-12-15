@@ -23,19 +23,21 @@ class CreateTaskViewModel @Inject constructor(
     projectRepository: ProjectRepository
 ) : ProjectBaseViewModel(appCtx, projectRepository, taskRepository) {
 
-     val projectStartDate = MutableLiveData<String>()
+    private val _projectStartDate = MutableLiveData<String>()
+    val projectStartDate: LiveData<String> = _projectStartDate
 
-     val projectEndDate = MutableLiveData<String>()
+    private val _projectEndDate = MutableLiveData<String>()
+    val projectEndDate: LiveData<String> = _projectEndDate
 
     private val _createTaskScreenState = MutableStateFlow(ScreenState<Unit>())
     val createTaskScreenState: StateFlow<ScreenState<Unit>> = _createTaskScreenState
 
     fun setProjectStartDate(newStartDate: String) = viewModelScope.launch {
-        projectStartDate.postValue(newStartDate)
+        _projectStartDate.postValue(newStartDate)
     }
 
     fun setProjectEndDate(newEndDate: String) = viewModelScope.launch {
-        projectEndDate.postValue(newEndDate)
+        _projectEndDate.postValue(newEndDate)
     }
 
     fun setTask(task: Task) = viewModelScope.launch {

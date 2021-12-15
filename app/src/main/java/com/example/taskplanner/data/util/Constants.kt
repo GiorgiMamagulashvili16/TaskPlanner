@@ -5,4 +5,5 @@ object Constants {
     const val SELECTED_DATE_STRING_KEY = "DATE_CODE"
     const val BUNDLE_REQUEST_KEY = "DATE_FRAGMENT_KEY"
     const val DATE_PICKER_FRAGMENT_TAG = "date_picker_tag"
+    const val TRANSITION_DEF_PROGRESS = 0.4f
 }

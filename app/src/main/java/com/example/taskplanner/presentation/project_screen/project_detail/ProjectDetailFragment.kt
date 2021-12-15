@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskplanner.R
 import com.example.taskplanner.data.model.Project
+import com.example.taskplanner.data.util.Constants.TRANSITION_DEF_PROGRESS
 import com.example.taskplanner.data.util.extension.*
 import com.example.taskplanner.databinding.ProjectDetailFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
@@ -88,6 +89,16 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                 findNavController().navigate(R.id.action_projectDetailFragment_to_homeFragment)
             }
         }
+        taskAdapter.onTaskClick = { taskId ->
+            if (findNavController().currentDestination?.id == R.id.projectDetailFragment) {
+                ProjectDetailFragmentDirections.actionProjectDetailFragmentToTaskDetailsFragment(
+                    taskId,
+                    viewModel.startDate.value!!, viewModel.endDate.value!!
+                ).also {
+                    findNavController().navigate(it)
+                }
+            }
+        }
     }
 
     private fun observeProjectId(viewModel: ProjectDetailViewModel) {
@@ -163,20 +174,7 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             with(project) {
                 titleEditText.setText(projectTitle)
                 descriptionEditText.setText(projectDescription)
-                startDateTextView.text = getString(string.txt_estimate_start_date, startDate)
-                endDateTextView.text = getString(string.txt_estimate_end_date, endDate)
-
-                when (projectStatus.getStatusByOrdinal()) {
-                    Status.TODO -> {
-                        todoStateChip.isChecked = true
-                    }
-                    Status.DONE -> {
-                        doneStateChip.isChecked = true
-                    }
-                    Status.IN_PROGRESS -> {
-                        inProgressStateChip.isChecked = true
-                    }
-                }
+                setChipStatus(projectStatus.getStatusByOrdinal())
             }
             with(viewModel) {
                 setEstimateStartDate(project.startDate!!)
@@ -186,6 +184,22 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             statusChipGroup.setChipsDisabled()
             initTaskRecycle()
             taskAdapter.submitList(project.subTasks)
+        }
+    }
+
+    private fun setChipStatus(status: Status) {
+        with(binding) {
+            when (status) {
+                Status.TODO -> {
+                    todoStateChip.isChecked = true
+                }
+                Status.DONE -> {
+                    doneStateChip.isChecked = true
+                }
+                Status.IN_PROGRESS -> {
+                    inProgressStateChip.isChecked = true
+                }
+            }
         }
     }
 
@@ -233,9 +247,5 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                     moreOptionButton.setDrawableImage(requireContext(), R.drawable.ic_close)
                 })
         }
-    }
-
-    companion object {
-        private const val TRANSITION_DEF_PROGRESS = 0.4f
     }
 }

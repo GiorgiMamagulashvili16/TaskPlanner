@@ -10,23 +10,29 @@ import com.example.taskplanner.data.util.extension.getStatusByOrdinal
 import com.example.taskplanner.data.util.extension.setColorOnText
 import com.example.taskplanner.databinding.RowTaskItemBinding
 
+typealias onTaskClick = (taskId: String) -> Unit
+
 class TaskAdapter : ListAdapter<Task, TaskAdapter.VH>(COMPARATOR) {
 
+    lateinit var onTaskClick: onTaskClick
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         return VH(RowTaskItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.onBind(getItem(position))
+        holder.onBind(getItem(position), onTaskClick)
     }
 
     class VH(private val binding: RowTaskItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(task: Task) {
+        fun onBind(task: Task, onTaskClick: onTaskClick) {
             with(binding) {
                 val ctx = root.context
                 taskTitleTextView.text = task.taskTitle
                 statusTextView.text = ctx.getString(task.status.getStatusByOrdinal().title)
                 statusTextView.setColorOnText(task.status.getStatusByOrdinal().color)
+                root.setOnClickListener {
+                    task.taskId?.let { id -> onTaskClick.invoke(id) }
+                }
             }
         }
     }

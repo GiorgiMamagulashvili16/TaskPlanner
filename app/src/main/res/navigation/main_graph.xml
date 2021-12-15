@@ -90,6 +90,9 @@
         <action
             android:id="@+id/action_projectDetailFragment_to_createTaskFragment"
             app:destination="@id/createTaskFragment" />
+        <action
+            android:id="@+id/action_projectDetailFragment_to_taskDetailsFragment"
+            app:destination="@id/taskDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/createTaskFragment"
@@ -100,6 +103,26 @@
             app:destination="@id/projectDetailFragment" />
         <argument
             android:name="projectId"
+            app:argType="string" />
+        <argument
+            android:name="projectStartDate"
+            app:argType="string" />
+        <argument
+            android:name="projectEndDate"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskDetailsFragment"
+        android:name="com.example.taskplanner.presentation.task_screen.task_details.TaskDetailsFragment"
+        android:label="task_details_fragment"
+        tools:layout="@layout/task_details_fragment" >
+        <action
+            android:id="@+id/action_taskDetailsFragment_to_projectDetailFragment"
+            app:destination="@id/projectDetailFragment"
+            app:popUpTo="@id/taskDetailsFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="taskId"
             app:argType="string" />
         <argument
             android:name="projectStartDate"
