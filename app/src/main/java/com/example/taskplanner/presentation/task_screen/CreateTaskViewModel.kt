@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateTaskViewModel @Inject constructor(
     @ApplicationContext appCtx: Context,
-    private val taskRepository: TaskRepository,
+    taskRepository: TaskRepository,
     projectRepository: ProjectRepository
 ) : ProjectBaseViewModel(appCtx, projectRepository, taskRepository) {
 
@@ -39,6 +39,6 @@ class CreateTaskViewModel @Inject constructor(
     }
 
     fun setTask(task: Task) = viewModelScope.launch {
-        setNewItem(_createTaskScreenState, task,)
+        addNewTask(_createTaskScreenState, task)
     }
 }

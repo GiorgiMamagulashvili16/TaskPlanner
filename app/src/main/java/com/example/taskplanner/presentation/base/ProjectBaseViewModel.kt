@@ -56,31 +56,31 @@ open class ProjectBaseViewModel @Inject constructor(
         _endDate.postValue(date)
     }
 
-    fun <T> setNewItem(
+    fun addNewProject(
         flow: MutableStateFlow<ScreenState<Unit>>,
-        item: T,
+        project: Project
     ) = viewModelScope.launch {
-        when (item) {
-            is Project -> {
-                with(item) {
-                    if (checkItemParams(
-                            listOf(projectTitle!!, projectDescription!!),
-                            flow
-                        ) && checkCurrentItemEstimateDates(flow)
-                    ) {
-                        handleResponse(projectRepository.setProject(item), flow)
-                    }
-                }
+        with(project) {
+            if (checkItemParams(
+                    listOf(projectTitle!!, projectDescription!!),
+                    flow
+                ) && checkCurrentItemEstimateDates(flow)
+            ) {
+                handleResponse(projectRepository.setProject(project), flow)
             }
-            is Task -> {
-                with(item) {
-                    if (checkItemParams(
-                            listOf(taskTitle!!, taskDescription!!), flow
-                        ) && checkCurrentItemEstimateDates(flow)
-                    ) {
-                        handleResponse(taskRepository.setTask(item), flow)
-                    }
-                }
+        }
+    }
+
+    fun addNewTask(
+        flow: MutableStateFlow<ScreenState<Unit>>,
+        task: Task
+    ) = viewModelScope.launch {
+        with(task) {
+            if (checkItemParams(
+                    listOf(taskTitle!!, taskDescription!!), flow
+                ) && checkCurrentItemEstimateDates(flow)
+            ) {
+                handleResponse(taskRepository.setTask(task), flow)
             }
         }
     }

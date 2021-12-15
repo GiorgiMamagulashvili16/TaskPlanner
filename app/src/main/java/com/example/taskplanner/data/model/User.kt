@@ -9,6 +9,7 @@ data class User(
     val username: String? = null,
     val email: String? = null,
     val password: String? = null,
+    @get:Exclude val repeatedPassword:String? = null,
     val profileImageUrl: String? = null,
     val job: String? = null,
     @get:Exclude var projects: List<Project>? = null,

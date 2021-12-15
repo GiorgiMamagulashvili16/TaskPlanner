@@ -26,7 +26,7 @@ class CreateProjectViewModel @Inject constructor(
 
     fun setProject(project: Project) = viewModelScope.launch {
         _createProjectScreenState.emit(ScreenState(isLoading = true))
-        setNewItem(
+        addNewProject(
             _createProjectScreenState,
             project
         )

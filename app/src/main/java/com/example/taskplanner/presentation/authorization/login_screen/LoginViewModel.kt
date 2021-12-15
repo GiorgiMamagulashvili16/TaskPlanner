@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
 
     fun logIn(email: String, password: String) = viewModelScope.launch {
         _loginScreenState.emit(ScreenState(isLoading = true))
-        userAuth(
+        logIn(
             _loginScreenState,
             User(email = email, password = password)
         )
