@@ -42,10 +42,22 @@ class HomeViewModel @Inject constructor(
         _logOut.emit(authRepository.signOut().data)
     }
 
-    fun setTaskNumbers() = viewModelScope.launch {
-        _todoTasksNumber.emit(taskRepository.getAllTodoTasksNumber().data!!)
-        _inProgressTasksNumber.emit(taskRepository.getAllInProgressTaskNumber().data!!)
-        _doneTasksNumber.emit(taskRepository.getAllDoneTaskNumber().data!!)
+    fun setTodoTaskNumber(number: Int? = null) = viewModelScope.launch {
+        number?.let {
+            _todoTasksNumber.emit(it)
+        } ?: taskRepository.getAllTodoTasksNumber().data?.let { _todoTasksNumber.emit(it) }
+    }
+
+    fun setInProgressTaskNumber(number: Int? = null) = viewModelScope.launch {
+        number?.let {
+            _inProgressTasksNumber.emit(it)
+        } ?: taskRepository.getAllInProgressTaskNumber().data?.let { _inProgressTasksNumber.emit(it) }
+    }
+
+    fun setDoneTaskNumber(number: Int? = null) = viewModelScope.launch {
+        number?.let {
+            _doneTasksNumber.emit(it)
+        } ?: taskRepository.getAllDoneTaskNumber().data?.let { _doneTasksNumber.emit(it) }
     }
 
     fun getCurrentUserData() = viewModelScope.launch {

@@ -33,11 +33,12 @@ object RepositoryModule {
         firebaseFirestore: FirebaseFirestore,
         firebaseAuth: FirebaseAuth,
         taskRepository: TaskRepository
-    ): ProjectRepository = ProjectRepositoryImpl(firebaseFirestore, firebaseAuth,taskRepository)
+    ): ProjectRepository = ProjectRepositoryImpl(firebaseFirestore, firebaseAuth, taskRepository)
 
     @Provides
     @Singleton
     fun provideTaskRepository(
         firebaseFirestore: FirebaseFirestore,
-    ): TaskRepository = TaskRepositoryImpl(firebaseFirestore)
+        firebaseAuth: FirebaseAuth
+    ): TaskRepository = TaskRepositoryImpl(firebaseFirestore, firebaseAuth)
 }

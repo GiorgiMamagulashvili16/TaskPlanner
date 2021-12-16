@@ -29,8 +29,12 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
     private val projectAdapter by lazy { ProjectsAdapter() }
 
     override fun onBindViewModel(viewModel: HomeViewModel) {
-        viewModel.getCurrentUserData()
-        viewModel.setTaskNumbers()
+        with(viewModel) {
+            getCurrentUserData()
+            setDoneTaskNumber()
+            setInProgressTaskNumber()
+            setTodoTaskNumber()
+        }
         setListeners(viewModel)
         observeScreenState(viewModel)
         observeDoneTaskNumber(viewModel)
@@ -47,7 +51,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
                 }
             }
         }
-        binding.floatingActionButton.setOnClickListener {
+        binding.addProjectFloatingButton.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_createProjectFragment)
         }
         binding.logOutButton.setOnClickListener {

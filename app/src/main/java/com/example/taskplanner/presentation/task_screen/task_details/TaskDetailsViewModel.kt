@@ -1,8 +1,6 @@
 package com.example.taskplanner.presentation.task_screen.task_details
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.model.Task
 import com.example.taskplanner.data.repository.project.ProjectRepository
@@ -40,7 +38,7 @@ class TaskDetailsViewModel @Inject constructor(
     }
 
     fun deleteTask(taskId: String) = viewModelScope.launch {
-        taskRepository.deleteTaskByTaskId(taskId)
+        handleResponse(taskRepository.deleteTaskByTaskId(taskId), _deleteTaskState)
     }
 
     fun setTaskDetails(taskId: String) = viewModelScope.launch {

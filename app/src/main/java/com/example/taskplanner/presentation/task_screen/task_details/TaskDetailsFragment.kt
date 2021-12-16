@@ -39,6 +39,7 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
         setListeners(viewModel)
         observeDeleteTaskState(viewModel)
         observeEditTaskState(viewModel)
+        setChipStatus(viewModel)
     }
 
     private fun setListeners(viewModel: TaskDetailsViewModel) {
@@ -91,7 +92,8 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
                     taskDescription = descriptionEditText.text.toString(),
                     status = status.value!!,
                     startTime = startDate.value!!,
-                    endTime = endDate.value!!
+                    endTime = endDate.value!!,
+                    taskId = taskId.value
                 )
                 setEditTask(editedTask)
             }
@@ -150,6 +152,7 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
                 descriptionEditText.setText(taskDescription)
                 setChipStatus(status.getStatusByOrdinal())
                 with(viewModel) {
+                    setStatus(task.status)
                     setEstimateStartDate(startTime!!)
                     setEstimateEndDate(endTime!!)
                     setProjectId(task.projectId!!)
@@ -169,6 +172,24 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
     private fun observeEstimateEndDate(viewModel: TaskDetailsViewModel) {
         liveDataObserver(viewModel.endDate) {
             binding.endDateTextView.text = getString(string.txt_estimate_end_date, it)
+        }
+    }
+
+    private fun setChipStatus(viewModel: TaskDetailsViewModel) {
+        binding.statusChipGroup.setOnCheckedChangeListener { _, checkedId ->
+            with(viewModel) {
+                when (checkedId) {
+                    R.id.todoStateChip -> {
+                        setStatus(Status.TODO.ordinal)
+                    }
+                    R.id.inProgressStateChip -> {
+                        setStatus(Status.IN_PROGRESS.ordinal)
+                    }
+                    R.id.doneStateChip -> {
+                        setStatus(Status.DONE.ordinal)
+                    }
+                }
+            }
         }
     }
 

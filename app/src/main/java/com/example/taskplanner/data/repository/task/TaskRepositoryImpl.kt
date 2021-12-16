@@ -15,9 +15,9 @@ import java.util.*
 import javax.inject.Inject
 
 class TaskRepositoryImpl @Inject constructor(
-    fireStore: FirebaseFirestore
+    fireStore: FirebaseFirestore,
+    private val auth: FirebaseAuth
 ) : TaskRepository {
-    private val userId = FirebaseAuth.getInstance().currentUser?.uid!!
     private val taskCollection = fireStore.collection(TASK_COLLECTION_NAME)
 
     override suspend fun setTask(task: Task): Resource<Unit> = withContext(Dispatchers.IO) {
@@ -25,7 +25,7 @@ class TaskRepositoryImpl @Inject constructor(
             val id = UUID.randomUUID().toString()
             task.apply {
                 taskId = id
-                ownerId = userId
+                ownerId = auth.currentUser?.uid!!
             }
             taskCollection.document(id).set(task).await()
             Resource.Success(Unit)
@@ -44,7 +44,7 @@ class TaskRepositoryImpl @Inject constructor(
     override suspend fun getAllTodoTasksNumber(): Resource<Int> = withContext(Dispatchers.IO) {
         return@withContext fetchData {
             val data =
-                taskCollection.whereEqualTo(OWNER_ID_KEY, userId).get().await()
+                taskCollection.whereEqualTo(OWNER_ID_KEY, auth.currentUser?.uid!!).get().await()
                     .toObjects<Task>().filter {
                         it.status == Status.TODO.ordinal
                     }
@@ -55,7 +55,7 @@ class TaskRepositoryImpl @Inject constructor(
     override suspend fun getAllInProgressTaskNumber(): Resource<Int> = withContext(Dispatchers.IO) {
         return@withContext fetchData {
             val data =
-                taskCollection.whereEqualTo(OWNER_ID_KEY, userId).get().await()
+                taskCollection.whereEqualTo(OWNER_ID_KEY, auth.currentUser?.uid!!).get().await()
                     .toObjects<Task>().filter {
                         it.status == Status.IN_PROGRESS.ordinal
                     }
@@ -66,7 +66,7 @@ class TaskRepositoryImpl @Inject constructor(
     override suspend fun getAllDoneTaskNumber(): Resource<Int> = withContext(Dispatchers.IO) {
         return@withContext fetchData {
             val data =
-                taskCollection.whereEqualTo(OWNER_ID_KEY, userId).get().await()
+                taskCollection.whereEqualTo(OWNER_ID_KEY, auth.currentUser?.uid!!).get().await()
                     .toObjects<Task>().filter {
                         it.status == Status.DONE.ordinal
                     }
