@@ -10,4 +10,6 @@ interface TaskRepository {
     suspend fun getAllInProgressTaskNumber(): Resource<Int>
     suspend fun getAllDoneTaskNumber(): Resource<Int>
     suspend fun getTaskByTaskId(taskId: String): Resource<Task>
+    suspend fun deleteTaskByTaskId(taskId: String): Resource<Unit>
+    suspend fun editTask(task: Task): Resource<Unit>
 }

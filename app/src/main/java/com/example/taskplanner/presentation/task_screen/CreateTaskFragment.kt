@@ -6,8 +6,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskplanner.R
 import com.example.taskplanner.data.model.Task
+import com.example.taskplanner.data.util.Constants.TRANSITION_DEF_PROGRESS
 import com.example.taskplanner.data.util.extension.*
-import com.example.taskplanner.databinding.CreateProjectFragmentBinding
+import com.example.taskplanner.databinding.CreateTaskFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
@@ -15,9 +16,9 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTaskViewModel>() {
-    override fun inflateFragment(): Inflate<CreateProjectFragmentBinding> {
-        return CreateProjectFragmentBinding::inflate
+class CreateTaskFragment : BaseFragment<CreateTaskFragmentBinding, CreateTaskViewModel>() {
+    override fun inflateFragment(): Inflate<CreateTaskFragmentBinding> {
+        return CreateTaskFragmentBinding::inflate
     }
 
     override fun getVmClass(): Class<CreateTaskViewModel> {
@@ -130,9 +131,4 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
         }
         setFabIconChangeListener()
     }
-
-    companion object {
-        private const val TRANSITION_DEF_PROGRESS = 0.4f
-    }
-
 }

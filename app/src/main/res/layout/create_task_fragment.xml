@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light_blue"
+    app:layoutDescription="@xml/create_project_fragment_scene"
+    tools:context=".presentation.project_screen.CreateProjectFragment">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/backButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="15dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/backgroundView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/view_background_for_new_project_screen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.7" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/createNewProjectTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/euclid_bold"
+        android:text="@string/create_new_project"
+        android:textColor="@color/white"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundView"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundView"
+        app:layout_constraintStart_toStartOf="@+id/backgroundView"
+        app:layout_constraintTop_toTopOf="@+id/backgroundView" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/titleInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:hint="@string/project_title"
+        app:boxStrokeColor="@color/bg_blue"
+        app:hintTextColor="@color/bg_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backgroundView"
+        app:layout_constraintWidth_percent="0.82">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textCapWords"
+            android:textColor="@color/bg_blue" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descriptionInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/euclid_bold"
+        android:hint="@string/project_description"
+        app:boxStrokeColor="@color/bg_blue"
+        app:hintTextColor="@color/bg_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleInputLayout"
+        app:layout_constraintWidth_percent="0.82">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/descriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top|start"
+            android:inputType="textCapWords"
+            android:textColor="@color/bg_blue" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/startTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/euclid_bold"
+        android:gravity="center"
+        android:textColor="@color/bg_blue"
+        app:layout_constraintStart_toStartOf="@+id/descriptionInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionInputLayout"
+        tools:text="estimate start time \n 20-12" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/endTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/euclid_bold"
+        android:gravity="center"
+        android:textColor="@color/bg_blue"
+        app:layout_constraintEnd_toEndOf="@+id/descriptionInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionInputLayout"
+        tools:text="estimate end time \n 28-12" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/endTimePickerFloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/end_time_fab_desc"
+        android:src="@drawable/ic_timer_over"
+        app:backgroundTint="@color/bg_blue"
+        app:fabCustomSize="65dp"
+        app:layout_constraintCircle="@id/timePickerFloatingButton"
+        app:layout_constraintCircleRadius="80dp"
+        app:tint="@color/white"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/endTimeFabTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/text_view_background"
+        android:fontFamily="@font/euclid_bold"
+        android:padding="5dp"
+        android:text="@string/end_time"
+        android:textColor="@color/bg_blue"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/endTimePickerFloatingButton"
+        app:layout_constraintEnd_toStartOf="@+id/endTimePickerFloatingButton"
+        app:layout_constraintTop_toTopOf="@+id/endTimePickerFloatingButton" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/startTimePickerFloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/start_time_fab_desc"
+        android:src="@drawable/ic_clock"
+        app:backgroundTint="@color/bg_blue"
+        app:fabCustomSize="65dp"
+        app:layout_constraintCircle="@id/timePickerFloatingButton"
+        app:layout_constraintCircleAngle="270"
+        app:layout_constraintCircleRadius="80dp"
+        app:tint="@color/white"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/startTimeFabTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/text_view_background"
+        android:fontFamily="@font/euclid_bold"
+        android:padding="5dp"
+        android:text="@string/start_time"
+        android:textColor="@color/bg_blue"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/startTimePickerFloatingButton"
+        app:layout_constraintEnd_toStartOf="@+id/startTimePickerFloatingButton"
+        app:layout_constraintTop_toTopOf="@+id/startTimePickerFloatingButton" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/timePickerFloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:contentDescription="@string/time_picker_fab_desc"
+        android:src="@drawable/ic_add_clock"
+        app:backgroundTint="@color/bg_blue"
+        app:fabCustomSize="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/submitFloatingButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/bg_blue"
+        app:icon="@drawable/ic_check"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:indeterminateTint="@color/bg_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.motion.widget.MotionLayout>

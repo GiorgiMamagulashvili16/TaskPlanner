@@ -79,30 +79,6 @@
             app:layout_constraintTop_toBottomOf="@+id/descriptionEditText"
             tools:text="estimate date 20/21" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/startDateChangeButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_edit"
-            android:tint="@color/bg_blue"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/startDateTextView"
-            app:layout_constraintStart_toEndOf="@+id/startDateTextView"
-            app:layout_constraintTop_toTopOf="@+id/startDateTextView" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/endDateChangeButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_edit"
-            android:tint="@color/bg_blue"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/endDateTextView"
-            app:layout_constraintStart_toEndOf="@+id/endDateTextView"
-            app:layout_constraintTop_toTopOf="@+id/endDateTextView" />
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/editTaskButton"
@@ -176,6 +152,30 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/startDateChangeButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/bg_blue"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/startDateTextView"
+            app:layout_constraintStart_toEndOf="@+id/startDateTextView"
+            app:layout_constraintTop_toTopOf="@+id/startDateTextView" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/endDateChangeButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/bg_blue"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/endDateTextView"
+            app:layout_constraintStart_toEndOf="@+id/endDateTextView"
+            app:layout_constraintTop_toTopOf="@+id/endDateTextView" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/statusChipGroup"

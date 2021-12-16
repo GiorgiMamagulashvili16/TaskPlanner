@@ -51,4 +51,6 @@
     <string name="txt_repeat_password_error">Please Repeat Password</string>
     <string name="edit_task">Edit Task</string>
     <string name="delete_task">Delete Task</string>
+    <string name="successfully_deleted_task">Successfully Deleted Task</string>
+    <string name="successfully_edited_task">Successfully Edited Task</string>
 </resources>

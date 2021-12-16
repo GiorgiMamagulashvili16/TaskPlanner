@@ -29,19 +29,18 @@ class TaskDetailsViewModel @Inject constructor(
     private val _taskDetailsScreenState = MutableStateFlow(ScreenState<Task>())
     val taskDetailScreenState: StateFlow<ScreenState<Task>> = _taskDetailsScreenState
 
+    private val _deleteTaskState = MutableStateFlow(ScreenState<Unit>())
+    val deleteTaskState: StateFlow<ScreenState<Unit>> = _deleteTaskState
 
-    private val _projectStartDate = MutableLiveData<String>()
-    val projectStartDate: LiveData<String> = _projectStartDate
+    private val _editTaskState = MutableStateFlow(ScreenState<Unit>())
+    val editTaskState: StateFlow<ScreenState<Unit>> = _editTaskState
 
-    private val _projectEndDate = MutableLiveData<String>()
-    val projectEndDate: LiveData<String> = _projectEndDate
-
-    fun setProjectStartDate(newStartDate: String) = viewModelScope.launch {
-        _projectStartDate.postValue(newStartDate)
+    fun setEditTask(task: Task) = viewModelScope.launch {
+        handleResponse(taskRepository.editTask(task), _editTaskState)
     }
 
-    fun setProjectEndDate(newEndDate: String) = viewModelScope.launch {
-        _projectEndDate.postValue(newEndDate)
+    fun deleteTask(taskId: String) = viewModelScope.launch {
+        taskRepository.deleteTaskByTaskId(taskId)
     }
 
     fun setTaskDetails(taskId: String) = viewModelScope.launch {

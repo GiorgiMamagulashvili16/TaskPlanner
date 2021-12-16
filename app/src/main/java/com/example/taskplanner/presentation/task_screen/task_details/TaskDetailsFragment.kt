@@ -2,6 +2,7 @@ package com.example.taskplanner.presentation.task_screen.task_details
 
 import android.graphics.Color
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskplanner.R
 import com.example.taskplanner.data.model.Task
@@ -36,6 +37,8 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
         observeEstimateEndDate(viewModel)
         observeEstimateStartDate(viewModel)
         setListeners(viewModel)
+        observeDeleteTaskState(viewModel)
+        observeEditTaskState(viewModel)
     }
 
     private fun setListeners(viewModel: TaskDetailsViewModel) {
@@ -71,6 +74,53 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
                     maxDate = viewModel.projectEndDate.value.getDateByTime().time
                 ) { viewModel.setEstimateEndDate(it) }
             }
+            submitButton.setOnClickListener {
+                editTask(viewModel)
+            }
+            deleteTaskButton.setOnClickListener {
+                viewModel.taskId.value?.let { id -> viewModel.deleteTask(id) }
+            }
+        }
+    }
+
+    private fun editTask(viewModel: TaskDetailsViewModel) {
+        with(binding) {
+            with(viewModel) {
+                val editedTask = Task(
+                    taskTitle = titleEditText.text.toString(),
+                    taskDescription = descriptionEditText.text.toString(),
+                    status = status.value!!,
+                    startTime = startDate.value!!,
+                    endTime = endDate.value!!
+                )
+                setEditTask(editedTask)
+            }
+        }
+    }
+
+    private fun observeEditTaskState(viewModel: TaskDetailsViewModel) {
+        flowObserver(viewModel.editTaskState) { state ->
+            if (state.success != null) {
+                TaskDetailsFragmentDirections.actionTaskDetailsFragmentToProjectDetailFragment(
+                    viewModel.projectId.value
+                ).also { findNavController().navigate(it) }
+                setSnackBar(getString(string.successfully_edited_task), Color.GREEN)
+            } else if (state.errorText != null) {
+                setSnackBar(state.errorText, Color.RED)
+            }
+        }
+    }
+
+    private fun observeDeleteTaskState(viewModel: TaskDetailsViewModel) {
+        flowObserver(viewModel.deleteTaskState) { state ->
+            if (state.success != null) {
+                TaskDetailsFragmentDirections.actionTaskDetailsFragmentToProjectDetailFragment(
+                    viewModel.projectId.value
+                ).also { findNavController().navigate(it) }
+                setSnackBar(getString(string.successfully_deleted_task), Color.GREEN)
+            } else if (state.errorText != null) {
+                setSnackBar(state.errorText, Color.RED)
+            }
         }
     }
 
@@ -80,7 +130,7 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
             if (state.success != null) {
                 setTaskDetails(viewModel, state.success)
             } else if (state.errorText != null) {
-                setSnackBar(state.errorText)
+                setSnackBar(state.errorText, Color.RED)
             }
         }
     }
@@ -102,6 +152,7 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
                 with(viewModel) {
                     setEstimateStartDate(startTime!!)
                     setEstimateEndDate(endTime!!)
+                    setProjectId(task.projectId!!)
                 }
             }
             statusChipGroup.setChipsDisabled()
@@ -137,9 +188,9 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
         }
     }
 
-    private fun setSnackBar(message: String) {
+    private fun setSnackBar(message: String, color: Int) {
         createSnackBar(message) {
-            snackAction(Color.RED, getString(string.ok)) {
+            snackAction(color, getString(string.ok)) {
                 dismiss()
             }
         }
