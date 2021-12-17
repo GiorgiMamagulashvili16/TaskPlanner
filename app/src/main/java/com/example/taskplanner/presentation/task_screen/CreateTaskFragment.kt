@@ -5,7 +5,6 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskplanner.R
-import com.example.taskplanner.data.model.Task
 import com.example.taskplanner.data.util.extension.*
 import com.example.taskplanner.databinding.CreateProjectFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
@@ -59,7 +58,7 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
                 }
             }
             backButton.setOnClickListener {
-                findNavController().navigate(R.id.action_createTaskFragment_to_projectDetailFragment)
+                findNavController().navigateUp()
             }
         }
         setUpScreen()
@@ -69,9 +68,7 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
         flowObserver(viewModel.createTaskScreenState) { state ->
             binding.loadingProgressBar.isVisible = state.isLoading
             if (state.success != null) {
-                CreateTaskFragmentDirections.actionCreateTaskFragmentToProjectDetailFragment(
-                    viewModel.projectId.value
-                ).also { findNavController().navigate(it) }
+                findNavController().navigateUp()
             } else if (state.errorText != null) {
                 createSnackBar(state.errorText, Snackbar.LENGTH_INDEFINITE) {
                     snackAction(Color.RED, getString(string.ok)) {
@@ -96,14 +93,7 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
 
     private fun setNewTask(viewModel: CreateTaskViewModel) {
         with(binding) {
-            val task = Task(
-                projectId = viewModel.projectId.value,
-                taskTitle = titleEditText.text.toString(),
-                taskDescription = descriptionEditText.text.toString(),
-                startTime = viewModel.startDate.value,
-                endTime = viewModel.endDate.value,
-            )
-            viewModel.setTask(task)
+            viewModel.setTask(titleEditText.text.toString(), descriptionEditText.text.toString())
         }
     }
 

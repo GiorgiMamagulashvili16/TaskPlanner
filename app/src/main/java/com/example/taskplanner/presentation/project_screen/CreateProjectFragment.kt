@@ -4,7 +4,6 @@ import android.graphics.Color
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
-import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.util.extension.*
 import com.example.taskplanner.databinding.CreateProjectFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
@@ -78,12 +77,7 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
     private fun setInputsForProject(viewModel: CreateProjectViewModel) {
         with(binding) {
             viewModel.setProject(
-                Project(
-                    projectTitle = titleEditText.text.toString(),
-                    projectDescription = descriptionEditText.text.toString(),
-                    startDate = viewModel.startDate.value,
-                    endDate = viewModel.endDate.value
-                )
+                titleEditText.text.toString(), descriptionEditText.text.toString()
             )
         }
     }

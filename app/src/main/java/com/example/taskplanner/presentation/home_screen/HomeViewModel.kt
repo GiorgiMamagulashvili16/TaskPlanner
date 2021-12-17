@@ -7,6 +7,7 @@ import com.example.taskplanner.data.repository.auth.AuthRepository
 import com.example.taskplanner.data.repository.project.ProjectRepository
 import com.example.taskplanner.data.repository.task.TaskRepository
 import com.example.taskplanner.data.util.ResourcesProvider
+import com.example.taskplanner.data.util.ValidatorHelper
 import com.example.taskplanner.presentation.base.BaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +22,9 @@ class HomeViewModel @Inject constructor(
     private val projectRepository: ProjectRepository,
     @ApplicationContext appCtx: Context,
     private val taskRepository: TaskRepository,
-    private val authRepository: AuthRepository
-) : BaseViewModel(ResourcesProvider(appCtx)) {
+    private val authRepository: AuthRepository,
+    validatorHelper: ValidatorHelper
+) : BaseViewModel(ResourcesProvider(appCtx), validatorHelper) {
     private val _homeScreenState = MutableStateFlow(ScreenState<User>())
     val homeScreenState: StateFlow<ScreenState<User>> = _homeScreenState
 

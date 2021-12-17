@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.util.Resource
 import com.example.taskplanner.data.util.ResourcesProvider
-import com.example.taskplanner.data.util.extension.isValidEmail
+import com.example.taskplanner.data.util.ValidatorHelper
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,20 +13,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class BaseViewModel @Inject constructor(
-    val resourcesProvider: ResourcesProvider
+    val resourcesProvider: ResourcesProvider,
+    val validatorHelper: ValidatorHelper
 ) : ViewModel() {
-
-    fun checkIfIsEmpty(input: String): Boolean {
-        return input.trim().isBlank()
-    }
-
-    fun validateEmail(email: String): Boolean {
-        return !checkIfIsEmpty(email) && email.isValidEmail()
-    }
-
-     fun checkIfIsNull(input: String?): Boolean {
-        return input == null
-    }
 
     protected fun <T> handleResponse(
         response: Resource<T>,
@@ -41,4 +30,10 @@ open class BaseViewModel @Inject constructor(
             }
         }
     }
+
+    protected fun <T> emitFlowErrorState(flow: MutableStateFlow<ScreenState<T>>, message: Int) =
+        viewModelScope.launch {
+            flow.emit(ScreenState(errorText = resourcesProvider.getString(message)))
+        }
+
 }

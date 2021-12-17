@@ -2,9 +2,10 @@ package com.example.taskplanner.presentation.authorization.login_screen
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl
-import com.example.taskplanner.presentation.base.AuthBaseViewModel
+import com.example.taskplanner.data.util.ResourcesProvider
+import com.example.taskplanner.data.util.ValidatorHelper
+import com.example.taskplanner.presentation.base.BaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,18 +17,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    authRepository: AuthRepositoryImpl,
-    @ApplicationContext appCtx: Context
-) : AuthBaseViewModel(appCtx, authRepository) {
+    val authRepository: AuthRepositoryImpl,
+    @ApplicationContext appCtx: Context,
+    validatorHelper: ValidatorHelper
+) : BaseViewModel(ResourcesProvider(appCtx), validatorHelper) {
 
     private val _loginScreenState = MutableStateFlow(ScreenState<AuthResult>())
     val loginScreenState: StateFlow<ScreenState<AuthResult>> = _loginScreenState
 
     fun logIn(email: String, password: String) = viewModelScope.launch {
         _loginScreenState.emit(ScreenState(isLoading = true))
-        logIn(
-            _loginScreenState,
-            User(email = email, password = password)
-        )
+        if (validatorHelper.checkParamsIsBlank(
+                listOf(
+                    email,
+                    password
+                )
+            ) { emitFlowErrorState(_loginScreenState, it) } && validatorHelper.checkEmail(email) {
+                emitFlowErrorState(
+                    _loginScreenState, it
+                )
+            }
+        ) {
+            handleResponse(authRepository.logIn(email, password), _loginScreenState)
+        }
     }
+
 }

@@ -144,17 +144,10 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
 
     private fun updateProjectData(viewModel: ProjectDetailViewModel) {
         with(binding) {
-            with(viewModel) {
-                val project = Project(
-                    projectId = projectId.value!!,
-                    projectTitle = titleEditText.text.toString(),
-                    projectDescription = descriptionEditText.text.toString(),
-                    startDate = startDate.value,
-                    endDate = endDate.value,
-                    projectStatus = status.value!!
-                )
-                editProjectDetailInfo(project)
-            }
+            viewModel.editProjectDetailInfo(
+                titleEditText.text.toString(),
+                descriptionEditText.text.toString()
+            )
         }
     }
 
