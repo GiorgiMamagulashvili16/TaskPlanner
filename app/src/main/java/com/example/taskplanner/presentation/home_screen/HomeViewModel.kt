@@ -1,6 +1,7 @@
 package com.example.taskplanner.presentation.home_screen
 
 import android.content.Context
+import android.util.Log.d
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.repository.auth.AuthRepository
@@ -9,6 +10,7 @@ import com.example.taskplanner.data.repository.task.TaskRepository
 import com.example.taskplanner.data.util.ResourcesProvider
 import com.example.taskplanner.data.util.ValidatorHelper
 import com.example.taskplanner.presentation.base.BaseViewModel
+import com.example.taskplanner.presentation.project_screen.Status
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -21,7 +23,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val projectRepository: ProjectRepository,
     @ApplicationContext appCtx: Context,
-    private val taskRepository: TaskRepository,
     private val authRepository: AuthRepository,
     validatorHelper: ValidatorHelper
 ) : BaseViewModel(ResourcesProvider(appCtx), validatorHelper) {
@@ -45,9 +46,9 @@ class HomeViewModel @Inject constructor(
     }
 
     fun setTaskNumbers() = viewModelScope.launch {
-        _todoTasksNumber.emit(taskRepository.getAllTodoTasksNumber().data!!)
-        _inProgressTasksNumber.emit(taskRepository.getAllInProgressTaskNumber().data!!)
-        _doneTasksNumber.emit(taskRepository.getAllDoneTaskNumber().data!!)
+        _todoTasksNumber.emit(projectRepository.getProjectNumberByStatus(Status.TODO.ordinal))
+        _inProgressTasksNumber.emit(projectRepository.getProjectNumberByStatus(Status.IN_PROGRESS.ordinal))
+        _doneTasksNumber.emit(projectRepository.getProjectNumberByStatus(Status.DONE.ordinal))
     }
 
     fun getCurrentUserData() = viewModelScope.launch {

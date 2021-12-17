@@ -40,40 +40,6 @@ class TaskRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getAllTodoTasksNumber(): Resource<Int> = withContext(Dispatchers.IO) {
-        return@withContext fetchData {
-            val data =
-                taskCollection.whereEqualTo(OWNER_ID_KEY, userId).get().await()
-                    .toObjects<Task>().filter {
-                        it.status == Status.TODO.ordinal
-                    }
-            Resource.Success(data.size)
-        }
-    }
-
-    override suspend fun getAllInProgressTaskNumber(): Resource<Int> = withContext(Dispatchers.IO) {
-        return@withContext fetchData {
-            val data =
-                taskCollection.whereEqualTo(OWNER_ID_KEY, userId).get().await()
-                    .toObjects<Task>().filter {
-                        it.status == Status.IN_PROGRESS.ordinal
-                    }
-            Resource.Success(data.size)
-        }
-    }
-
-    override suspend fun getAllDoneTaskNumber(): Resource<Int> = withContext(Dispatchers.IO) {
-        return@withContext fetchData {
-            val data =
-                taskCollection.whereEqualTo(OWNER_ID_KEY, userId).get().await()
-                    .toObjects<Task>().filter {
-                        it.status == Status.DONE.ordinal
-                    }
-
-            Resource.Success(data.size)
-        }
-    }
-
     companion object {
         private const val OWNER_ID_KEY = "ownerId"
         private const val PROJECT_ID_KEY = "projectId"

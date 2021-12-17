@@ -1,6 +1,5 @@
 package com.example.taskplanner.data.repository.project
 
-import android.util.Log
 import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.repository.task.TaskRepository
@@ -27,7 +26,6 @@ class ProjectRepositoryImpl @Inject constructor(
     override suspend fun setProject(project: Project): Resource<Unit> =
         withContext(Dispatchers.IO) {
             return@withContext fetchData {
-                Log.d("NEWEW", "in")
                 with(project) {
                     val userId = auth.currentUser?.uid!!
                     val projectId = UUID.randomUUID().toString()
@@ -100,6 +98,12 @@ class ProjectRepositoryImpl @Inject constructor(
                 Resource.Success(Unit)
             }
         }
+
+    override suspend fun getProjectNumberByStatus(status: Int): Int {
+        val response = projectCollection.whereEqualTo(OWNER_ID_KEY, auth.currentUser?.uid!!)
+            .whereEqualTo(PROJECT_STATUS_KEY, status).get().await().toObjects<Project>()
+        return response.size
+    }
 
     companion object {
         private const val PROJECT_COLLECTION_NAME = "Project"

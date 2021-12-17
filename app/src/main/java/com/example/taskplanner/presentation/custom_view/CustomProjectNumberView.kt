@@ -6,14 +6,14 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.taskplanner.R
-import com.example.taskplanner.databinding.CustomItemForTaskNumberBinding
+import com.example.taskplanner.databinding.CustomItemForProjectNumberBinding
 
-class CustomTaskNumberView @JvmOverloads constructor(
+class CustomProjectNumberView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet,
     defAttrs: Int = 0,
 ) : ConstraintLayout(context, attrs, defAttrs) {
-    private var binding: CustomItemForTaskNumberBinding = CustomItemForTaskNumberBinding.inflate(
+    private var binding: CustomItemForProjectNumberBinding = CustomItemForProjectNumberBinding.inflate(
         LayoutInflater.from(context), this, true
     )
 
