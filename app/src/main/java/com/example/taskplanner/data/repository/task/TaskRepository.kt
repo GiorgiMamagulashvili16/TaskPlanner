@@ -6,10 +6,4 @@ import com.example.taskplanner.data.util.Resource
 interface TaskRepository {
     suspend fun setTask(task: Task): Resource<Unit>
     suspend fun getTaskByProjectId(projectId: String): Resource<List<Task>>
-    suspend fun getAllTodoTasksNumber(): Resource<Int>
-    suspend fun getAllInProgressTaskNumber(): Resource<Int>
-    suspend fun getAllDoneTaskNumber(): Resource<Int>
-    suspend fun getTaskByTaskId(taskId: String): Resource<Task>
-    suspend fun deleteTaskByTaskId(taskId: String): Resource<Unit>
-    suspend fun editTask(task: Task): Resource<Unit>
 }

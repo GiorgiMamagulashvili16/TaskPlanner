@@ -106,10 +106,10 @@
             app:argType="string" />
         <argument
             android:name="projectStartDate"
-            app:argType="string" />
+            app:argType="long" />
         <argument
             android:name="projectEndDate"
-            app:argType="string" />
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/taskDetailsFragment"

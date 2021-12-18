@@ -25,7 +25,7 @@ class DatePickerFragment(
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val datePickerDialog = DatePickerDialog(requireActivity(), this, year, month, day)
         with(datePickerDialog.datePicker) {
-            minimumDate?.let{
+            minimumDate?.let {
                 minDate = it
             }
             maximumDate?.let {
@@ -40,11 +40,8 @@ class DatePickerFragment(
             set(Calendar.YEAR, year)
             set(Calendar.MONTH, month)
             set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-            val selectedTime =
-                SimpleDateFormat(DATE_FORMATTER_PATTERN, Locale.getDefault()).format(calendar.time)
             val selectedDateBundle = Bundle().apply {
-                putString(SELECTED_DATE_STRING_KEY, selectedTime)
+                putLong(SELECTED_DATE_STRING_KEY, calendar.timeInMillis)
             }
 
             setFragmentResult(BUNDLE_REQUEST_KEY, selectedDateBundle)

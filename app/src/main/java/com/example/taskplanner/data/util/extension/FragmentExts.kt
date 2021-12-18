@@ -54,7 +54,7 @@ fun Fragment.checkMediaPermissions(action: () -> Unit):
 fun Fragment.setDatePicker(
     minDate: Long? = null,
     maxDate: Long? = null,
-    action: (date: String) -> Unit
+    action: (date: Long) -> Unit
 ) {
     val datePicker = DatePickerFragment(minDate, maxDate)
     requireActivity().supportFragmentManager.setFragmentResultListener(
@@ -62,7 +62,7 @@ fun Fragment.setDatePicker(
         viewLifecycleOwner
     ) { requestKey, bundle ->
         if (requestKey == Constants.BUNDLE_REQUEST_KEY) {
-            val date = bundle.getString(Constants.SELECTED_DATE_STRING_KEY).toString()
+            val date = bundle.getLong(Constants.SELECTED_DATE_STRING_KEY)
             action.invoke(date)
         }
     }

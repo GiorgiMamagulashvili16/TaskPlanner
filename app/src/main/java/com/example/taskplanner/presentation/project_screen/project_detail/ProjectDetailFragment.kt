@@ -7,7 +7,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskplanner.R
 import com.example.taskplanner.data.model.Project
-import com.example.taskplanner.data.util.Constants.TRANSITION_DEF_PROGRESS
 import com.example.taskplanner.data.util.extension.*
 import com.example.taskplanner.databinding.ProjectDetailFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
@@ -15,6 +14,7 @@ import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
 import com.example.taskplanner.presentation.project_screen.Status
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, ProjectDetailViewModel>() {
@@ -44,32 +44,22 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
     private fun setListeners(viewModel: ProjectDetailViewModel) {
         with(binding) {
             editProjectButton.setOnClickListener {
-                listOf(titleEditText, descriptionEditText).forEach { view ->
-                    view.enableOrDisableView()
-                }
-                submitButton.changeVisibility()
-                listOf(startDateChangeButton, endDateChangeButton).forEach { view ->
-                    view.changeVisibilityByParam(submitButton.isVisible)
-                }
-                listOf(titleEditText, descriptionEditText).forEach { view ->
-                    view.changeSameViewBackground(
-                        submitButton.isVisible,
-                        R.drawable.enabled_edit_text_background,
-                        R.drawable.edit_text_background
-                    )
-                }
-                statusChipGroup.setChipsEnabledOrDisabled(submitButton.isVisible)
+                editButtonClickEvents()
             }
             deleteProjectButton.setOnClickListener {
-                viewModel.projectId.value?.let { id -> viewModel.deleteProject(id) }
+                deleteProject(viewModel)
             }
             startDateChangeButton.setOnClickListener {
-                setDatePicker {
+                setDatePicker(
+                    minDate = Date().time
+                ) {
                     viewModel.setEstimateStartDate(it)
                 }
             }
             endDateChangeButton.setOnClickListener {
-                setDatePicker {
+                setDatePicker(
+                    minDate = viewModel.startDate.value
+                ) {
                     viewModel.setEstimateEndDate(it)
                 }
             }
@@ -77,28 +67,42 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                 updateProjectData(viewModel)
             }
             addTaskButton.setOnClickListener {
-                viewModel.projectId.value?.let { projectId ->
-                    ProjectDetailFragmentDirections.actionProjectDetailFragmentToCreateTaskFragment(
-                        projectId, viewModel.startDate.value!!, viewModel.endDate.value!!
-                    ).also { action ->
-                        findNavController().navigate(action)
-                    }
+                ProjectDetailFragmentDirections.actionProjectDetailFragmentToCreateTaskFragment(
+                    viewModel.projectId.value!!,
+                    viewModel.startDate.value!!,
+                    viewModel.endDate.value!!
+                ).also {
+                    findNavController().navigate(it)
                 }
             }
             backButton.setOnClickListener {
                 findNavController().navigate(R.id.action_projectDetailFragment_to_homeFragment)
             }
         }
-        taskAdapter.onTaskClick = { taskId ->
-            if (findNavController().currentDestination?.id == R.id.projectDetailFragment) {
-                ProjectDetailFragmentDirections.actionProjectDetailFragmentToTaskDetailsFragment(
-                    taskId,
-                    viewModel.startDate.value!!, viewModel.endDate.value!!
-                ).also {
-                    findNavController().navigate(it)
-                }
+    }
+
+    private fun editButtonClickEvents() {
+        with(binding) {
+            listOf(titleEditText, descriptionEditText).forEach { view ->
+                view.enableOrDisableView()
             }
+            submitButton.changeVisibility()
+            listOf(startDateChangeButton, endDateChangeButton).forEach { view ->
+                view.changeVisibilityByParam(submitButton.isVisible)
+            }
+            listOf(titleEditText, descriptionEditText).forEach { view ->
+                view.changeSameViewBackground(
+                    submitButton.isVisible,
+                    R.drawable.enabled_edit_text_background,
+                    R.drawable.edit_text_background
+                )
+            }
+            statusChipGroup.setChipsEnabledOrDisabled(submitButton.isVisible)
         }
+    }
+
+    private fun deleteProject(viewModel: ProjectDetailViewModel) {
+        viewModel.projectId.value?.let { id -> viewModel.deleteProject(id) }
     }
 
     private fun observeProjectId(viewModel: ProjectDetailViewModel) {
@@ -132,13 +136,15 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
 
     private fun observeStartDate(viewModel: ProjectDetailViewModel) {
         liveDataObserver(viewModel.startDate) {
-            binding.startDateTextView.text = getString(string.txt_estimate_start_date, it)
+            binding.startDateTextView.text =
+                getString(string.txt_estimate_start_date, it.getTimeByMillis())
         }
     }
 
     private fun observeEndDate(viewModel: ProjectDetailViewModel) {
         liveDataObserver(viewModel.endDate) {
-            binding.endDateTextView.text = getString(string.txt_estimate_end_date, it)
+            binding.endDateTextView.text =
+                getString(string.txt_estimate_end_date, it.getTimeByMillis())
         }
     }
 
@@ -155,17 +161,10 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
 
     private fun updateProjectData(viewModel: ProjectDetailViewModel) {
         with(binding) {
-            with(viewModel) {
-                val project = Project(
-                    projectId = projectId.value!!,
-                    projectTitle = titleEditText.text.toString(),
-                    projectDescription = descriptionEditText.text.toString(),
-                    startDate = startDate.value,
-                    endDate = endDate.value,
-                    projectStatus = status.value!!
-                )
-                editProjectDetailInfo(project)
-            }
+            viewModel.editProjectDetailInfo(
+                titleEditText.text.toString(),
+                descriptionEditText.text.toString()
+            )
         }
     }
 
@@ -174,7 +173,22 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             with(project) {
                 titleEditText.setText(projectTitle)
                 descriptionEditText.setText(projectDescription)
-                setChipStatus(projectStatus.getStatusByOrdinal())
+                startDateTextView.text =
+                    getString(string.txt_estimate_start_date, startDate.getTimeByMillis())
+                endDateTextView.text =
+                    getString(string.txt_estimate_end_date, endDate.getTimeByMillis())
+
+                when (projectStatus.getStatusByOrdinal()) {
+                    Status.TODO -> {
+                        todoStateChip.isChecked = true
+                    }
+                    Status.DONE -> {
+                        doneStateChip.isChecked = true
+                    }
+                    Status.IN_PROGRESS -> {
+                        inProgressStateChip.isChecked = true
+                    }
+                }
             }
             with(viewModel) {
                 setEstimateStartDate(project.startDate!!)
@@ -184,22 +198,6 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             statusChipGroup.setChipsDisabled()
             initTaskRecycle()
             taskAdapter.submitList(project.subTasks)
-        }
-    }
-
-    private fun setChipStatus(status: Status) {
-        with(binding) {
-            when (status) {
-                Status.TODO -> {
-                    todoStateChip.isChecked = true
-                }
-                Status.DONE -> {
-                    doneStateChip.isChecked = true
-                }
-                Status.IN_PROGRESS -> {
-                    inProgressStateChip.isChecked = true
-                }
-            }
         }
     }
 
@@ -247,5 +245,9 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                     moreOptionButton.setDrawableImage(requireContext(), R.drawable.ic_close)
                 })
         }
+    }
+
+    companion object {
+        private const val TRANSITION_DEF_PROGRESS = 0.4f
     }
 }

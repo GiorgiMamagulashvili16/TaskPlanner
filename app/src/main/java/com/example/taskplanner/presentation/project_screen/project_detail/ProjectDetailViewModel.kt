@@ -1,12 +1,10 @@
 package com.example.taskplanner.presentation.project_screen.project_detail
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.model.Project
 import com.example.taskplanner.data.repository.project.ProjectRepository
-import com.example.taskplanner.data.repository.task.TaskRepository
+import com.example.taskplanner.data.util.ValidatorHelper
 import com.example.taskplanner.presentation.base.ProjectBaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,8 +18,8 @@ import javax.inject.Inject
 class ProjectDetailViewModel @Inject constructor(
     @ApplicationContext appCtx: Context,
     private val projectRepository: ProjectRepository,
-    taskRepository: TaskRepository
-) : ProjectBaseViewModel(appCtx,projectRepository,taskRepository) {
+    validatorHelper: ValidatorHelper
+) : ProjectBaseViewModel(appCtx, validatorHelper) {
 
     private val _projectDetailScreenState = MutableStateFlow(ScreenState<Project>())
     val projectDetailScreenState: StateFlow<ScreenState<Project>> = _projectDetailScreenState
@@ -32,9 +30,27 @@ class ProjectDetailViewModel @Inject constructor(
     private val _editProjectDetailsState = MutableStateFlow(ScreenState<Unit>())
     val editProjectDetailState: StateFlow<ScreenState<Unit>> = _editProjectDetailsState
 
-    fun editProjectDetailInfo(project: Project) = viewModelScope.launch {
+    fun editProjectDetailInfo(title: String, description: String) = viewModelScope.launch {
         _editProjectDetailsState.emit(ScreenState(isLoading = true))
-        handleResponse(projectRepository.editProjectInfo(project), _editProjectDetailsState)
+        if (validatorHelper.checkParamsIsBlank(listOf(title, description)) {
+                emitFlowErrorState(
+                    _editProjectDetailsState,
+                    it
+                )
+            } && validatorHelper.checkDatesIsNotNull(listOf(startDate.value, endDate.value)) {
+                emitFlowErrorState(_editProjectDetailsState, it)
+            }
+        ) {
+            val project = Project(
+                projectId = projectId.value!!,
+                projectTitle = title,
+                projectDescription = description,
+                projectStatus = status.value!!,
+                startDate = startDate.value,
+                endDate = endDate.value
+            )
+            handleResponse(projectRepository.editProjectInfo(project), _editProjectDetailsState)
+        }
     }
 
     fun setProjectDetailData(projectId: String) = viewModelScope.launch {
@@ -46,6 +62,4 @@ class ProjectDetailViewModel @Inject constructor(
         _deleteProjectState.emit(ScreenState(isLoading = true))
         handleResponse(projectRepository.deleteProjectById(projectId), _deleteProjectState)
     }
-
-
 }

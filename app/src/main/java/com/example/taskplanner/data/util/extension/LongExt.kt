@@ -4,7 +4,7 @@ import com.example.taskplanner.data.util.Constants
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun String?.getDateByTime(): Date {
+fun Long?.getTimeByMillis(): String {
     val sdf = SimpleDateFormat(Constants.DATE_FORMATTER_PATTERN, Locale.getDefault())
-    return sdf.parse(this ?: sdf.format(Date()))!!
+    return sdf.format(this ?: sdf.format(Date()))
 }

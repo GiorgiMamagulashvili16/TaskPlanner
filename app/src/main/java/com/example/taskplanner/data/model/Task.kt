@@ -8,7 +8,7 @@ data class Task(
     var ownerId:String?= null,
     val taskTitle: String? = null,
     val taskDescription: String? = null,
-    val startTime: String? = null,
-    val endTime: String? = null,
+    val startTime: Long? = null,
+    val endTime: Long? = null,
     val status: Int = Status.TODO.ordinal
 )

@@ -1,13 +1,16 @@
 package com.example.taskplanner.presentation.home_screen
 
 import android.content.Context
+import android.util.Log.d
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.repository.auth.AuthRepository
 import com.example.taskplanner.data.repository.project.ProjectRepository
 import com.example.taskplanner.data.repository.task.TaskRepository
 import com.example.taskplanner.data.util.ResourcesProvider
+import com.example.taskplanner.data.util.ValidatorHelper
 import com.example.taskplanner.presentation.base.BaseViewModel
+import com.example.taskplanner.presentation.project_screen.Status
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,9 +23,9 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val projectRepository: ProjectRepository,
     @ApplicationContext appCtx: Context,
-    private val taskRepository: TaskRepository,
-    private val authRepository: AuthRepository
-) : BaseViewModel(ResourcesProvider(appCtx)) {
+    private val authRepository: AuthRepository,
+    validatorHelper: ValidatorHelper
+) : BaseViewModel(ResourcesProvider(appCtx), validatorHelper) {
     private val _homeScreenState = MutableStateFlow(ScreenState<User>())
     val homeScreenState: StateFlow<ScreenState<User>> = _homeScreenState
 
@@ -42,22 +45,10 @@ class HomeViewModel @Inject constructor(
         _logOut.emit(authRepository.signOut().data)
     }
 
-    fun setTodoTaskNumber(number: Int? = null) = viewModelScope.launch {
-        number?.let {
-            _todoTasksNumber.emit(it)
-        } ?: taskRepository.getAllTodoTasksNumber().data?.let { _todoTasksNumber.emit(it) }
-    }
-
-    fun setInProgressTaskNumber(number: Int? = null) = viewModelScope.launch {
-        number?.let {
-            _inProgressTasksNumber.emit(it)
-        } ?: taskRepository.getAllInProgressTaskNumber().data?.let { _inProgressTasksNumber.emit(it) }
-    }
-
-    fun setDoneTaskNumber(number: Int? = null) = viewModelScope.launch {
-        number?.let {
-            _doneTasksNumber.emit(it)
-        } ?: taskRepository.getAllDoneTaskNumber().data?.let { _doneTasksNumber.emit(it) }
+    fun setTaskNumbers() = viewModelScope.launch {
+        _todoTasksNumber.emit(projectRepository.getProjectNumberByStatus(Status.TODO.ordinal))
+        _inProgressTasksNumber.emit(projectRepository.getProjectNumberByStatus(Status.IN_PROGRESS.ordinal))
+        _doneTasksNumber.emit(projectRepository.getProjectNumberByStatus(Status.DONE.ordinal))
     }
 
     fun getCurrentUserData() = viewModelScope.launch {

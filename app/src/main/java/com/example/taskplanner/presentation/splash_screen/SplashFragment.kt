@@ -24,7 +24,7 @@ class SplashFragment : BaseFragment<SplashFragmentBinding, SplashViewModel>() {
         observeUserState(viewModel)
         d(
             "PPRogress",
-            SimpleDateFormat(DATE_FORMATTER_PATTERN, Locale.getDefault()).format(Date())
+            SimpleDateFormat(DATE_FORMATTER_PATTERN, Locale.getDefault()).format(1639807935687)
         )
     }
 

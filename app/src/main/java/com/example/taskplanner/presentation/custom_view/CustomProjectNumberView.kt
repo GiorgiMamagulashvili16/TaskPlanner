@@ -1,45 +1,31 @@
 package com.example.taskplanner.presentation.custom_view
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.taskplanner.R
-import com.example.taskplanner.databinding.CustomItemForTaskNumberBinding
+import com.example.taskplanner.databinding.CustomItemForProjectNumberBinding
 
-class CustomTaskNumberView @JvmOverloads constructor(
+class CustomProjectNumberView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet,
     defAttrs: Int = 0,
 ) : ConstraintLayout(context, attrs, defAttrs) {
-    private var attributes: TypedArray
-    private var roundBackgroundColor: Int
-    private var roundBackground: CardView
-    private var textView: AppCompatTextView
-    private var numberTextView: AppCompatTextView
+    private var binding: CustomItemForProjectNumberBinding = CustomItemForProjectNumberBinding.inflate(
+        LayoutInflater.from(context), this, true
+    )
 
     init {
-        val binding: CustomItemForTaskNumberBinding = CustomItemForTaskNumberBinding.inflate(
-            LayoutInflater.from(context), this, true
-        )
-        attributes = context.theme.obtainStyledAttributes(
+        val attributes = context.theme.obtainStyledAttributes(
             attrs,
             R.styleable.CustomTaskNumberItem,
             defAttrs,
             0
         )
-        with(binding) {
-            roundBackground = backgroundView
-            textView = statusTextView
-        }
-        numberTextView = binding.numberTextView
-
         with(attributes) {
-            roundBackgroundColor =
+            val roundBackgroundColor =
                 getInt(R.styleable.CustomTaskNumberItem_roundBackgroundColor, Color.RED)
             val text = getString(R.styleable.CustomTaskNumberItem_text).toString()
             val textColor = getInt(R.styleable.CustomTaskNumberItem_textColor, Color.BLACK)
@@ -52,24 +38,24 @@ class CustomTaskNumberView @JvmOverloads constructor(
     }
 
     private fun setTextParams(txt: String, textColor: Int) {
-        with(textView) {
+        with(binding.statusTextView) {
             text = txt
             setTextColor(textColor)
         }
     }
 
     private fun setNumberTextParams(numberText: String, numberTextColor: Int) {
-        with(numberTextView) {
+        with(binding.numberTextView) {
             text = numberText
             setTextColor(numberTextColor)
         }
     }
 
     private fun setBackgroundParams(backgroundColor: Int) {
-        roundBackground.setCardBackgroundColor(backgroundColor)
+        binding.backgroundView.setCardBackgroundColor(backgroundColor)
     }
 
     fun setText(newText: String) {
-        numberTextView.text = newText
+        binding.numberTextView.text = newText
     }
 }

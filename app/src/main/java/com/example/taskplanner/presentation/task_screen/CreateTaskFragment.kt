@@ -5,10 +5,8 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskplanner.R
-import com.example.taskplanner.data.model.Task
-import com.example.taskplanner.data.util.Constants.TRANSITION_DEF_PROGRESS
 import com.example.taskplanner.data.util.extension.*
-import com.example.taskplanner.databinding.CreateTaskFragmentBinding
+import com.example.taskplanner.databinding.CreateProjectFragmentBinding
 import com.example.taskplanner.presentation.authorization.registration_screen.string
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
@@ -16,9 +14,9 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CreateTaskFragment : BaseFragment<CreateTaskFragmentBinding, CreateTaskViewModel>() {
-    override fun inflateFragment(): Inflate<CreateTaskFragmentBinding> {
-        return CreateTaskFragmentBinding::inflate
+class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTaskViewModel>() {
+    override fun inflateFragment(): Inflate<CreateProjectFragmentBinding> {
+        return CreateProjectFragmentBinding::inflate
     }
 
     override fun getVmClass(): Class<CreateTaskViewModel> {
@@ -45,22 +43,22 @@ class CreateTaskFragment : BaseFragment<CreateTaskFragmentBinding, CreateTaskVie
             }
             startTimePickerFloatingButton.setOnClickListener {
                 setDatePicker(
-                    minDate = viewModel.projectStartDate.value.getDateByTime().time,
-                    maxDate = viewModel.projectEndDate.value.getDateByTime().time
+                    minDate = viewModel.projectStartDate.value,
+                    maxDate = viewModel.projectEndDate.value
                 ) {
                     viewModel.setEstimateStartDate(it)
                 }
             }
             endTimePickerFloatingButton.setOnClickListener {
                 setDatePicker(
-                    minDate = viewModel.startDate.value.getDateByTime().time,
-                    maxDate = viewModel.projectEndDate.value.getDateByTime().time
+                    minDate = viewModel.startDate.value ?: viewModel.projectStartDate.value,
+                    maxDate = viewModel.projectEndDate.value
                 ) {
                     viewModel.setEstimateEndDate(it)
                 }
             }
             backButton.setOnClickListener {
-                findNavController().navigate(R.id.action_createTaskFragment_to_projectDetailFragment)
+                findNavController().navigateUp()
             }
         }
         setUpScreen()
@@ -70,9 +68,7 @@ class CreateTaskFragment : BaseFragment<CreateTaskFragmentBinding, CreateTaskVie
         flowObserver(viewModel.createTaskScreenState) { state ->
             binding.loadingProgressBar.isVisible = state.isLoading
             if (state.success != null) {
-                CreateTaskFragmentDirections.actionCreateTaskFragmentToProjectDetailFragment(
-                    viewModel.projectId.value
-                ).also { findNavController().navigate(it) }
+                findNavController().navigateUp()
             } else if (state.errorText != null) {
                 createSnackBar(state.errorText, Snackbar.LENGTH_INDEFINITE) {
                     snackAction(Color.RED, getString(string.ok)) {
@@ -85,26 +81,21 @@ class CreateTaskFragment : BaseFragment<CreateTaskFragmentBinding, CreateTaskVie
 
     private fun observeStartDate(viewModel: CreateTaskViewModel) {
         liveDataObserver(viewModel.startDate) {
-            binding.startTimeTextView.text = getString(string.txt_estimate_start_date, it)
+            binding.startTimeTextView.text =
+                getString(string.txt_estimate_start_date, it.getTimeByMillis())
         }
     }
 
     private fun observeEndDate(viewModel: CreateTaskViewModel) {
         liveDataObserver(viewModel.endDate) {
-            binding.endTimeTextView.text = getString(string.txt_estimate_end_date, it)
+            binding.endTimeTextView.text =
+                getString(string.txt_estimate_end_date, it.getTimeByMillis())
         }
     }
 
     private fun setNewTask(viewModel: CreateTaskViewModel) {
         with(binding) {
-            val task = Task(
-                projectId = viewModel.projectId.value,
-                taskTitle = titleEditText.text.toString(),
-                taskDescription = descriptionEditText.text.toString(),
-                startTime = viewModel.startDate.value,
-                endTime = viewModel.endDate.value,
-            )
-            viewModel.setTask(task)
+            viewModel.setTask(titleEditText.text.toString(), descriptionEditText.text.toString())
         }
     }
 
@@ -131,4 +122,9 @@ class CreateTaskFragment : BaseFragment<CreateTaskFragmentBinding, CreateTaskVie
         }
         setFabIconChangeListener()
     }
+
+    companion object {
+        private const val TRANSITION_DEF_PROGRESS = 0.4f
+    }
+
 }

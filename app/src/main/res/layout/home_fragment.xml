@@ -92,7 +92,7 @@
             android:layout_height="match_parent"
             android:padding="5dp">
 
-            <com.example.taskplanner.presentation.custom_view.CustomTaskNumberView
+            <com.example.taskplanner.presentation.custom_view.CustomProjectNumberView
                 android:id="@+id/todoTaskNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 app:text="@string/todo"
                 app:textColor="@color/todo_gray" />
 
-            <com.example.taskplanner.presentation.custom_view.CustomTaskNumberView
+            <com.example.taskplanner.presentation.custom_view.CustomProjectNumberView
                 android:id="@+id/inProgressTaskNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                 app:text="@string/in_progress"
                 app:textColor="@color/todo_gray" />
 
-            <com.example.taskplanner.presentation.custom_view.CustomTaskNumberView
+            <com.example.taskplanner.presentation.custom_view.CustomProjectNumberView
                 android:id="@+id/doneTaskNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

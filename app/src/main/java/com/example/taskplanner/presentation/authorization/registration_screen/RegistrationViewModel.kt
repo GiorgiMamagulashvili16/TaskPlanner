@@ -5,7 +5,9 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.model.User
 import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl
-import com.example.taskplanner.presentation.base.AuthBaseViewModel
+import com.example.taskplanner.data.util.ResourcesProvider
+import com.example.taskplanner.data.util.ValidatorHelper
+import com.example.taskplanner.presentation.base.BaseViewModel
 import com.example.taskplanner.presentation.screen_state.ScreenState
 import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,9 +19,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    authRepository: AuthRepositoryImpl,
-    @ApplicationContext appCtx: Context
-) : AuthBaseViewModel(appCtx, authRepository) {
+    private val authRepository: AuthRepositoryImpl,
+    @ApplicationContext appCtx: Context,
+    validatorHelper: ValidatorHelper
+) : BaseViewModel(ResourcesProvider(appCtx), validatorHelper) {
 
     private val _imageUri = MutableStateFlow<Uri?>(null)
     val imageUri: StateFlow<Uri?> = _imageUri
@@ -28,16 +31,42 @@ class RegistrationViewModel @Inject constructor(
         _imageUri.emit(imageUri)
     }
 
-    private val _registerScreenState = MutableStateFlow(ScreenState<AuthResult>())
-    val registerScreenState: StateFlow<ScreenState<AuthResult>> = _registerScreenState
-
+    private val _registrationScreenState = MutableStateFlow(ScreenState<AuthResult>())
+    val registrationScreenState: StateFlow<ScreenState<AuthResult>> = _registrationScreenState
 
     fun signUp(user: User) =
         viewModelScope.launch {
-            _registerScreenState.emit(ScreenState(isLoading = true))
-            signUp(
-                _registerScreenState,
-                user
-            )
+            _registrationScreenState.emit(ScreenState(isLoading = true))
+            with(user) {
+                if (validatorHelper.checkParamsIsBlank(
+                        listOf(
+                            username!!,
+                            email!!,
+                            password!!,
+                            repeatedPassword!!,
+                        )
+                    ) {
+                        emitFlowErrorState(
+                            _registrationScreenState,
+                            it
+                        )
+                    } && validatorHelper.checkEmail(email) {
+                        emitFlowErrorState(
+                            _registrationScreenState,
+                            it
+                        )
+                    } && validatorHelper.checkPasswords(
+                        password,
+                        repeatedPassword
+                    ) {
+                        emitFlowErrorState(
+                            _registrationScreenState,
+                            it
+                        )
+                    }
+                ) {
+                    handleResponse(authRepository.signUp(user), _registrationScreenState)
+                }
+            }
         }
 }
