@@ -16,7 +16,7 @@ import java.util.*
 import javax.inject.Inject
 
 class ProjectRepositoryImpl @Inject constructor(
-    private val fireStore: FirebaseFirestore,
+    fireStore: FirebaseFirestore,
     private val auth: FirebaseAuth,
     private val taskRepository: TaskRepository
 ) : ProjectRepository {

@@ -43,16 +43,16 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
             }
             startTimePickerFloatingButton.setOnClickListener {
                 setDatePicker(
-                    minDate = viewModel.projectStartDate.value.getDateByTime().time,
-                    maxDate = viewModel.projectEndDate.value.getDateByTime().time
+                    minDate = viewModel.projectStartDate.value,
+                    maxDate = viewModel.projectEndDate.value
                 ) {
                     viewModel.setEstimateStartDate(it)
                 }
             }
             endTimePickerFloatingButton.setOnClickListener {
                 setDatePicker(
-                    minDate = viewModel.startDate.value.getDateByTime().time,
-                    maxDate = viewModel.projectEndDate.value.getDateByTime().time
+                    minDate = viewModel.startDate.value ?: viewModel.projectStartDate.value,
+                    maxDate = viewModel.projectEndDate.value
                 ) {
                     viewModel.setEstimateEndDate(it)
                 }
@@ -81,13 +81,15 @@ class CreateTaskFragment : BaseFragment<CreateProjectFragmentBinding, CreateTask
 
     private fun observeStartDate(viewModel: CreateTaskViewModel) {
         liveDataObserver(viewModel.startDate) {
-            binding.startTimeTextView.text = getString(string.txt_estimate_start_date, it)
+            binding.startTimeTextView.text =
+                getString(string.txt_estimate_start_date, it.getTimeByMillis())
         }
     }
 
     private fun observeEndDate(viewModel: CreateTaskViewModel) {
         liveDataObserver(viewModel.endDate) {
-            binding.endTimeTextView.text = getString(string.txt_estimate_end_date, it)
+            binding.endTimeTextView.text =
+                getString(string.txt_estimate_end_date, it.getTimeByMillis())
         }
     }
 

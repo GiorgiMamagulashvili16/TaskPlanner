@@ -18,11 +18,11 @@ open class ProjectBaseViewModel @Inject constructor(
 ) : BaseViewModel(
     ResourcesProvider(appCtx), validatorHelper
 ) {
-    private val _startDate = MutableLiveData<String?>()
-    val startDate: LiveData<String?> = _startDate
+    private val _startDate = MutableLiveData<Long?>()
+    val startDate: LiveData<Long?> = _startDate
 
-    private val _endDate = MutableLiveData<String?>()
-    val endDate: LiveData<String?> = _endDate
+    private val _endDate = MutableLiveData<Long?>()
+    val endDate: LiveData<Long?> = _endDate
 
     private val _status = MutableLiveData<Int>()
     val status: LiveData<Int> = _status
@@ -40,11 +40,11 @@ open class ProjectBaseViewModel @Inject constructor(
         _status.postValue(newStatus)
     }
 
-    fun setEstimateStartDate(date: String) = viewModelScope.launch {
+    fun setEstimateStartDate(date: Long) = viewModelScope.launch {
         _startDate.postValue(date)
     }
 
-    fun setEstimateEndDate(date: String) = viewModelScope.launch {
+    fun setEstimateEndDate(date: Long) = viewModelScope.launch {
         _endDate.postValue(date)
     }
 }

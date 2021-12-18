@@ -44,8 +44,8 @@ class ValidatorHelper @Inject constructor() {
         }
     }
 
-    fun checkParamsIsNull(
-        params: List<String?>,
+    fun checkDatesIsNotNull(
+        params: List<Long?>,
         action: (message: Int) -> Unit
     ): Boolean {
         val result = params.filter { it == null }

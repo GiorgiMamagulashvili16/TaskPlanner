@@ -10,6 +10,7 @@ import com.example.taskplanner.presentation.authorization.registration_screen.st
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateProjectViewModel>() {
@@ -32,12 +33,14 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
     private fun setListeners(viewModel: CreateProjectViewModel) {
         with(binding) {
             startTimePickerFloatingButton.setOnClickListener {
-                setDatePicker {
+                setDatePicker(
+                    minDate = Date().time
+                ) {
                     viewModel.setEstimateStartDate(it)
                 }
             }
             endTimePickerFloatingButton.setOnClickListener {
-                setDatePicker(minDate = viewModel.startDate.value.getDateByTime().time) {
+                setDatePicker(minDate = viewModel.startDate.value ?: Date().time) {
                     viewModel.setEstimateEndDate(it)
                 }
             }
@@ -64,13 +67,15 @@ class CreateProjectFragment : BaseFragment<CreateProjectFragmentBinding, CreateP
 
     private fun observeEndDate(viewModel: CreateProjectViewModel) {
         liveDataObserver(viewModel.endDate) {
-            binding.endTimeTextView.text = getString(string.txt_estimate_end_date, it)
+            binding.endTimeTextView.text =
+                getString(string.txt_estimate_end_date, it.getTimeByMillis())
         }
     }
 
     private fun observeStartDate(viewModel: CreateProjectViewModel) {
         liveDataObserver(viewModel.startDate) {
-            binding.startTimeTextView.text = getString(string.txt_estimate_start_date, it)
+            binding.startTimeTextView.text =
+                getString(string.txt_estimate_start_date, it.getTimeByMillis())
         }
     }
 

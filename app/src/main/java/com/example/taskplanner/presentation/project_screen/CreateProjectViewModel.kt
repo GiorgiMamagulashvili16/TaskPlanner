@@ -30,7 +30,7 @@ class CreateProjectViewModel @Inject constructor(
                     _createProjectScreenState,
                     it
                 )
-            } && validatorHelper.checkParamsIsNull(
+            } && validatorHelper.checkDatesIsNotNull(
                 listOf(
                     startDate.value,
                     endDate.value

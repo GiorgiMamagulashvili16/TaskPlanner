@@ -1,6 +1,7 @@
 package com.example.taskplanner.presentation.task_screen
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.data.model.Task
@@ -21,19 +22,21 @@ class CreateTaskViewModel @Inject constructor(
     private val taskRepository: TaskRepository, validatorHelper: ValidatorHelper
 ) : ProjectBaseViewModel(appCtx, validatorHelper) {
 
-    val projectStartDate = MutableLiveData<String>()
+    private val _projectStartDate = MutableLiveData<Long>()
+    val projectStartDate: LiveData<Long> = _projectStartDate
 
-    val projectEndDate = MutableLiveData<String>()
+    private val _projectEndDate = MutableLiveData<Long>()
+    val projectEndDate: LiveData<Long> = _projectEndDate
 
     private val _createTaskScreenState = MutableStateFlow(ScreenState<Unit>())
     val createTaskScreenState: StateFlow<ScreenState<Unit>> = _createTaskScreenState
 
-    fun setProjectStartDate(newStartDate: String) = viewModelScope.launch {
-        projectStartDate.postValue(newStartDate)
+    fun setProjectStartDate(newStartDate: Long) = viewModelScope.launch {
+        _projectStartDate.postValue(newStartDate)
     }
 
-    fun setProjectEndDate(newEndDate: String) = viewModelScope.launch {
-        projectEndDate.postValue(newEndDate)
+    fun setProjectEndDate(newEndDate: Long) = viewModelScope.launch {
+        _projectEndDate.postValue(newEndDate)
     }
 
     fun setTask(title: String, description: String) = viewModelScope.launch {
@@ -43,7 +46,7 @@ class CreateTaskViewModel @Inject constructor(
                     _createTaskScreenState,
                     it
                 )
-            } && validatorHelper.checkParamsIsNull(
+            } && validatorHelper.checkDatesIsNotNull(
                 listOf(
                     startDate.value,
                     endDate.value,

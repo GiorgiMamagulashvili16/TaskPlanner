@@ -37,21 +37,17 @@ class ProjectDetailViewModel @Inject constructor(
                     _editProjectDetailsState,
                     it
                 )
-            } && validatorHelper.checkParamsIsNull(
-                listOf(
-                    startDate.value,
-                    endDate.value,
-                    projectId.value
-                )
-            ) { emitFlowErrorState(_editProjectDetailsState, it) }
+            } && validatorHelper.checkDatesIsNotNull(listOf(startDate.value, endDate.value)) {
+                emitFlowErrorState(_editProjectDetailsState, it)
+            }
         ) {
             val project = Project(
                 projectId = projectId.value!!,
                 projectTitle = title,
                 projectDescription = description,
+                projectStatus = status.value!!,
                 startDate = startDate.value,
-                endDate = endDate.value,
-                projectStatus = status.value!!
+                endDate = endDate.value
             )
             handleResponse(projectRepository.editProjectInfo(project), _editProjectDetailsState)
         }
