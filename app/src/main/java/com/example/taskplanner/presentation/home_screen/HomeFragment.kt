@@ -31,9 +31,6 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
     override fun onBindViewModel(viewModel: HomeViewModel) {
         with(viewModel) {
             getCurrentUserData()
-            setDoneTaskNumber()
-            setInProgressTaskNumber()
-            setTodoTaskNumber()
         }
         setListeners(viewModel)
         observeScreenState(viewModel)

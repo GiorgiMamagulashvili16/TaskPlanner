@@ -45,34 +45,20 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
     private fun setListeners(viewModel: TaskDetailsViewModel) {
         with(binding) {
             editTaskButton.setOnClickListener {
-                listOf(titleEditText, descriptionEditText).forEach { view ->
-                    view.enableOrDisableView()
-                }
-                submitButton.changeVisibility()
-                listOf(startDateChangeButton, endDateChangeButton).forEach { view ->
-                    view.changeVisibilityByParam(submitButton.isVisible)
-                }
-                listOf(titleEditText, descriptionEditText).forEach { view ->
-                    view.changeSameViewBackground(
-                        submitButton.isVisible,
-                        R.drawable.enabled_edit_text_background,
-                        R.drawable.edit_text_background
-                    )
-                }
-                statusChipGroup.setChipsEnabledOrDisabled(submitButton.isVisible)
+                editButtonEvent()
             }
             startDateChangeButton.setOnClickListener {
                 setDatePicker(
-                    minDate = viewModel.projectStartDate.value.getDateByTime().time,
-                    maxDate = viewModel.projectEndDate.value.getDateByTime().time
+                    minDate = viewModel.projectStartDate.value,
+                    maxDate = viewModel.projectEndDate.value
                 ) {
                     viewModel.setEstimateStartDate(it)
                 }
             }
             endDateChangeButton.setOnClickListener {
                 setDatePicker(
-                    minDate = viewModel.startDate.value.getDateByTime().time,
-                    maxDate = viewModel.projectEndDate.value.getDateByTime().time
+                    minDate = viewModel.startDate.value,
+                    maxDate = viewModel.projectEndDate.value
                 ) { viewModel.setEstimateEndDate(it) }
             }
             submitButton.setOnClickListener {
@@ -84,28 +70,39 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
         }
     }
 
+    private fun editButtonEvent() {
+        with(binding) {
+            listOf(titleEditText, descriptionEditText).forEach { view ->
+                view.enableOrDisableView()
+            }
+            submitButton.changeVisibility()
+            listOf(startDateChangeButton, endDateChangeButton).forEach { view ->
+                view.changeVisibilityByParam(submitButton.isVisible)
+            }
+            listOf(titleEditText, descriptionEditText).forEach { view ->
+                view.changeSameViewBackground(
+                    submitButton.isVisible,
+                    R.drawable.enabled_edit_text_background,
+                    R.drawable.edit_text_background
+                )
+            }
+            statusChipGroup.setChipsEnabledOrDisabled(submitButton.isVisible)
+        }
+    }
+
     private fun editTask(viewModel: TaskDetailsViewModel) {
         with(binding) {
-            with(viewModel) {
-                val editedTask = Task(
-                    taskTitle = titleEditText.text.toString(),
-                    taskDescription = descriptionEditText.text.toString(),
-                    status = status.value!!,
-                    startTime = startDate.value!!,
-                    endTime = endDate.value!!,
-                    taskId = taskId.value
-                )
-                setEditTask(editedTask)
-            }
+            viewModel.setEditTask(
+                titleEditText.text.toString(),
+                descriptionEditText.text.toString()
+            )
         }
     }
 
     private fun observeEditTaskState(viewModel: TaskDetailsViewModel) {
         flowObserver(viewModel.editTaskState) { state ->
             if (state.success != null) {
-                TaskDetailsFragmentDirections.actionTaskDetailsFragmentToProjectDetailFragment(
-                    viewModel.projectId.value
-                ).also { findNavController().navigate(it) }
+                findNavController().navigateUp()
                 setSnackBar(getString(string.successfully_edited_task), Color.GREEN)
             } else if (state.errorText != null) {
                 setSnackBar(state.errorText, Color.RED)
@@ -116,9 +113,7 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
     private fun observeDeleteTaskState(viewModel: TaskDetailsViewModel) {
         flowObserver(viewModel.deleteTaskState) { state ->
             if (state.success != null) {
-                TaskDetailsFragmentDirections.actionTaskDetailsFragmentToProjectDetailFragment(
-                    viewModel.projectId.value
-                ).also { findNavController().navigate(it) }
+                findNavController().navigateUp()
                 setSnackBar(getString(string.successfully_deleted_task), Color.GREEN)
             } else if (state.errorText != null) {
                 setSnackBar(state.errorText, Color.RED)
@@ -165,13 +160,15 @@ class TaskDetailsFragment : BaseFragment<TaskDetailsFragmentBinding, TaskDetails
 
     private fun observeEstimateStartDate(viewModel: TaskDetailsViewModel) {
         liveDataObserver(viewModel.startDate) {
-            binding.startDateTextView.text = getString(string.txt_estimate_start_date, it)
+            binding.startDateTextView.text =
+                getString(string.txt_estimate_start_date, it.getTimeByMillis())
         }
     }
 
     private fun observeEstimateEndDate(viewModel: TaskDetailsViewModel) {
         liveDataObserver(viewModel.endDate) {
-            binding.endDateTextView.text = getString(string.txt_estimate_end_date, it)
+            binding.endDateTextView.text =
+                getString(string.txt_estimate_end_date, it.getTimeByMillis())
         }
     }
 
