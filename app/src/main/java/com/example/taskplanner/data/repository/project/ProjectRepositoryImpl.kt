@@ -16,7 +16,7 @@ import java.util.*
 import javax.inject.Inject
 
 class ProjectRepositoryImpl @Inject constructor(
-    private val fireStore: FirebaseFirestore,
+    fireStore: FirebaseFirestore,
     private val auth: FirebaseAuth,
     private val taskRepository: TaskRepository
 ) : ProjectRepository {
@@ -98,6 +98,12 @@ class ProjectRepositoryImpl @Inject constructor(
                 Resource.Success(Unit)
             }
         }
+
+    override suspend fun getProjectNumberByStatus(status: Int): Int {
+        val response = projectCollection.whereEqualTo(OWNER_ID_KEY, auth.currentUser?.uid!!)
+            .whereEqualTo(PROJECT_STATUS_KEY, status).get().await().toObjects<Project>()
+        return response.size
+    }
 
     companion object {
         private const val PROJECT_COLLECTION_NAME = "Project"

@@ -42,7 +42,7 @@ class RegistrationFragment :
     }
 
     private fun observeSignUp(viewModel: RegistrationViewModel) {
-        flowObserver(viewModel.authScreenState) { state ->
+        flowObserver(viewModel.registrationScreenState) { state ->
             with(binding) {
                 loadingProgressBar.isVisible = state.isLoading
                 if (state.success != null)
@@ -120,7 +120,8 @@ class RegistrationFragment :
                         email = emailInputLayout.editText.text.toString(),
                         job = jobInputLayout.editText.text.toString(),
                         profileImageUrl = it.toString(),
-                        password = passwordEditText.text.toString()
+                        password = passwordEditText.text.toString(),
+                        repeatedPassword = repeatPasswordEditText.text.toString()
                     ),
                 )
             }

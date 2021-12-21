@@ -77,81 +77,68 @@
         app:layout_constraintStart_toStartOf="@+id/backgroundView"
         app:layout_constraintTop_toBottomOf="@+id/backgroundView" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/todoTasksCounterTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/_0"
-        android:textColor="@color/button_bg_blue"
-        android:textSize="32sp"
-        app:layout_constraintEnd_toStartOf="@+id/inProgressTasksCounterTextView"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/currentTasksTextView" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintHeight_percent="0.18"
+        app:layout_constraintTop_toBottomOf="@id/currentTasksTextView">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/inProgressTasksCounterTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/_0"
-        android:textColor="@color/button_bg_blue"
-        android:textSize="32sp"
-        app:layout_constraintEnd_toStartOf="@+id/doneTasksCounterTextView"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/todoTasksCounterTextView"
-        app:layout_constraintTop_toBottomOf="@id/currentTasksTextView" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/doneTasksCounterTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/_0"
-        android:textColor="@color/button_bg_blue"
-        android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/inProgressTasksCounterTextView"
-        app:layout_constraintTop_toBottomOf="@id/currentTasksTextView" />
+            <com.example.taskplanner.presentation.custom_view.CustomProjectNumberView
+                android:id="@+id/todoTaskNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/inProgressTaskNumber"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:numberText="0"
+                app:roundBackgroundColor="@color/bg_color_light_blue"
+                app:text="@string/todo"
+                app:textColor="@color/todo_gray" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/euclid_bold"
-        android:text="@string/todo"
-        android:textColor="@color/bg_blue"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@+id/todoTasksCounterTextView"
-        app:layout_constraintStart_toStartOf="@+id/todoTasksCounterTextView"
-        app:layout_constraintTop_toBottomOf="@id/todoTasksCounterTextView" />
+            <com.example.taskplanner.presentation.custom_view.CustomProjectNumberView
+                android:id="@+id/inProgressTaskNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/doneTaskNumber"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/todoTaskNumber"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.51"
+                app:numberText="0"
+                app:roundBackgroundColor="@color/bg_purple"
+                app:text="@string/in_progress"
+                app:textColor="@color/todo_gray" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/euclid_bold"
-        android:text="@string/done"
-        android:textColor="@color/bg_blue"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@+id/doneTasksCounterTextView"
-        app:layout_constraintStart_toStartOf="@+id/doneTasksCounterTextView"
-        app:layout_constraintTop_toBottomOf="@id/doneTasksCounterTextView" />
+            <com.example.taskplanner.presentation.custom_view.CustomProjectNumberView
+                android:id="@+id/doneTaskNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/inProgressTaskNumber"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.51"
+                app:numberText="0"
+                app:roundBackgroundColor="@color/bg_green"
+                app:text="@string/done"
+                app:textColor="@color/todo_gray" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/euclid_bold"
-        android:text="@string/in_progress"
-        android:textColor="@color/bg_blue"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@+id/inProgressTasksCounterTextView"
-        app:layout_constraintStart_toStartOf="@+id/inProgressTasksCounterTextView"
-        app:layout_constraintTop_toBottomOf="@id/inProgressTasksCounterTextView" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -161,7 +148,7 @@
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintHeight_percent="0.30"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.95">
 

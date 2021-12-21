@@ -57,19 +57,19 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() {
 
     private fun observeTodoTaskNumbers(viewModel: HomeViewModel) {
         flowObserver(viewModel.todoTaskNumber) {
-            binding.todoTasksCounterTextView.text = it.toString()
+            binding.todoTaskNumber.setText(it.toString())
         }
     }
 
     private fun observeInProgressTaskNumber(viewModel: HomeViewModel) {
         flowObserver(viewModel.inProgressTaskNumber) {
-            binding.inProgressTasksCounterTextView.text = it.toString()
+            binding.inProgressTaskNumber.setText(it.toString())
         }
     }
 
     private fun observeDoneTaskNumber(viewModel: HomeViewModel) {
         flowObserver(viewModel.doneTaskNumber) {
-            binding.doneTasksCounterTextView.text = it.toString()
+            binding.doneTaskNumber.setText(it.toString())
         }
     }
 

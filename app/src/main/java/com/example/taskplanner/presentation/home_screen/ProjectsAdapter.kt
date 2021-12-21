@@ -18,7 +18,8 @@ class ProjectsAdapter : ListAdapter<Project, ProjectsAdapter.VH>(COMPARATOR) {
     lateinit var onProjectClick: onProjectClick
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        return VH(RowProjectItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return VH(
+            RowProjectItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
@@ -31,10 +32,11 @@ class ProjectsAdapter : ListAdapter<Project, ProjectsAdapter.VH>(COMPARATOR) {
             with(binding) {
                 val ctx = root.context
                 nameTextView.text = project.projectTitle
-                progressTextView.text = ctx.getString(ctx.getStatusByOrdinal(project.projectStatus).title)
-                progressTextView.setColorOnText(ctx.getStatusByOrdinal(project.projectStatus).color)
+                progressTextView.text =
+                    ctx.getString(project.projectStatus.getStatusByOrdinal().title)
+                progressTextView.setColorOnText(project.projectStatus.getStatusByOrdinal().color)
                 openButton.setOnClickListener {
-                    project.projectId?.let { id -> onProjectClick.invoke(id) }
+                    project.projectId?.let{ id -> onProjectClick.invoke(id)}
                 }
             }
         }

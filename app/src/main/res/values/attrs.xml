@@ -5,4 +5,12 @@
         <attr name="android:hint" />
         <attr name="android:maxLines" />
     </declare-styleable>
+
+    <declare-styleable name="CustomTaskNumberItem">
+        <attr name="roundBackgroundColor" format="color"/>
+        <attr name="text" format="string"/>
+        <attr name="textColor" format="color"/>
+        <attr name="numberColor" format="color"/>
+        <attr name="numberText" format="string"/>
+    </declare-styleable>
 </resources>

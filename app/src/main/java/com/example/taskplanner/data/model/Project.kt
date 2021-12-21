@@ -10,8 +10,8 @@ data class Project(
     val ownerId: String? = null,
     val projectTitle: String? = null,
     val projectDescription: String? = null,
-    val startDate: String? = null,
-    val endDate: String? = null,
+    val startDate: Long? = null,
+    val endDate: Long? = null,
     val projectStatus: Int = Status.TODO.ordinal,
     @get:Exclude var subTasks: List<Task>? = null
 )

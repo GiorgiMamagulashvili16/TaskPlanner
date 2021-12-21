@@ -14,6 +14,7 @@ import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.base.Inflate
 import com.example.taskplanner.presentation.project_screen.Status
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, ProjectDetailViewModel>() {
@@ -43,32 +44,22 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
     private fun setListeners(viewModel: ProjectDetailViewModel) {
         with(binding) {
             editProjectButton.setOnClickListener {
-                listOf(titleEditText, descriptionEditText).forEach { view ->
-                    view.enableOrDisableView()
-                }
-                submitButton.changeVisibility()
-                listOf(startDateChangeButton, endDateChangeButton).forEach { view ->
-                    view.changeVisibilityByParam(submitButton.isVisible)
-                }
-                listOf(titleEditText, descriptionEditText).forEach { view ->
-                    view.changeSameViewBackground(
-                        submitButton.isVisible,
-                        R.drawable.enabled_edit_text_background,
-                        R.drawable.edit_text_background
-                    )
-                }
-                statusChipGroup.setChipsEnabledOrDisabled(submitButton.isVisible)
+                editButtonClickEvents()
             }
             deleteProjectButton.setOnClickListener {
-                viewModel.projectId.value?.let { id -> viewModel.deleteProject(id) }
+                deleteProject(viewModel)
             }
             startDateChangeButton.setOnClickListener {
-                setDatePicker {
+                setDatePicker(
+                    minDate = Date().time
+                ) {
                     viewModel.setEstimateStartDate(it)
                 }
             }
             endDateChangeButton.setOnClickListener {
-                setDatePicker {
+                setDatePicker(
+                    minDate = viewModel.startDate.value
+                ) {
                     viewModel.setEstimateEndDate(it)
                 }
             }
@@ -76,18 +67,42 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
                 updateProjectData(viewModel)
             }
             addTaskButton.setOnClickListener {
-                viewModel.projectId.value?.let { projectId ->
-                    ProjectDetailFragmentDirections.actionProjectDetailFragmentToCreateTaskFragment(
-                        projectId
-                    ).also { action ->
-                        findNavController().navigate(action)
-                    }
+                ProjectDetailFragmentDirections.actionProjectDetailFragmentToCreateTaskFragment(
+                    viewModel.projectId.value!!,
+                    viewModel.startDate.value!!,
+                    viewModel.endDate.value!!
+                ).also {
+                    findNavController().navigate(it)
                 }
             }
             backButton.setOnClickListener {
                 findNavController().navigate(R.id.action_projectDetailFragment_to_homeFragment)
             }
         }
+    }
+
+    private fun editButtonClickEvents() {
+        with(binding) {
+            listOf(titleEditText, descriptionEditText).forEach { view ->
+                view.enableOrDisableView()
+            }
+            submitButton.changeVisibility()
+            listOf(startDateChangeButton, endDateChangeButton).forEach { view ->
+                view.changeVisibilityByParam(submitButton.isVisible)
+            }
+            listOf(titleEditText, descriptionEditText).forEach { view ->
+                view.changeSameViewBackground(
+                    submitButton.isVisible,
+                    R.drawable.enabled_edit_text_background,
+                    R.drawable.edit_text_background
+                )
+            }
+            statusChipGroup.setChipsEnabledOrDisabled(submitButton.isVisible)
+        }
+    }
+
+    private fun deleteProject(viewModel: ProjectDetailViewModel) {
+        viewModel.projectId.value?.let { id -> viewModel.deleteProject(id) }
     }
 
     private fun observeProjectId(viewModel: ProjectDetailViewModel) {
@@ -121,13 +136,15 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
 
     private fun observeStartDate(viewModel: ProjectDetailViewModel) {
         liveDataObserver(viewModel.startDate) {
-            binding.startDateTextView.text = getString(string.txt_estimate_start_date, it)
+            binding.startDateTextView.text =
+                getString(string.txt_estimate_start_date, it.getTimeByMillis())
         }
     }
 
     private fun observeEndDate(viewModel: ProjectDetailViewModel) {
         liveDataObserver(viewModel.endDate) {
-            binding.endDateTextView.text = getString(string.txt_estimate_end_date, it)
+            binding.endDateTextView.text =
+                getString(string.txt_estimate_end_date, it.getTimeByMillis())
         }
     }
 
@@ -144,17 +161,10 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
 
     private fun updateProjectData(viewModel: ProjectDetailViewModel) {
         with(binding) {
-            with(viewModel) {
-                val project = Project(
-                    projectId = projectId.value!!,
-                    projectTitle = titleEditText.text.toString(),
-                    projectDescription = descriptionEditText.text.toString(),
-                    startDate = startDate.value,
-                    endDate = endDate.value,
-                    projectStatus = status.value!!
-                )
-                editProjectDetailInfo(project)
-            }
+            viewModel.editProjectDetailInfo(
+                titleEditText.text.toString(),
+                descriptionEditText.text.toString()
+            )
         }
     }
 
@@ -163,10 +173,12 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             with(project) {
                 titleEditText.setText(projectTitle)
                 descriptionEditText.setText(projectDescription)
-                startDateTextView.text = getString(string.txt_estimate_start_date, startDate)
-                endDateTextView.text = getString(string.txt_estimate_end_date, endDate)
+                startDateTextView.text =
+                    getString(string.txt_estimate_start_date, startDate.getTimeByMillis())
+                endDateTextView.text =
+                    getString(string.txt_estimate_end_date, endDate.getTimeByMillis())
 
-                when (requireContext().getStatusByOrdinal(projectStatus)) {
+                when (projectStatus.getStatusByOrdinal()) {
                     Status.TODO -> {
                         todoStateChip.isChecked = true
                     }
