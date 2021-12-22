@@ -44,7 +44,8 @@ class CustomTextInputLayout @JvmOverloads constructor(
         setEditTextParams(maxLines, inputType)
         setTextInputLayoutParams(hintText)
     }
-    private fun setEditTextParams(lines: Int = 1, editTextInputType: Int) {
+
+    private fun setEditTextParams(lines: Int = DEFAULT_LINE_NUMBER, editTextInputType: Int) {
         with(editText) {
             maxLines = lines
             inputType = editTextInputType
@@ -55,5 +56,9 @@ class CustomTextInputLayout @JvmOverloads constructor(
         with(textInputLayout) {
             hint = hintText
         }
+    }
+
+    companion object {
+        private const val DEFAULT_LINE_NUMBER = 1
     }
 }

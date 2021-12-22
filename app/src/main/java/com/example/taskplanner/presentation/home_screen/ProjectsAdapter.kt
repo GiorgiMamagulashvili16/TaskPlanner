@@ -11,8 +11,6 @@ import com.example.taskplanner.data.util.extension.setColorOnText
 import com.example.taskplanner.databinding.RowProjectItemBinding
 
 typealias onProjectClick = (projectId: String) -> Unit
-
-
 class ProjectsAdapter : ListAdapter<Project, ProjectsAdapter.VH>(COMPARATOR) {
 
     lateinit var onProjectClick: onProjectClick
