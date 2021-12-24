@@ -78,6 +78,7 @@ class ProjectRepositoryImpl @Inject constructor(
     override suspend fun deleteProjectById(projectId: String): Resource<Unit> =
         withContext(Dispatchers.IO) {
             return@withContext fetchData {
+                taskRepository.deleteAllTaskByProjectId(projectId)
                 projectCollection.document(projectId).delete().await()
                 Resource.Success(Unit)
             }

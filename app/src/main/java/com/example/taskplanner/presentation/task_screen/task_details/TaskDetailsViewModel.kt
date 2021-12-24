@@ -50,7 +50,7 @@ class TaskDetailsViewModel @Inject constructor(
     }
 
     fun setEditTask(title: String, description: String) = viewModelScope.launch {
-        if (validatorHelper.checkParamsIsBlank(listOf(title, description)) {
+        if (validatorHelper.checkParamsIsNotBlank(listOf(title, description)) {
                 emitFlowErrorState(
                     _editTaskState,
                     it

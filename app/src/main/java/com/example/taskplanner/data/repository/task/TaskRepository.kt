@@ -9,4 +9,5 @@ interface TaskRepository {
     suspend fun getTaskByTaskId(taskId: String): Resource<Task>
     suspend fun editTask(task: Task): Resource<Unit>
     suspend fun deleteTask(taskId: String): Resource<Unit>
+    suspend fun deleteAllTaskByProjectId(projectId: String): Resource<Unit>
 }

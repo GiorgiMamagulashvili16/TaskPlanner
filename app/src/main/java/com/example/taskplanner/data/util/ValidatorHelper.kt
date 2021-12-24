@@ -8,7 +8,7 @@ import javax.inject.Singleton
 @Singleton
 class ValidatorHelper @Inject constructor() {
 
-    fun checkParamsIsBlank(
+    fun checkParamsIsNotBlank(
         params: List<String>,
         action: (message: Int) -> Unit
     ): Boolean {
@@ -19,7 +19,7 @@ class ValidatorHelper @Inject constructor() {
         return result.isEmpty()
     }
 
-    fun checkEmail(
+    fun checkEmailIsValid(
         email: String,
         action: (message: Int) -> Unit
     ): Boolean {
@@ -31,7 +31,7 @@ class ValidatorHelper @Inject constructor() {
         }
     }
 
-    fun checkPasswords(
+    fun checkPasswordsAreSame(
         password: String,
         repeatedPassword: String,
         action: (message: Int) -> Unit

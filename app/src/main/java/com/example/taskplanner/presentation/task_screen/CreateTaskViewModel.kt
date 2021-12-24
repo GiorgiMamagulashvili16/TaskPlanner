@@ -41,7 +41,7 @@ class CreateTaskViewModel @Inject constructor(
 
     fun setTask(title: String, description: String) = viewModelScope.launch {
         _createTaskScreenState.emit(ScreenState(isLoading = true))
-        if (validatorHelper.checkParamsIsBlank(listOf(title, description)) {
+        if (validatorHelper.checkParamsIsNotBlank(listOf(title, description)) {
                 emitFlowErrorState(
                     _createTaskScreenState,
                     it

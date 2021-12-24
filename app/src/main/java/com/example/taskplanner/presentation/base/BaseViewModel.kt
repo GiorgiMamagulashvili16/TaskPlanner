@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class BaseViewModel @Inject constructor(
-    val resourcesProvider: ResourcesProvider,
+    private val resourcesProvider: ResourcesProvider,
     val validatorHelper: ValidatorHelper
 ) : ViewModel() {
 

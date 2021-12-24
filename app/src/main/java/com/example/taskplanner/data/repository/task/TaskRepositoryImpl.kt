@@ -7,12 +7,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
+@ViewModelScoped
 class TaskRepositoryImpl @Inject constructor(
     fireStore: FirebaseFirestore, val auth: FirebaseAuth
 ) : TaskRepository {
@@ -67,6 +69,16 @@ class TaskRepositoryImpl @Inject constructor(
             Resource.Success(Unit)
         }
     }
+
+    override suspend fun deleteAllTaskByProjectId(projectId: String): Resource<Unit> =
+        withContext(Dispatchers.IO) {
+            return@withContext fetchData {
+                taskCollection.whereEqualTo(PROJECT_ID_KEY, projectId).get().await().forEach {
+                    it.reference.delete()
+                }
+                Resource.Success(Unit)
+            }
+        }
 
     companion object {
         private const val OWNER_ID_KEY = "ownerId"

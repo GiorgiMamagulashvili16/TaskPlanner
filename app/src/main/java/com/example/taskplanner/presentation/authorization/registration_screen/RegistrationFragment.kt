@@ -87,7 +87,7 @@ class RegistrationFragment :
     }
 
     private fun openMedia() {
-        imagePickerLauncher.launch("image/*")
+        imagePickerLauncher.launch(INTENT_INPUT)
     }
 
     private val mediaPermissionChecker =
@@ -147,5 +147,8 @@ class RegistrationFragment :
                 R.color.bg_blue
             )
         )
+    }
+    companion object{
+        private const val INTENT_INPUT = "image/*"
     }
 }

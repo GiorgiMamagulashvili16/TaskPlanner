@@ -36,7 +36,6 @@ object RepositoryModule {
     ): ProjectRepository = ProjectRepositoryImpl(firebaseFirestore, firebaseAuth, taskRepository)
 
     @Provides
-    @Singleton
     fun provideTaskRepository(
         firebaseFirestore: FirebaseFirestore,
         firebaseAuth: FirebaseAuth
