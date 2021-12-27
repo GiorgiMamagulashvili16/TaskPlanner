@@ -1,4 +1,4 @@
-package com.example.taskplanner.presentation.task_screen
+package com.example.taskplanner.presentation.task_screen.task_details
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -17,19 +17,29 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateTaskViewModel @Inject constructor(
+class TaskDetailsViewModel @Inject constructor(
     @ApplicationContext appCtx: Context,
-    private val taskRepository: TaskRepository, validatorHelper: ValidatorHelper
+    private val taskRepository: TaskRepository,
+    validatorHelper: ValidatorHelper
 ) : ProjectBaseViewModel(appCtx, validatorHelper) {
+
+    private val _taskId = MutableStateFlow<String?>(null)
+    val taskId: StateFlow<String?> = _taskId
+
+    private val _taskDetailsScreenState = MutableStateFlow(ScreenState<Task>())
+    val taskDetailScreenState: StateFlow<ScreenState<Task>> = _taskDetailsScreenState
+
+    private val _deleteTaskState = MutableStateFlow(ScreenState<Unit>())
+    val deleteTaskState: StateFlow<ScreenState<Unit>> = _deleteTaskState
+
+    private val _editTaskState = MutableStateFlow(ScreenState<Unit>())
+    val editTaskState: StateFlow<ScreenState<Unit>> = _editTaskState
 
     private val _projectStartDate = MutableLiveData<Long>()
     val projectStartDate: LiveData<Long> = _projectStartDate
 
     private val _projectEndDate = MutableLiveData<Long>()
     val projectEndDate: LiveData<Long> = _projectEndDate
-
-    private val _createTaskScreenState = MutableStateFlow(ScreenState<Unit>())
-    val createTaskScreenState: StateFlow<ScreenState<Unit>> = _createTaskScreenState
 
     fun setProjectStartDate(newStartDate: Long) = viewModelScope.launch {
         _projectStartDate.postValue(newStartDate)
@@ -39,28 +49,41 @@ class CreateTaskViewModel @Inject constructor(
         _projectEndDate.postValue(newEndDate)
     }
 
-    fun setTask(title: String, description: String) = viewModelScope.launch {
-        _createTaskScreenState.emit(ScreenState(isLoading = true))
+    fun setEditTask(title: String, description: String) = viewModelScope.launch {
         if (validatorHelper.checkParamsIsNotBlank(listOf(title, description)) {
                 emitFlowErrorState(
-                    _createTaskScreenState,
+                    _editTaskState,
                     it
                 )
             } && validatorHelper.checkDatesIsNotNull(
                 listOf(
                     startDate.value,
-                    endDate.value,
+                    endDate.value
                 )
-            ) { emitFlowErrorState(_createTaskScreenState, it) }
+            ) { emitFlowErrorState(_editTaskState, it) }
         ) {
-            val task = Task(
-                projectId = projectId.value,
+            val editedTask = Task(
                 taskTitle = title,
                 taskDescription = description,
-                startTime = startDate.value,
-                endTime = endDate.value,
+                status = status.value!!,
+                startTime = startDate.value!!,
+                endTime = endDate.value!!,
+                taskId = taskId.value
             )
-            handleResponse(taskRepository.setTask(task), _createTaskScreenState)
+            handleResponse(taskRepository.editTask(editedTask), _editTaskState)
         }
+    }
+
+    fun deleteTask(taskId: String) = viewModelScope.launch {
+        handleResponse(taskRepository.deleteTask(taskId), _deleteTaskState)
+    }
+
+    fun setTaskDetails(taskId: String) = viewModelScope.launch {
+        _taskDetailsScreenState.emit(ScreenState(isLoading = true))
+        handleResponse(taskRepository.getTaskByTaskId(taskId), _taskDetailsScreenState)
+    }
+
+    fun setTaskId(newTaskId: String) = viewModelScope.launch {
+        _taskId.emit(newTaskId)
     }
 }

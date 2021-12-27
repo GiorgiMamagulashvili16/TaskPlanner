@@ -25,7 +25,7 @@ class CreateProjectViewModel @Inject constructor(
 
     fun setProject(title: String, description: String) = viewModelScope.launch {
         _createProjectScreenState.emit(ScreenState(isLoading = true))
-        if (validatorHelper.checkParamsIsBlank(listOf(title, description)) {
+        if (validatorHelper.checkParamsIsNotBlank(listOf(title, description)) {
                 emitFlowErrorState(
                     _createProjectScreenState,
                     it

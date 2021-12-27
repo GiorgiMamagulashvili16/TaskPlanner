@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000">
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnClick motion:targetId="@+id/moreOptionButton" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/taskEditTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            motion:layout_constraintTop_toTopOf="@+id/editTaskButton"
+            motion:layout_constraintEnd_toStartOf="@+id/editTaskButton"
+            motion:layout_constraintBottom_toBottomOf="@+id/editTaskButton"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/editTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintCircleRadius="0dp"
+            motion:layout_constraintCircle="@id/moreOptionButton"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/deleteTaskTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            motion:layout_constraintTop_toTopOf="@+id/deleteTaskButton"
+            motion:layout_constraintEnd_toStartOf="@+id/deleteTaskButton"
+            motion:layout_constraintBottom_toBottomOf="@+id/deleteTaskButton"
+            android:scaleX="0"
+            android:alpha="0"
+            android:scaleY="0" />
+        <Constraint
+            android:id="@+id/deleteTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintCircleRadius="0dp"
+            motion:layout_constraintCircle="@id/moreOptionButton"
+            motion:layout_constraintCircleAngle="270"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:alpha="0" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/moreOptionButton"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:scaleX="0.7"
+            android:scaleY="0.7" />
+    </ConstraintSet>
+</MotionScene>

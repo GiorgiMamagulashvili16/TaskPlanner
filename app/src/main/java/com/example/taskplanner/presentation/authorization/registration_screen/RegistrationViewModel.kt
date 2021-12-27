@@ -38,7 +38,7 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch {
             _registrationScreenState.emit(ScreenState(isLoading = true))
             with(user) {
-                if (validatorHelper.checkParamsIsBlank(
+                if (validatorHelper.checkParamsIsNotBlank(
                         listOf(
                             username!!,
                             email!!,
@@ -50,12 +50,12 @@ class RegistrationViewModel @Inject constructor(
                             _registrationScreenState,
                             it
                         )
-                    } && validatorHelper.checkEmail(email) {
+                    } && validatorHelper.checkEmailIsValid(email) {
                         emitFlowErrorState(
                             _registrationScreenState,
                             it
                         )
-                    } && validatorHelper.checkPasswords(
+                    } && validatorHelper.checkPasswordsAreSame(
                         password,
                         repeatedPassword
                     ) {

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.task_screen.task_details.TaskDetailsFragment">
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/task_details_fragment_scene">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/backButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="15dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_back_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/titleEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/edit_text_background"
+            android:enabled="false"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="@color/bg_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.6" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/descriptionEditText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/edit_text_background"
+            android:enabled="false"
+            android:gravity="start"
+            android:padding="8dp"
+            android:textColor="@color/bg_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.38"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleEditText"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/startDateTextView"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/euclid_bold"
+            android:gravity="center"
+            android:textColor="@color/bg_blue"
+            app:layout_constraintStart_toStartOf="@+id/descriptionEditText"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionEditText"
+            tools:text="estimate date 20/21" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/endDateTextView"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/euclid_bold"
+            android:gravity="center"
+            android:textColor="@color/bg_blue"
+            app:layout_constraintEnd_toEndOf="@+id/descriptionEditText"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionEditText"
+            tools:text="estimate date 20/21" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/editTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/time_picker_fab_desc"
+            android:src="@drawable/ic_edit"
+            app:backgroundTint="@color/bg_color_light_blue"
+            app:fabCustomSize="65dp"
+            app:layout_constraintCircle="@id/moreOptionButton"
+            app:layout_constraintCircleRadius="80dp"
+            app:tint="@color/bg_blue"
+            tools:ignore="MissingConstraints" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/deleteTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/time_picker_fab_desc"
+            android:src="@drawable/ic_delete"
+            app:backgroundTint="@color/bg_color_light_blue"
+            app:fabCustomSize="65dp"
+            app:layout_constraintCircle="@id/moreOptionButton"
+            app:layout_constraintCircleAngle="270"
+            app:layout_constraintCircleRadius="100dp"
+            app:tint="@color/bg_blue"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/taskEditTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/text_view_background"
+            android:backgroundTint="@color/bg_color_light_blue"
+            android:fontFamily="@font/euclid_bold"
+            android:padding="8dp"
+            android:text="@string/edit_task"
+            android:textColor="@color/bg_blue"
+            app:layout_constraintBottom_toBottomOf="@+id/editTaskButton"
+            app:layout_constraintEnd_toStartOf="@+id/editTaskButton"
+            app:layout_constraintTop_toTopOf="@+id/editTaskButton" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/deleteTaskTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/text_view_background"
+            android:backgroundTint="@color/bg_color_light_blue"
+            android:fontFamily="@font/euclid_bold"
+            android:padding="8dp"
+            android:text="@string/delete_task"
+            android:textColor="@color/bg_blue"
+            app:layout_constraintBottom_toBottomOf="@+id/deleteTaskButton"
+            app:layout_constraintEnd_toStartOf="@+id/deleteTaskButton"
+            app:layout_constraintTop_toTopOf="@+id/deleteTaskButton" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/moreOptionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/bg_blue"
+            android:contentDescription="@string/time_picker_fab_desc"
+            android:src="@drawable/ic_more"
+            app:fabCustomSize="65dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/startDateChangeButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/bg_blue"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/startDateTextView"
+            app:layout_constraintStart_toEndOf="@+id/startDateTextView"
+            app:layout_constraintTop_toTopOf="@+id/startDateTextView" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/endDateChangeButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/bg_blue"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/endDateTextView"
+            app:layout_constraintStart_toEndOf="@+id/endDateTextView"
+            app:layout_constraintTop_toTopOf="@+id/endDateTextView" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/statusChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:padding="5dp"
+            app:checkedChip="@+id/doneStateChip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/startDateTextView"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/todoStateChip"
+                style="@style/CustomChips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="8dp"
+                android:text="@string/todo" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/inProgressStateChip"
+                style="@style/CustomChips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:padding="8dp"
+                android:text="@string/in_progress" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/doneStateChip"
+                style="@style/CustomChips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="8dp"
+                android:text="@string/done" />
+        </com.google.android.material.chip.ChipGroup>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/submitButton"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_margin="15dp"
+        android:backgroundTint="@color/bg_blue"
+        android:gravity="center"
+        android:text="@string/submit"
+        android:textColor="@color/white"
+        android:visibility="invisible"
+        app:icon="@drawable/ic_check"
+        app:iconGravity="textStart"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

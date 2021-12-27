@@ -32,7 +32,9 @@ fun MotionLayout.setActionOnSpecifiedProgress(
     transitionProgress: Float, actionBeforeProgress: () -> Unit, actionAfterProgress: () -> Unit
 ) {
     addTransitionListener(object : MotionLayout.TransitionListener {
-        override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {}
+        override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
+            actionBeforeProgress.invoke()
+        }
 
         override fun onTransitionChange(
             motionLayout: MotionLayout?,
@@ -42,8 +44,6 @@ fun MotionLayout.setActionOnSpecifiedProgress(
         ) {
             if (progress > transitionProgress)
                 actionAfterProgress.invoke()
-            else
-                actionBeforeProgress.invoke()
         }
 
         override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {}
@@ -53,8 +53,6 @@ fun MotionLayout.setActionOnSpecifiedProgress(
             triggerId: Int,
             positive: Boolean,
             progress: Float
-        ) {
-        }
-
+        ) {}
     })
 }

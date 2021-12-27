@@ -78,6 +78,13 @@ class ProjectDetailFragment : BaseFragment<ProjectDetailFragmentBinding, Project
             backButton.setOnClickListener {
                 findNavController().navigate(R.id.action_projectDetailFragment_to_homeFragment)
             }
+            taskAdapter.onTaskClick = { taskId ->
+                ProjectDetailFragmentDirections.actionProjectDetailFragmentToTaskDetailsFragment(
+                    taskId,
+                    viewModel.startDate.value!!,
+                    viewModel.endDate.value!!
+                ).also { findNavController().navigate(it) }
+            }
         }
     }
 

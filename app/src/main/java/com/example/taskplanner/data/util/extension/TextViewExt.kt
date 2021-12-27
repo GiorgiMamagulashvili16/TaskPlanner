@@ -22,5 +22,8 @@ fun AppCompatTextView.setTextWithMultipleColor(
     }
     this.text = spannableText
 }
+fun AppCompatTextView.setColorOnText(color: Int) {
+    this.setTextColor(ContextCompat.getColor(this.context, color))
+}
 
 private const val START_INDEX_FOR_SPANNABLE_TEXT = 0

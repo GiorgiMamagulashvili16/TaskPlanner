@@ -27,12 +27,12 @@ class LoginViewModel @Inject constructor(
 
     fun logIn(email: String, password: String) = viewModelScope.launch {
         _loginScreenState.emit(ScreenState(isLoading = true))
-        if (validatorHelper.checkParamsIsBlank(
+        if (validatorHelper.checkParamsIsNotBlank(
                 listOf(
                     email,
                     password
                 )
-            ) { emitFlowErrorState(_loginScreenState, it) } && validatorHelper.checkEmail(email) {
+            ) { emitFlowErrorState(_loginScreenState, it) } && validatorHelper.checkEmailIsValid(email) {
                 emitFlowErrorState(
                     _loginScreenState, it
                 )

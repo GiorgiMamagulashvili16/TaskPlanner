@@ -51,12 +51,12 @@
         tools:text="Android Developer" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/addProjectFloatingButton"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/bg_blue"
+        android:backgroundTint="@color/bg_color_light_blue"
         android:foregroundGravity="center"
         android:src="@drawable/ic_add"
         app:fabCustomSize="65dp"
@@ -78,12 +78,14 @@
         app:layout_constraintTop_toBottomOf="@+id/backgroundView" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="15dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintHeight_percent="0.18"
-        app:layout_constraintTop_toBottomOf="@id/currentTasksTextView">
+        app:layout_constraintTop_toBottomOf="@id/currentTasksTextView"
+        tools:layout_editor_absoluteX="15dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -211,8 +213,7 @@
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/bg_blue"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

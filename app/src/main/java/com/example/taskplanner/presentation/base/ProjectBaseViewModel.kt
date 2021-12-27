@@ -27,10 +27,8 @@ open class ProjectBaseViewModel @Inject constructor(
     private val _status = MutableLiveData<Int>()
     val status: LiveData<Int> = _status
 
-
     private val _projectId = MutableLiveData<String?>()
     val projectId: LiveData<String?> = _projectId
-
 
     fun setProjectId(projectId: String) = viewModelScope.launch {
         _projectId.postValue(projectId)

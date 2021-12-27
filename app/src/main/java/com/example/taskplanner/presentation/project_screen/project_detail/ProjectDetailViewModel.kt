@@ -32,7 +32,7 @@ class ProjectDetailViewModel @Inject constructor(
 
     fun editProjectDetailInfo(title: String, description: String) = viewModelScope.launch {
         _editProjectDetailsState.emit(ScreenState(isLoading = true))
-        if (validatorHelper.checkParamsIsBlank(listOf(title, description)) {
+        if (validatorHelper.checkParamsIsNotBlank(listOf(title, description)) {
                 emitFlowErrorState(
                     _editProjectDetailsState,
                     it
